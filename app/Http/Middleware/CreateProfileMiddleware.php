@@ -15,9 +15,16 @@ class CreateProfileMiddleware
 	 * @param  \Closure $next
 	 * @return mixed
 	 */
+	 
+	 /*  
+	 An enas xristis patisei sto profilek exei dimiourgimeno tote ton paei sto profile. show wste na mhn ksanadimiourgisei 
+	 
+	 */
 	public function handle($request, Closure $next)
 	{
-		$profile = Auth::user()->profile;
+		$profile = Auth::user()->mecanex_user;
+
+
 		//if ($request->is('profile'))
 		//{
 		if (count($profile) > 0) {
@@ -25,5 +32,7 @@ class CreateProfileMiddleware
 		}
 		//}
 		return $next($request);
+		//return Redirect::route('profile.create');
 	}
+
 }

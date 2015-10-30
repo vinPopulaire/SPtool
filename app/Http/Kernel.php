@@ -31,6 +31,8 @@ class Kernel extends HttpKernel {
 		'hasProfile'=>'App\Http\Middleware\HasProfileMiddleware',
 		'createProfile' => 'App\Http\Middleware\CreateProfileMiddleware',
 		'once'=>'App\Http\Middleware\OnceRemember',
+		'createInterest'=>'App\Http\Middleware\CreateInterestMiddleware',
+		'hasInterest'=>'App\Http\Middleware\HasInterestMiddleware',
 	];
 
 }

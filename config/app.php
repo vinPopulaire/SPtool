@@ -138,6 +138,9 @@ return [
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Html\HtmlServiceProvider',
 		'Laravel\Socialite\SocialiteServiceProvider',
+		'SammyK\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider',
+		'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
+
 
 
 		/*
@@ -199,6 +202,8 @@ return [
 		'Form'      => 'Illuminate\Html\FormFacade',
 		'Html'      => 'Illuminate\Html\HtmlFacade',
 		'Socialite' => 'Laravel\Socialite\Facades\Socialite',
+		'Facebook' => 'SammyK\LaravelFacebookSdk\FacebookFacade',
+		'Javascript' => 'Laracasts\Utilities\JavaScript\JavaScriptFacade',
 
 	],
 

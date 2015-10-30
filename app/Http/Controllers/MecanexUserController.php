@@ -79,7 +79,11 @@ class MecanexUserController extends Controller
 	public function store(MecanexUserRequest $request)
 	{
 
+//		$thematic_area=$request->interest;
+//		dd($thematic_area);
 		$mecanexuser = MecanexUser::create($request->all());
+
+
 
 
 		$response = array(

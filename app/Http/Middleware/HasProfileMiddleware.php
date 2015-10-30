@@ -14,9 +14,13 @@ class HasProfileMiddleware {
 	 * @param  \Closure  $next
 	 * @return mixed
 	 */
+	 
+	 /*
+	 An xristis den exei profile tote ton paei na dimiourgisei
+	 */
 	public function handle($request, Closure $next)
 	{
-		$profile=Auth::user()->profile;
+		$profile=Auth::user()->mecanex_user;
 		//if ($request->is('profile'))
 		//{
 			if (count($profile)==0) {

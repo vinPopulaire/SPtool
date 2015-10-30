@@ -8,7 +8,11 @@
 		"laravel/framework": "5.0.*",
 	  	"illuminate/html": "~5.0",
 		"illuminate/contracts": "~5.0",
-		"laravel/socialite": "~2.0"
+		"laravel/socialite": "~2.0",
+	 	"sammyk/laravel-facebook-sdk": "~2.0@dev",
+		"facebook/php-sdk-v4": "~5.0@dev",
+	  "sammyk/facebook-query-builder": "~2.0",
+	  "laracasts/utilities": "~2.0"
 
 
 	},

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Video;
 use Illuminate\Support\Facades\DB;
-use App\ProfileTerms;
+use App\Term;
 class ImportController extends Controller
 {
 
@@ -15,33 +15,53 @@ class ImportController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function scores()
 	{
+
+		//indexing of video terms
 		set_time_limit(0);
-		DB::table('scores')->delete();
+		DB::table('videos_terms_scores')->delete();
+
 		//$counts=DB::select('select count(video_id) from videos');  //take number of videos
 		//dd($counts);
-		$terms = ProfileTerms::all();   //take all Profile terms
+		$terms = Term::all();   //take all Profile terms
 		$videos=Video::all();
 
 
 		foreach ($videos as $video) {
 			$id = $video->id;
+
 			foreach ($terms as $term) {
 
-				//$current_term=$term->term;
-				//$current_term='News';
 				$results = DB::select(DB::raw('select MATCH (genre, topic, geographical_coverage, thesaurus_terms, title) AGAINST (? WITH QUERY EXPANSION)  as rev from videos where id = (?)'), [$term->term,$id]);
+
 				echo 'video_id='.$id.'  term = '.$term->term.'   score = '.$results[0]->rev.'<br>';
-				DB::table('scores')->insert(
-					['video_id' =>$id, 'term_id' => $term->id,'score' =>$results[0]->rev]
+				DB::table('videos_terms_scores')->insert(
+					['video_id' =>$id, 'term_id' => $term->id,'video_score' =>$results[0]->rev]
 				);
 				echo 'record inserted!'.'<br>';
 
 			}
 
 		}
+
+
+///////////////////normalization///////////////////////////////////////////////////
+//				foreach ($videos as $video) {
+//				$id = $video->id;
+//				$max_score = DB::table('videos_terms_scores')->where('video_id',$id)->max('video_score');
+//					foreach ($terms as $term) {
+//						$temp_video = $video->term->find($term);
+//						$video_term_score = $temp_video->pivot->video_score;  //get score of video
+//						$new_score=$video_term_score/$max_score;
+//						$video->term()->sync([$term->id=> ['video_score' => $new_score]], false);
+//
+//					}
+//				}
+return view ('video.parser');
 	}
+
+
 
 	public function import()
 	{

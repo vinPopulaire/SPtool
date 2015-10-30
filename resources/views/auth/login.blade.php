@@ -62,6 +62,13 @@
 								<a href="/password/email">Forgot Your Password?</a>
 							</div>
 						</div>
+
+						<div class="form-group">
+							<div class="col-md-6 col-md-offset-4">
+								{!!link_to_route('fblogin', 'Log in via Facebook')!!}
+							</div>
+
+						</div>
 					</form>
 				</div>
 			</div>

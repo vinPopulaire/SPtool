@@ -34,9 +34,7 @@ class MecanexUserRequest extends Request {
 				'age_id'=>'required|integer|min:1|max:9',
 				'occupation_id'=>'required|integer|min:1|max:18',
 				'country_id'=>'required|integer|min:1|max:250',
-				'education_id'=>'required|integer|min:1|max:5'
-
-
+				'education_id'=>'required|integer|min:1|max:5',
 			];
 		}
 		if (Request::isMethod('put'))
@@ -48,7 +46,8 @@ class MecanexUserRequest extends Request {
 				'age_id'=>'integer|min:1|max:9',
 				'occupation_id'=>'integer|min:1|max:18',
 				'country_id'=>'integer|min:1|max:250',
-				'education_id'=>'integer|min:1|max:5'
+				'education_id'=>'integer|min:1|max:5',
+
 
 			];
 		}

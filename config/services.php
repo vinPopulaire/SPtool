@@ -33,10 +33,11 @@ return [
 		'model'  => 'User',
 		'secret' => '',
 	],
-
-	'facebook' => [
-		'app_id'  => env('FACEBOOK_APP_ID'),
-		'secret' => env('FACEBOOK_APP_SECRET'),
-	],
+// for sociallite
+//	'facebook' => [
+//		'app_id'  => env('FACEBOOK_APP_ID'),
+//		'secret' => env('FACEBOOK_APP_SECRET'),
+//		'redirect' => 'http://localhost/login',
+//	],
 
 ];

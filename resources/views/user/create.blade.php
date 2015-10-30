@@ -7,7 +7,7 @@
         </div>
 
         <div class="panel panel-primary col-md-6">
-            <h4 class="panel-heading">Create your profile </h4>
+            <h4 class="panel-heading">Personal Information </h4>
             <div class="panel-body">
                 <table>
                     <tr> <div class="form-group ">
@@ -42,17 +42,17 @@
                             <td>{!!Form::select('country_id',array(''=>'Please select')+$country,null,['class'=>'form-control']) !!}  <br/></td></div></tr>
 
 
-                    <tr><div class="form-group "><td> {!! Form::label('facebook','Facebook Account:') !!}</td>
+                <!--    <tr><div class="form-group "><td> {!! Form::label('facebook','Facebook Account:') !!}</td>
                             <td>{!! Form::text('facebook',null,['class'=>'form-control']) !!}<br/></td></div></tr>
 
                     <tr><div class="form-group ">
                             <td> {!! Form::label('twitter','Twitter Account:') !!}</td>
-                            <td>   {!! Form::text('twitter',null,['class'=>'form-control']) !!}<br/></td></div></tr>
+                            <td>   {!! Form::text('twitter',null,['class'=>'form-control']) !!}<br/></td></div></tr> -->
 
 
 
 
-                    <tr><td colspan="2" align="center"> <div class="form-group ">{!! Form::submit('Update',['class'=>'btn btn-primary']) !!}
+                    <tr><td colspan="2" align="center"> <div class="form-group ">{!! Form::submit('Create',['class'=>'btn btn-primary']) !!}
                                 {!!link_to_route('home', 'Skip',array(),array('class'=>'btn btn-danger')) !!}</div></td></tr>
                     {!! Form::close() !!}
                 </table>
@@ -66,14 +66,7 @@
     </div>
 </div>
 
-@if ($errors->any())
-    <div class="error">
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{$error}}</li>
-            @endforeach
-        </ul></div>
-@endif
+@include('errors.list');
 
 
 @stop

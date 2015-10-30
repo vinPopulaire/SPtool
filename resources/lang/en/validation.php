@@ -86,10 +86,11 @@ return [
 	*/
 
 	'custom' => [
-		'attribute-name' => [
-			'rule-name' => 'custom-message',
+		'terms' => [
+			'required' => 'You have to agree with the Terms & Conditions',
 		],
 	],
+
 
 	/*
 	|--------------------------------------------------------------------------

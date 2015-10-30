@@ -27,7 +27,9 @@ class CreateProfileRequest extends Request {
 			'surname'=>'required|min:3',
 			'gender_id'=>'required',
 			'age_id'=>'required',
-
+			'country_id'=>'required',
+			'occupation_id'=>'required',
+			'education_id'=>'required',
 		];
 	}
 

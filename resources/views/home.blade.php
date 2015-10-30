@@ -8,8 +8,8 @@
 				<div class="panel-heading">Home</div>
 
 				<div class="panel-body">
-					You are logged in!<br/>
-					You can create your profile by visiting the Profile link in the right dropdown menu, thus enabling the personalized experience.
+					Welcome!<br/>
+
 				</div>
 			</div>
 		</div>

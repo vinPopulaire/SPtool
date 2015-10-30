@@ -58,7 +58,13 @@
 
 	@yield('content')
 	<footer class="footer">
-		<div class="container" align="right">Copyright:2015 <a href="http://www.netmode.ntua.gr" target="_blank">Netmode</a></div></footer>
+		<div class="container"><div class="row">
+				<div class="col-md-6" ><p align="left" ><a href="/terms"><b>Terms & Conditions</b></a> </p></div>
+				<div class="col-md-6" >
+					<p align="right">Copyright &copy; 2015 <a href="http://www.iccs.gr" target="_blank"><b>ICCS</b></a></p>
+				</div>
+
+			</div></div></footer>
 
 	<!-- Scripts -->
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

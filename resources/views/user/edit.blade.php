@@ -8,11 +8,11 @@
         </div>
 
         <div class="panel panel-primary col-md-6">
-            <h4 class="panel-heading">Edit your profile </h4>
+            <h4 class="panel-heading">Edit your personal information </h4>
             <div class="panel-body">
                 <table>
                     <tr> <div class="form-group ">
-                        {!! Form::model(Auth::user()->profile,['method'=>'PUT','route'=>'profile.update']) !!}
+                        {!! Form::model(Auth::user()->mecanex_user,['method'=>'PUT','route'=>'profile.update']) !!}
 
                         <td>{!! Form::label('name','Name:') !!}</td>
                         <td>{!! Form::text('name',null,['class'=>'form-control']) !!}  <br/></td>  </div></tr>
@@ -42,12 +42,12 @@
                         <td>{!!Form::select('country_id',$country,null,['class'=>'form-control']) !!}  <br/></td></div></tr>
 
 
-                    <tr><div class="form-group "><td> {!! Form::label('facebook','Facebook Account:') !!}</td>
-                        <td>{!! Form::text('facebook_account',null,['class'=>'form-control']) !!}<br/></td></div></tr>
+                    <!--   <tr><div class="form-group "><td> {!! Form::label('facebook','Facebook Account:') !!}</td>
+                            <td>{!! Form::text('facebook_account',null,['class'=>'form-control']) !!}<br/></td></div></tr>
 
-                    <tr><div class="form-group ">
-                        <td> {!! Form::label('twitter','Twitter Account:') !!}</td>
-                        <td>   {!! Form::text('twitter_account',null,['class'=>'form-control']) !!}<br/></td></div></tr>
+                      <tr><div class="form-group ">
+                            <td> {!! Form::label('twitter','Twitter Account:') !!}</td>
+                            <td>   {!! Form::text('twitter_account',null,['class'=>'form-control']) !!}<br/></td></div></tr> -->
 
 
 
@@ -66,14 +66,7 @@
     </div>
 </div>
 
-@if ($errors->any())
-    <div class="error">
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{$error}}</li>
-            @endforeach
-        </ul></div>
-@endif
+
 
 
 @stop

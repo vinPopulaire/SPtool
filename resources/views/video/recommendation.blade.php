@@ -1,0 +1,36 @@
+@extends('mainframe')
+@section('content')
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="panel panel-primary col-md-9 col-md-offset-2">
+                <h3 class="panel-heading">Videos Recommended for you</h3>
+                <div class="panel-body">
+                </div>
+                    <table class="table">
+                        <thead><tr><td style="text-align: center; font-size: 14px; font-weight: 600;">Video</td><td></td><td style="font-weight:bold">Title</td></thead>
+                        @foreach ($results as  $result)
+                          <tr>
+                              <td >{!!$result->video_id!!}</td>
+                             <td><a href="{!!$result->video_id!!}"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a>
+                                {{--<td><a href="{!!action("VideoController@show",[$result->video_id])!!}" ><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a></td>--}}
+
+                              </td>
+                             <td >{!!$result->title!!}</td>
+                          </tr>
+                        @endforeach
+
+
+
+
+    </table>
+
+    </div>
+        </div>
+    </div>
+    </div>
+@stop
+
