@@ -23,8 +23,8 @@ class CreateProfileRequest extends Request {
 	{
 		return [
 			//
-			'name'=>'required|min:3',
-			'surname'=>'required|min:3',
+			'name'=>'required|min:2',
+			'surname'=>'required|min:2',
 			'gender_id'=>'required',
 			'age_id'=>'required',
 			'country_id'=>'required',

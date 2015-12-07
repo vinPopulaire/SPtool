@@ -12,7 +12,7 @@
                 </div>
                     <table class="table">
                         <thead><tr><td style="text-align: center; font-size: 14px; font-weight: 600;">Video</td><td></td><td style="font-weight:bold">Title</td></thead>
-                        @foreach ($results as  $result)
+                        @foreach ($results_recommendation       + as  $result)
                           <tr>
                               <td >{!!$result->video_id!!}</td>
                              <td><a href="{!!$result->video_id!!}"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a>

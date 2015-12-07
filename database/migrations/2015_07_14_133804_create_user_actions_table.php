@@ -18,7 +18,8 @@ class CreateUserActionsTable extends Migration {
 			$table->string('username');
 			$table->string('device_id');
 			$table->string('video_id');
-			$table->integer('action');
+			$table->integer('action')->unsigned()->index();
+			$table->foreign('action')->references('id')->on('actions')->onDelete('cascade');
 			$table->string('content_id');
 			$table->string('time');
 			$table->integer('explicit_rf');

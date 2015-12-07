@@ -5,6 +5,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
 use App\MecanexUser;
+use App\User;
+use App\Term;
+use App\MecanexUserTermHomeTermNeighbour;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Input;
 
@@ -14,7 +17,7 @@ use App\Http\Requests\MecanexUserRequest;
 //use Illuminate\Config;
 use Illuminate\Support\Facades\Config;
 
-class MecanexUserController extends Controller
+class MecanexUserApiController extends Controller
 {
 
 	public function __construct()
@@ -82,12 +85,53 @@ class MecanexUserController extends Controller
 //		$thematic_area=$request->interest;
 //		dd($thematic_area);
 		$mecanexuser = MecanexUser::create($request->all());
+		$username=$request->username;
+		$user = User::where('username', $username)->get()->first();
 
 
+		// create records in table users_terms-scores once a mecanex user has been created
+		$terms=Term::all();
+		$total_terms=$terms->count();
+
+		foreach ($terms as $term)
+		{
+
+			$mecanexuser->term()->sync([$term->id=>['user_score'=>0]],false);
+			$mecanexuser->profilescore()->sync([$term->id=>['profile_score'=>0]],false);
+
+		}
 
 
-		$response = array(
-			'message' => 'Store successful');
+		//create record in table mecanex_user_term_home_term_neighbor once a mecanex user has been created
+
+		for ($i=1;$i<=$total_terms; $i++)
+		{
+			for ($j=$i+1;$j<=$total_terms; $j++)
+			{
+				$mec_matrix=new MecanexUserTermHomeTermNeighbour();
+				$mec_matrix->mecanex_user_id=$mecanexuser->id;
+				$mec_matrix->term_home_id=$i;
+				$mec_matrix->term_neighbor_id=$j;
+				$mec_matrix->link_score=0.1;
+				$mec_matrix->save();
+			}
+
+		}
+
+		//the following is only needed for linking an existing authorized user (users_table) with a new mecanex user provided they have the same username
+		if (empty($user)) {
+			$response = array(
+				'message' => 'Store successful');
+		}
+		else{
+			$mecanexuser->user_id=$user->id;
+			$mecanexuser->save();
+			$response = array(
+				'message' => 'Store successful');
+
+		}
+
+
 		return response($response, 201)->header('Content-Type', 'application/json');
 
 	}
@@ -157,11 +201,41 @@ class MecanexUserController extends Controller
 }
 
 		return response($response, $statusCode)->header('Content-Type', 'application/json');
-		//Correct the response: Do I need to show the user? Check transform from laracasts
+
 	}
 
 
+	public function destroy($username)
+	{
+		//
 
+		$mecanexuser=MecanexUser::where('username', $username)->get()->first();
+
+
+		if (empty($mecanexuser)) {
+
+			$response = [
+				"error" => "User doesn`t exist"
+			];
+			$statusCode = 404;
+
+		}
+		else {
+			//
+			$mecanexuser->delete();
+			$statusCode = 200;
+			$response = [
+				"message" => "User deleted"
+			];
+
+
+		}
+
+		return response($response, $statusCode)->header('Content-Type', 'application/json');
+
+
+
+	}
 
 
 }

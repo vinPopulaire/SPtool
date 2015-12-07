@@ -1,13 +1,13 @@
 <?php namespace App\Http\Controllers;
 
-use App\Country;
 use App\Http\Requests;
+use App\Http\Controllers\Controller;
+
+use App\Occupation;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
-
-
-class CountriesController extends Controller {
-
+class OccupationsApiController extends Controller {
 	public function __construct()
 	{
 		// reqires Authentificataion before access
@@ -16,26 +16,24 @@ class CountriesController extends Controller {
 		//$this->middleware('auth.basic');
 
 	}
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
+
 	public function index()
 	{
+
+
 		try{
 			$statusCode = 200;
 //			$response = [
-//				'Countries List'  => []
+//				'Occupations List'  => []
 //			];
 
-			$countries = Country::all();
+			$occupations = Occupation::all();
 
-			foreach($countries as $country){
+			foreach($occupations as $occupation){
 //
-				$response['Country List'][] = [
-					'id' => $country->id,
-					'Country' => $country->country,
+				$response['Occupations List'][] = [
+					'id' => $occupation->id,
+					'Occupation' => $occupation->occupation,
 
 				];
 			}
@@ -62,20 +60,20 @@ class CountriesController extends Controller {
 	public function show($id)
 	{
 		//
-		$country=Country::find($id);
+		$occupation=Occupation::find($id);
 		//return $gender;
-		if(count($country) > 0)
+		if(count($occupation) > 0)
 		{
 			$statusCode = 200;
 			$response = [
-				'id' => $country->id,
-				'Country' => $country->country,
+				'id' => $occupation->id,
+				'Occupation' => $occupation->occupation,
 			];
 		}
 		else
 		{
 			$response = [
-				"error" => "Country doesn`t exist"
+				"error" => "Occupation doesn`t exist"
 			];
 			$statusCode = 404;
 

@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Gender;
 use Illuminate\Support\Facades\Response;
 
-class GenderController extends Controller {
+class GenderApiController extends Controller {
 
 	public function __construct()
 	{

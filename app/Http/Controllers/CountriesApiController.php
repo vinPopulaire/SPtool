@@ -1,13 +1,12 @@
 <?php namespace App\Http\Controllers;
 
-use App\Education;
+use App\Country;
 use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
-class EducationController extends Controller {
+
+
+class CountriesApiController extends Controller {
 
 	public function __construct()
 	{
@@ -27,16 +26,16 @@ class EducationController extends Controller {
 		try{
 			$statusCode = 200;
 //			$response = [
-//				'Education List'  => []
+//				'Countries List'  => []
 //			];
 
-			$educations = Education::all();
+			$countries = Country::all();
 
-			foreach($educations as $education){
+			foreach($countries as $country){
 //
-				$response['Education List'][] = [
-					'id' => $education->id,
-					'Education' => $education->education,
+				$response['Country List'][] = [
+					'id' => $country->id,
+					'Country' => $country->country,
 
 				];
 			}
@@ -52,6 +51,8 @@ class EducationController extends Controller {
 	}
 
 
+
+
 	/**
 	 * Display the specified resource.
 	 *
@@ -61,20 +62,20 @@ class EducationController extends Controller {
 	public function show($id)
 	{
 		//
-		$education=Education::find($id);
+		$country=Country::find($id);
 		//return $gender;
-		if(count($education) > 0)
+		if(count($country) > 0)
 		{
 			$statusCode = 200;
 			$response = [
-				'id' => $education->id,
-				'Education' => $education->education,
+				'id' => $country->id,
+				'Country' => $country->country,
 			];
 		}
 		else
 		{
 			$response = [
-				"error" => "Education doesn`t exist"
+				"error" => "Country doesn`t exist"
 			];
 			$statusCode = 404;
 

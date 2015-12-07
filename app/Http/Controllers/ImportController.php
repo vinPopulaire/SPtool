@@ -46,7 +46,10 @@ class ImportController extends Controller
 		}
 
 
+
 ///////////////////normalization///////////////////////////////////////////////////
+
+		//this takes for ever....raw db instead
 //				foreach ($videos as $video) {
 //				$id = $video->id;
 //				$max_score = DB::table('videos_terms_scores')->where('video_id',$id)->max('video_score');
@@ -58,7 +61,10 @@ class ImportController extends Controller
 //
 //					}
 //				}
-return view ('video.parser');
+
+		$query=DB::select(DB::raw('UPDATE videos_terms_scores as t join (select video_id,MAX(video_score) as maximum FROM videos_terms_scores GROUP BY video_id)as max_scores  on  t.video_id=max_scores.video_id  SET t.video_score=t.video_score/max_scores.maximum'));
+
+//return view ('video.parser');
 	}
 
 

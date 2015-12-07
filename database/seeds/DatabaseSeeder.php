@@ -26,9 +26,9 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
-		// $this->call('UserTableSeeder');
 
-		//$this->call('MecanexUsersTableSeeder');
+
+	//	$this->call('MecanexUsersTableSeeder');
 		$this->call('UserTableSeeder');
 		$this->call('GenderTableSeeder');
 		$this->call('AgeTableSeeder');
@@ -74,6 +74,14 @@ public function run()
 		'email' => 'vci@mail.com',
 		'username' => 'vci',
 		'password' => Hash::make("mecanex"),
+
+	));
+
+	User::create(array(
+
+		'email' => 'noterik@mail.com',
+		'username' => 'noterik',
+		'password' => Hash::make("noterik"),
 
 	));
 

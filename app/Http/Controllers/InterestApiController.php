@@ -61,14 +61,18 @@ class InterestApiController extends Controller {
 
 
 			foreach ($interests as $key => $value) {
+
 				$interest = Interest::where('short_name', $key)->get(array('id'))->first();
 				$user->interest()->sync([$interest->id=>['interest_score'=>$value]],false);
 				$term=Term::where('term',$key)->firstOrFail();
+				$value=$value/5;   //for normalization
 				$user->term()->sync([$term->id=>['user_score'=>$value]],false);
 			}
 
+			$response = [
+				"message" => "User Interests were saved"
+			];
 
-			$response='User Interests were saved';
 			$statusCode = 201;
 		}
 		return response($response, $statusCode)->header('Content-Type', 'application/json');
@@ -138,7 +142,7 @@ class InterestApiController extends Controller {
 	public function update(InterestRequest $request, $username)
 	{
 		{
-			$interests = $request->except('username');
+			$interests = $request->except('_method');
 			$user=MecanexUser::where('username', $username)->get()->first();
 
 
@@ -165,8 +169,13 @@ class InterestApiController extends Controller {
 					$user->term()->sync([$term->id=>['user_score'=>$value]],false);
 				}
 
+				//store all terms in a list
 
-				$response='User Interests were saved';
+
+				$response = [
+					"message" => "User Interests were saved"
+				];
+
 				$statusCode = 201;
 			}
 			return response($response, $statusCode)->header('Content-Type', 'application/json');

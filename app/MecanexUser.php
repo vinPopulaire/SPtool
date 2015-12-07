@@ -65,12 +65,7 @@ class MecanexUser extends Model {
 
     }
 
-    public function userpreferences()
-    {
 
-        return $this->hasOne('App\UserPreferences');
-
-    }
 
     public function interest()
     {

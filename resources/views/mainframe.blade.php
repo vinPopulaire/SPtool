@@ -26,6 +26,7 @@
 <body>
 
 
+
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -41,11 +42,9 @@
             <ul class="nav navbar-nav">
                 <li><a href="/">Home</a></li>
                 @if (Auth::user())
-                    {{--<li><a href="/">video</a></li>--}}
-                <li>{!!link_to_route('video.recommendation','Videos')!!}</li>
+                    <li>{!!link_to_route('video.recommendation','Videos')!!}</li>
                     @endif
             </ul>
-
 
 
             <ul class="nav navbar-nav navbar-right">

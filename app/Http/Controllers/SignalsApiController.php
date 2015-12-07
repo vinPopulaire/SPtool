@@ -32,7 +32,7 @@ class SignalsApiController extends Controller
 				"error" => "User doesn`t exist"
 			];
 			$statusCode = 404;
-			return response($response, 400)->header('Content-Type', 'application/json');
+			return response($response, $statusCode )->header('Content-Type', 'application/json');
 
 		} else {
 
@@ -236,8 +236,8 @@ class SignalsApiController extends Controller
 
 //////////////retrieve terms for given video//////////////
 
-		$video = Video::where('id', $request->video_id)->first();
-		$threshold = 10;    //need to appropriate set
+		$video = Video::where('video_id', $request->video_id)->first();
+		$threshold = 0.5;    //need to appropriate set
 		$results = $video->term()->where('video_score', '>', $threshold)->get(array('term_id'));
 		$video_term_list = [];
 
@@ -286,13 +286,13 @@ class SignalsApiController extends Controller
 		$term_scores = []; //save all scores to get the max
 
 		$user = MecanexUser::where('username', $username)->get()->first();
-		$video = Video::where('id', $video_id)->get()->first();
+		$video = Video::where('video_id', $video_id)->get()->first();
 		$link_user = MecanexUserTermHomeTermNeighbour::where('mecanex_user_id', $user->id)->get()->first();
-
+		//return $video;
 		//return $link_user;
 
 		//update based on video_terms
-
+return $video_term_list;
 		foreach ($video_term_list as $video_term_id) {
 
 			$temp_user = $user->term->find($video_term_id);
@@ -308,7 +308,7 @@ class SignalsApiController extends Controller
 //				//store score
 			$user->term()->sync([$video_term_id => ['user_score' => $new_score]], false);
 		}
-
+//return $term_scores;
 		// update matrix
 		$number_video_terms = count($video_term_list);
 

@@ -1,13 +1,14 @@
 <?php namespace App\Http\Controllers;
 
+use App\Education;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-use App\Occupation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
-class OccupationsController extends Controller {
+class EducationApiController extends Controller {
+
 	public function __construct()
 	{
 		// reqires Authentificataion before access
@@ -16,24 +17,26 @@ class OccupationsController extends Controller {
 		//$this->middleware('auth.basic');
 
 	}
-
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
 	public function index()
 	{
-
-
 		try{
 			$statusCode = 200;
 //			$response = [
-//				'Occupations List'  => []
+//				'Education List'  => []
 //			];
 
-			$occupations = Occupation::all();
+			$educations = Education::all();
 
-			foreach($occupations as $occupation){
+			foreach($educations as $education){
 //
-				$response['Occupations List'][] = [
-					'id' => $occupation->id,
-					'Occupation' => $occupation->occupation,
+				$response['Education List'][] = [
+					'id' => $education->id,
+					'Education' => $education->education,
 
 				];
 			}
@@ -49,8 +52,6 @@ class OccupationsController extends Controller {
 	}
 
 
-
-
 	/**
 	 * Display the specified resource.
 	 *
@@ -60,20 +61,20 @@ class OccupationsController extends Controller {
 	public function show($id)
 	{
 		//
-		$occupation=Occupation::find($id);
+		$education=Education::find($id);
 		//return $gender;
-		if(count($occupation) > 0)
+		if(count($education) > 0)
 		{
 			$statusCode = 200;
 			$response = [
-				'id' => $occupation->id,
-				'Occupation' => $occupation->occupation,
+				'id' => $education->id,
+				'Education' => $education->education,
 			];
 		}
 		else
 		{
 			$response = [
-				"error" => "Occupation doesn`t exist"
+				"error" => "Education doesn`t exist"
 			];
 			$statusCode = 404;
 

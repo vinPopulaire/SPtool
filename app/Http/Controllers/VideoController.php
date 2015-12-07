@@ -72,30 +72,46 @@ class VideoController extends Controller {
 
 		} else {
 			$user_id = $user->id;
+			$neighs='2';
+			$list_neighs=[];
+
+			//return $user_id;
+
+			//content_based recommendation -- using the view
+			//$results_content = DB::select(DB::raw('select  V.video_id, videos.title, SUM(video_score*profile_score) as total_score FROM videos_terms_scores AS V INNER JOIN users_terms_profilescores as U ON U.term_id=V.term_id INNER JOIN videos ON videos.id=V.video_id  where U.mecanex_user_id=(?)  GROUP BY V.video_id, videos.title ORDER BY total_score DESC LIMIT 10'), [$user_id]);
+			$results_content = DB::select(DB::raw('select  video_id, title, similarity FROM user_item_similarity where user=(?)  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
+
+			//return $results_content;
 
 
-			$results = DB::select(DB::raw('select  V.video_id, videos.title, SUM(video_score*profile_score) as total_score FROM videos_terms_scores AS V INNER JOIN users_terms_profilescores as U ON U.term_id=V.term_id INNER JOIN videos ON videos.id=V.video_id  where U.mecanex_user_id=(?)  GROUP BY V.video_id, videos.title ORDER BY total_score DESC LIMIT 10'), [$user_id]);
-//				//$temp_table = DB::table('videos_terms_scores')->join('users_terms_scores', 'profile_term_id', '=', 'users_terms_scores.profile_term_id')->join('videos_terms_scores', 'profile_term_id', '=', 'videos_terms_scores.profile_term_id')->select('videos_terms_scores.video_id')->get();
-//return $results;
 
 			//collaborative recommendation
-//			$mecanex_users=MecanexUser::all();
-//			$videos=Video::all();
-//
-//			foreach ($videos as $video)
-//			{
-//				$temp_user = $user->term->find($video->id);
-//				$user_term_score = $temp_user->pivot->user_score;
-//			return $user_term_score;
-//
-//
-//			}
+
+//			//multiplies vector of user i with every one of its neighbors and sorts them in descending order
+			//$results_neighs = DB::select(DB::raw('select U1.mecanex_user_id as user, U2.mecanex_user_id as neighbor, SUM(U1.profile_score*U2.profile_score) as similarity FROM users_terms_profilescores AS U1 INNER JOIN users_terms_profilescores as U2 ON U1.term_id=U2.term_id and U1.mecanex_user_id=(?)where U2.mecanex_user_id<>U1.mecanex_user_id GROUP BY U1.mecanex_user_id,U2.mecanex_user_id ORDER BY similarity DESC LIMIT ?'),[$user_id, $neighs]);
+			$results_neighs = DB::select(DB::raw('select neighbor FROM user_neighbor_similarity where user=(?) ORDER BY similarity DESC LIMIT ?'),[$user_id, $neighs]);
+
+			//return $results_neighs;
+
+			foreach ($results_neighs as $neigh)
+			{
+				$neigh_id=$neigh->neighbor;
+				//return $neigh_id;
+				array_push($list_neighs,$neigh->neighbor);
+						}
+
+			$string_neighs=implode(',',$list_neighs);
+			//return $string_neighs;
+
+			//$results_collaborative = DB::select(DB::raw(' select  user_neighbor_similarity.user, user_item_similarity.video_id, SUM(user_neighbor_similarity.similarity+user_item_similarity.similarity) as score FROM user_neighbor_similarity INNER JOIN user_item_similarity on user_neighbor_similarity.neighbor=user_item_similarity.user and user_item_similarity.user IN('.$string_neighs.') GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id ORDER BY score DESC'));
+			//return $results_collaborative;
+
+			$results_recommendation=DB::select(DB::raw(' SELECT a.user,a.video_id,user_item_similarity.title, (0.8*user_item_similarity.similarity+0.2*a.score) as result from (SELECT  user_neighbor_similarity.user,user_item_similarity.video_id, SUM(user_neighbor_similarity.similarity+user_item_similarity.similarity) as score FROM user_neighbor_similarity INNER JOIN user_item_similarity on user_neighbor_similarity.neighbor=user_item_similarity.user and user_item_similarity.user IN('.$string_neighs.') GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id) as a INNER JOIN user_item_similarity on a.video_id = user_item_similarity.video_id and a.user=user_item_similarity.user where a.user=(?) ORDER BY score DESC LIMIT 10'),[$user_id]);
+//return $results_recommendation;
 
 
 
-
-
-			return view('video.recommendation', compact('results'));
+			return view('video.recommendation', compact('results_recommendation'));
 		}
 	}
 

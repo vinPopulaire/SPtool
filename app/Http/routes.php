@@ -72,14 +72,14 @@ Route::get('scores', 'ImportController@scores');
 Route::group(array('prefix' => 'api/v1'), function()
 {
 	//register user
-Route::resource ('mecanexuser','MecanexUserController');
+Route::resource ('mecanexuser','MecanexUserApiController');
 
 //fill the lists
-Route::resource ('genders','GenderController');
-Route::resource ('countries','CountriesController');
-Route::resource ('occupations','OccupationsController');
-Route::resource ('age','AgeController');
-Route::resource ('education','EducationController');
+Route::resource ('genders','GenderApiController');
+Route::resource ('countries','CountriesApiController');
+Route::resource ('occupations','OccupationsApiController');
+Route::resource ('age','AgeApiController');
+Route::resource ('education','EducationApiController');
 
 //	user preferences
 Route::resource('interest','InterestApiController');

@@ -57,16 +57,22 @@ class SearchController extends Controller {
 				//$temp_table = DB::table('videos_terms_scores')->join('users_terms_scores', 'profile_term_id', '=', 'users_terms_scores.profile_term_id')->join('videos_terms_scores', 'profile_term_id', '=', 'videos_terms_scores.profile_term_id')->select('videos_terms_scores.video_id')->get();
 
 
-				$results = DB::table('videos_terms_scores')
-					->join('users_terms_scores','videos_terms_scores.term_id','=','users_terms_scores.term_id')
-					->where('users_terms_scores.mecanex_user_id',$user_id)
-					->whereIn('videos_terms_scores.video_id', $video_ids)
-					->orderBy('total_score', 'desc')
-					->groupBy('videos_terms_scores.video_id')
-					->get(['videos_terms_scores.video_id',DB::raw('SUM(video_score*user_score) as total_score' )]);
-				//->get();
+//				$results = DB::table('videos_terms_scores')
+//					->join('users_terms_scores','videos_terms_scores.term_id','=','users_terms_scores.term_id')
+//					->where('users_terms_scores.mecanex_user_id',$user_id)
+//					->whereIn('videos_terms_scores.video_id', $video_ids)
+//					->orderBy('total_score', 'desc')
+//					->groupBy('videos_terms_scores.video_id')
+//					->get(['videos_terms_scores.video_id',DB::raw('SUM(video_score*user_score) as total_score' )]);
+//				//->get();
 
-
+			$results = DB::table('videos_terms_scores')
+				->join('users_terms_profilescores','videos_terms_scores.term_id','=','users_terms_profilescores.term_id')
+				->where('users_terms_profilescores.mecanex_user_id',$user_id)
+				->whereIn('videos_terms_scores.video_id', $video_ids)
+				->orderBy('total_score', 'desc')
+				->groupBy('videos_terms_scores.video_id')
+				->get(['videos_terms_scores.video_id',DB::raw('SUM(video_score*profile_score) as total_score' )]);
 
 
 				$response = [
