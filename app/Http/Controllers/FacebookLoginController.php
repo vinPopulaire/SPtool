@@ -14,7 +14,7 @@ use SammyK;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Term;
-
+use App\MecanexUserTermHomeTermNeighbour;
 
 class FacebookLoginController extends Controller {
 
@@ -151,11 +151,29 @@ class FacebookLoginController extends Controller {
 		Auth::login($user);
 		// create records in table users_terms-scores once a mecanex user has been created
 		$terms=Term::all();
+		$total_terms=count($terms);
 
 		foreach ($terms as $term)
 		{
 			$fbuser->term()->sync([$term->id=>['user_score'=>0]],false);
+			$fbuser->profilescore()->sync([$term->id=>['profile_score'=>0]],false);
 		}
+
+
+		for ($i=1;$i<=$total_terms; $i++)
+		{
+			for ($j=$i+1;$j<=$total_terms; $j++)
+			{
+				$mec_matrix=new MecanexUserTermHomeTermNeighbour();
+				$mec_matrix->mecanex_user_id=$fbuser->id;
+				$mec_matrix->term_home_id=$i;
+				$mec_matrix->term_neighbor_id=$j;
+				$mec_matrix->link_score=0.05;
+				$mec_matrix->save();
+			}
+
+		}
+
 
 		return redirect('/home')->with('message', 'Successfully logged in with Facebook');
 	}

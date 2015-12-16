@@ -233,7 +233,7 @@ class InterestController extends Controller {
 		}
 
 		$terms=Term::all()->count();
-
+		
 		for ($i = 0; $i <= ($terms-1); $i++) {
 			for ($j = $i + 1; $j <= ($terms-1); $j++) {
 

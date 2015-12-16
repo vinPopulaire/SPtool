@@ -61,9 +61,11 @@ class VideoController extends Controller {
 	public function search()
 	{
 
+		//only for online experiments
 		DB::table('dcgs')->delete();
 
 		//video recommendation
+//maybe is better to have a middleware applied only to search
 
 		$user = Auth::user()->mecanex_user;
 		if (empty ($user)) {
@@ -100,6 +102,9 @@ class VideoController extends Controller {
 
 			}
 		}
+
+		//used for online experiments - creation of dcg table
+
 
 		$index=0;
 		$mecanex_user = Auth::user()->mecanex_user;

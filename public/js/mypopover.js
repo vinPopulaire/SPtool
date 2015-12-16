@@ -122,7 +122,8 @@ $(document).ready(function() //once load is complete
                 video_id:stella.video_id,
                 //video_id:"1"
                 action:"2",
-                time:"0.5"
+                time:"0.5",
+                duration:"10"
 
 
             },
