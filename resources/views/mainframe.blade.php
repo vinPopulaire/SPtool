@@ -61,7 +61,7 @@
 
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li> {!!link_to_route('profile.show', 'Profile')!!}</li>
+                            <li> {!!link_to_route('profile.show', 'Personal Information')!!}</li>
                             @if (count(Auth::user()->mecanex_user) > 0)
                             <li> {!!link_to_route('interest.create', 'Interests')!!}</li>
                             @endif
