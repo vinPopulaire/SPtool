@@ -111,7 +111,7 @@ class ProfileController extends Controller {
 					$mec_matrix->mecanex_user_id=$mecanex_user->id;
 					$mec_matrix->term_home_id=$i;
 					$mec_matrix->term_neighbor_id=$j;
-					$mec_matrix->link_score=0.5;
+					$mec_matrix->link_score=0.05;
 					$mec_matrix->save();
 				}
 

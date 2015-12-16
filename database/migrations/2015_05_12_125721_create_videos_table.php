@@ -23,8 +23,10 @@ class CreateVideosTable extends Migration {
 			$table->string('title');
 			$table->string('local_keywords');
 			$table->text('summary');
+			$table->timestamps();
 
 		});
+
 		DB::statement('ALTER TABLE videos ADD FULLTEXT search(genre, topic, geographical_coverage, thesaurus_terms, title)');
 
 	}

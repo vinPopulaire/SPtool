@@ -78,6 +78,7 @@ class SignalsApiController extends Controller
 		$device = $request->device_id;
 		$video_id = $request->video_id;
 		$action_type = $request->action;
+		$duration=$request->duration;
 
 
 			switch ($action_type) {
@@ -105,14 +106,14 @@ class SignalsApiController extends Controller
 						UserAction::create($request->all());
 						//return 'Video has stopped';
 						$video_stop = UserAction::where('username', $username)->where('video_id', $video_id)->where('device_id', $device)->where('action', $action_type)->get();
-//return $video_stop;
+
 						//$video = $video->last();
 						$stop_time = $request->time;
 						$watch_time = $stop_time - ($video_start->time);
 						//Have to get the whole video duration--
-						$video_time = 10;
+
 						//$video_time = $video->video_time;
-						$weight = $watch_time / $video_time;
+						$weight = $watch_time /$duration;
 						//get importance of action from the respective weight at the actions table
 						$get_importance = Action::where('id', $action_type)->first();
 						$importance = $get_importance->importance;
@@ -411,6 +412,8 @@ class SignalsApiController extends Controller
 
 		$response='RF Saved';
 		$statusCode=200;
+
+
 		return response($response, $statusCode)->header('Content-Type', 'application/json');
 
 
