@@ -88,4 +88,20 @@ class MecanexUser extends Model {
 
     }
 
+    //both were created for the online experiments
+
+    public function opinion()
+    {
+
+        return $this->hasOne('App\Opinion');
+
+    }
+
+    public function dcg()
+    {
+
+        return $this->hasOne('App\Dcg');
+
+    }
+
 }

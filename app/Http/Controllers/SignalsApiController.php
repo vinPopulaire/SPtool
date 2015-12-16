@@ -292,7 +292,7 @@ class SignalsApiController extends Controller
 		//return $link_user;
 
 		//update based on video_terms
-return $video_term_list;
+//return $video_term_list;
 		foreach ($video_term_list as $video_term_id) {
 
 			$temp_user = $user->term->find($video_term_id);
@@ -405,10 +405,6 @@ return $video_term_list;
 
 			 $user->profilescore()->sync([$j => ['profile_score' => $profile_score]], false);
 		  }
-
-
-
-
 
 
 

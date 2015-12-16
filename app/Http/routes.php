@@ -62,6 +62,12 @@ Route::post('video/explicitrf',['as'=>'video.rf','uses'=>'VideoController@rf']);
 Route::get('import', 'ImportController@import');
 Route::get('scores', 'ImportController@scores');
 
+/*Controller created for experiment */
+Route::get('checkprofile','ExperimentController@checkprofile');
+Route::post('checkprofile/agree',['as'=>'profile.agree','uses'=>'ExperimentController@agree']);
+Route::post('checkprofile/disagree',['as'=>'profile.disagree','uses'=>'ExperimentController@disagree']);
+
+
 
 
 
@@ -88,7 +94,8 @@ Route::resource('interest','InterestApiController');
 Route::post('fblogin', 'FacebookApiController@login');
 
 //Search, Retrieve and Recommend videos
-Route::post('search', 'SearchController@search');
+Route::post('search', 'SearchApiController@search');
+Route::get('search/{username}', 'SearchApiController@recommend');
 
 Route::resource ('actions','ActionsApiController');
 
