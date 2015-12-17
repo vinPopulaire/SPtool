@@ -43,7 +43,7 @@ class SearchApiController extends Controller {
 
 
 			//content_based recommendation -- using the view
-			$results_content = DB::select(DB::raw('select  video_id, title, similarity FROM user_item_similarity where user=? and  euscreen_id  IN (' . $videos . ')  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
+			$results_content = DB::select(DB::raw('select  video_id, title, similarity, euscreen_id FROM user_item_similarity where user=? and  euscreen_id  IN (' . $videos . ')  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
 
 
 			//collaborative recommendation

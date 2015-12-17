@@ -107,6 +107,7 @@ class SignalsApiController extends Controller
 						//return 'Video has stopped';
 						$video_stop = UserAction::where('username', $username)->where('video_id', $video_id)->where('device_id', $device)->where('action', $action_type)->get();
 
+
 						//$video = $video->last();
 						$stop_time = $request->time;
 						$watch_time = $stop_time - ($video_start->time);
@@ -201,11 +202,13 @@ class SignalsApiController extends Controller
 		$device = $request->device_id;
 		$video_id = $request->video_id;
 		$action_type = $request->action;
-		$explicit_rf = $request->explicit_rf;
+		$explicit_rf = $request->value;
+
 
 		//check if $request->score==-1 or 0 or 1
 
 		$record_exists = UserAction::where('username', $username)->where('video_id', $video_id)->where('action', $action_type)->first();
+
 
 		if (empty($record_exists)) {
 
@@ -217,7 +220,6 @@ class SignalsApiController extends Controller
 			$record_exists->update(array('explicit_rf' => $explicit_rf));
 		}
 ///should call redirect another controller to do the rest?????
-
 
 //////////////calculate ku///////////////////////
 
@@ -238,7 +240,7 @@ class SignalsApiController extends Controller
 //////////////retrieve terms for given video//////////////
 
 		$video = Video::where('video_id', $request->video_id)->first();
-		$threshold = 0.5;    //need to appropriate set
+		$threshold = 0.2;    //need to appropriate set
 		$results = $video->term()->where('video_score', '>', $threshold)->get(array('term_id'));
 		$video_term_list = [];
 

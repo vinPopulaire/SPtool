@@ -37,10 +37,10 @@ class VideoController extends Controller {
 		//function for presenting the video.
 
 		//return $id;
-		$video=Video::where('id',$id)->get()->first();
+		$video=Video::where('video_id',$id)->get()->first();
 		$title=$video->title;
 		$summary=$video->summary;
-		$id=$video->id;
+		$id=$video->video_id;
 		Javascript::put([
 			'user' => Auth::user()->username,
 			'video_id' => $id
@@ -79,7 +79,7 @@ class VideoController extends Controller {
 
 
 			//content_based recommendation -- using the view
-			$results_content = DB::select(DB::raw('select  video_id, title, similarity FROM user_item_similarity where user=(?)  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
+			$results_content = DB::select(DB::raw('select  video_id, title, similarity, euscreen_id FROM user_item_similarity where user=(?)  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
 
 			//collaborative recommendation
 //			//multiplies vector of user i with every one of its neighbors and sorts them in descending order
@@ -168,7 +168,7 @@ class VideoController extends Controller {
 
 //////////////retrieve terms for given video//////////////
 
-		$video = Video::where('id', $video_id)->first();
+		$video = Video::where('video_id', $video_id)->first();
 		$threshold = 0.1;    //need to appropriate set
 		$results = $video->term()->where('video_score', '>', $threshold)->distinct()->get(array('term_id'));
 		//$results = $results->unique();
@@ -221,7 +221,7 @@ class VideoController extends Controller {
 		$term_scores = []; //save all scores to get the max
 
 		$user = MecanexUser::where('username', $username)->get()->first();
-		$video = Video::where('id', $video_id)->get()->first();
+		$video = Video::where('video_id', $video_id)->get()->first();
 		$link_user = MecanexUserTermHomeTermNeighbour::where('mecanex_user_id', $user->id)->get()->first();
 
 		//return $link_user;
@@ -344,7 +344,7 @@ class VideoController extends Controller {
 		}
 
 		$user_action=UserAction::where('username',$username)->where('video_id', $video_id);
-		$user_action->delete();
+		//$user_action->delete();
 		return Redirect::route('home')->with('message', 'Thank you for watching the video');
 	}
 
