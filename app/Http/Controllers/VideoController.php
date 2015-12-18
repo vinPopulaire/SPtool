@@ -79,7 +79,7 @@ class VideoController extends Controller {
 
 
 			//content_based recommendation -- using the view
-			$results_content = DB::select(DB::raw('select  video_id, title, similarity FROM user_item_similarity where user=(?)  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
+			$results_content = DB::select(DB::raw('select  video_id, title, similarity,euscreen_id FROM user_item_similarity where user=(?)  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
 
 			//collaborative recommendation
 //			//multiplies vector of user i with every one of its neighbors and sorts them in descending order
@@ -104,8 +104,6 @@ class VideoController extends Controller {
 		}
 
 		//used for online experiments - creation of dcg table
-
-
 		$index=0;
 		$mecanex_user = Auth::user()->mecanex_user;
 
@@ -122,7 +120,6 @@ class VideoController extends Controller {
 		}
 
 			return view('video.recommendation', compact('results_recommendation'));
-
 	}
 
 	public function rf(Request $request)
@@ -344,7 +341,7 @@ class VideoController extends Controller {
 		}
 
 		$user_action=UserAction::where('username',$username)->where('video_id', $video_id);
-		$user_action->delete();
+//		$user_action->delete();
 		return Redirect::route('home')->with('message', 'Thank you for watching the video');
 	}
 
