@@ -70,7 +70,6 @@ class SignalsApiController extends Controller
 		$action_type = $request->action;
 		$duration=$request->duration;
 
-
 			switch ($action_type) {
 
 				//case start
@@ -97,7 +96,6 @@ class SignalsApiController extends Controller
 						//return 'Video has stopped';
 						$video_stop = UserAction::where('username', $username)->where('video_id', $video_id)->where('device_id', $device)->where('action', $action_type)->get();
 
-
 						//$video = $video->last();
 						$stop_time = $request->time;
 						$watch_time = $stop_time - ($video_start->time);
@@ -105,13 +103,13 @@ class SignalsApiController extends Controller
 
 						//$video_time = $video->video_time;
 						$weight = $watch_time /$duration;
+
 						//get importance of action from the respective weight at the actions table
 						$get_importance = Action::where('id', $action_type)->first();
 						$importance = $get_importance->importance;
 
 						$video_stop = $video_stop->last();
 						$video_stop->update(array('weight' => $weight, 'importance' => $importance));
-
 
 						$statusCode = 200;
 						$response = [$username, 'watched', $weight, 'of this video with importance', $importance];
@@ -199,10 +197,10 @@ class SignalsApiController extends Controller
 
 		$record_exists = UserAction::where('username', $username)->where('video_id', $video_id)->where('action', $action_type)->first();
 
-
 		if (empty($record_exists)) {
 
-			$user_action = UserAction::create($request->all());
+			$user_action = new UserAction(['username'=>$username,'device_id'=>$device,'video_id'=>$video_id,'explicit_rf'=>$explicit_rf,'action'=>$action_type]);
+			$user_action->save();
 			$get_importance = Action::where('id', $request->action)->first();
 			$importance = $get_importance->importance;
 			$user_action->update(array('weight' => 1, 'importance' => $importance));
