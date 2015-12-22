@@ -37,37 +37,27 @@ class SignalsApiController extends Controller
 		} else {
 
 			switch ($action_type) {
-
 				case '1': {   //video play
-
 					return $this->video_function($request);
 				}
 				case '2': {   //video_stop
-
 					return $this->video_function($request);
 				}
-
 				case '3': {  //click on enrichment
 					return $this->enrichment_function($request);
 				}
-
 				case '4': {    //click on ad
 					return $this->ad_function($request);
 				}
-
 				case '5': {   //share
 					return $this->enrichment_function($request);
 				}
-
 				case '6': {   //explicit rf
 					return $this->explicitrf_function($request);
 				}
-
 				default:
 					break;
-
 			}
-
 		}
 	}
 

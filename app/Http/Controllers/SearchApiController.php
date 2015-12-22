@@ -104,7 +104,7 @@ public function recommend($username)
 		];
 		$statusCode = 404;
 	}
-else {
+	else {
 
 	$user_id = $user->id;
 	//parameter for the experiment

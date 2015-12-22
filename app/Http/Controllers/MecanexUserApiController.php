@@ -24,7 +24,7 @@ class MecanexUserApiController extends Controller
 	{
 		// reqires Authentificataion before access
 		//Config::set('session.driver', 'array');
-		$this->middleware('once');
+		$this->middleware('auth');
 		//$this->middleware('auth.basic');
 
 	}
@@ -191,14 +191,12 @@ class MecanexUserApiController extends Controller
 			$mecanexuser = $mecanexuser->first();
 			$mecanexuser->update($request->all());
 
-		//$mecanexuser->save();
-		$statusCode = 200;
-		$response = $e = array(
-			'message' => 'User updated',
-			'Updated User' => $mecanexuser);
-
-
-}
+			//$mecanexuser->save();
+			$statusCode = 200;
+			$response = $e = array(
+				'message' => 'User updated',
+				'Updated User' => $mecanexuser);
+		}
 
 		return response($response, $statusCode)->header('Content-Type', 'application/json');
 

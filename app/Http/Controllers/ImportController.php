@@ -22,11 +22,11 @@ class ImportController extends Controller
 		set_time_limit(0);
 		DB::table('videos_terms_scores')->delete();
 
-		//$counts=DB::select('select count(video_id) from videos');  //take number of videos
-		//dd($counts);
+//		$counts=DB::select('select count(video_id) from videos');  //take number of videos
+//		dd($counts);
+
 		$terms = Term::all();   //take all Profile terms
 		$videos=Video::all();
-
 
 		foreach ($videos as $video) {
 			$id = $video->id;

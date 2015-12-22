@@ -12,13 +12,15 @@
 	 	"sammyk/laravel-facebook-sdk": "~2.0@dev",
 		"facebook/php-sdk-v4": "~5.0@dev",
 	  "sammyk/facebook-query-builder": "~2.0",
-	  "laracasts/utilities": "~2.0"
+	  "laracasts/utilities": "~2.0",
+		"guzzlehttp/guzzle": "~5.0"
 
 
 	},
 	"require-dev": {
 		"phpunit/phpunit": "~4.0",
-		"phpspec/phpspec": "~2.1"
+		"phpspec/phpspec": "~2.1",
+		"laracasts/integrated": "^0.15.6"
 	},
 	"autoload": {
 		"classmap": [

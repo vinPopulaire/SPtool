@@ -13,7 +13,7 @@ class GenderApiController extends Controller {
 	{
 		// reqires Authentificataion before access
 		//Config::set('session.driver', 'array');
-		$this->middleware('once');
+		$this->middleware('auth');
 		//$this->middleware('auth.basic');
 
 	}
