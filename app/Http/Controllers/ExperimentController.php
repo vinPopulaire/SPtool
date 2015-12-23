@@ -60,6 +60,8 @@ class ExperimentController extends Controller
 		$mecanex_user_id=$mecanex_user->id;
 		$opinion=Opinion::firstOrNew(['mecanex_user_id'=>$mecanex_user_id]);
 		$opinion->opinion=1;
+		$iteration=($opinion->iteration)+1;
+		$opinion->iteration=$iteration;
 		$opinion->save();
 
 		return Redirect::route ('home')->with ('message','Thank you for your participation');
@@ -73,6 +75,8 @@ class ExperimentController extends Controller
 		$mecanex_user_id=$mecanex_user->id;
 		$opinion=Opinion::firstOrNew(['mecanex_user_id'=>$mecanex_user_id]);
 		$opinion->opinion=0;
+		$iteration=($opinion->iteration)+1;
+		$opinion->iteration=$iteration;
 		$opinion->save();
 		return Redirect::route ('home')->with ('message','Thank you for your participation-dis');
 
