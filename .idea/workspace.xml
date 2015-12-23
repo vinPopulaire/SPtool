@@ -32,31 +32,32 @@
       <file leaf-file-name="SignalsApiController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SignalsApiController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.0" vertical-offset="1427" max-vertical-offset="7174">
-              <caret line="124" column="0" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
+            <state vertical-scroll-proportion="-12.961538" vertical-offset="3692" max-vertical-offset="7463">
+              <caret line="237" column="0" selection-start-line="237" selection-start-column="0" selection-end-line="237" selection-end-column="0" />
               <folding>
-                <marker date="1450358955118" expanded="true" signature="6251:6399" placeholder="SELECT SUM(t..t1..." />
-                <marker date="1450358955118" expanded="true" signature="6293:6392" placeholder="SELECT DISTI..." />
+                <element signature="e#39#61#0#PHP" expanded="true" />
+                <marker date="1450790713058" expanded="true" signature="6610:6758" placeholder="SELECT SUM(t..t1..." />
+                <marker date="1450790713058" expanded="true" signature="6652:6751" placeholder="SELECT DISTI..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="recommendation.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="recommendation.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/video/recommendation.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.653846" vertical-offset="28" max-vertical-offset="765">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.45007032" vertical-offset="20" max-vertical-offset="731">
+              <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProfileController.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ProfileController.php">
+      <file leaf-file-name="edit.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/user/edit.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6694796" vertical-offset="1071" max-vertical-offset="3162">
-              <caret line="111" column="49" selection-start-line="105" selection-start-column="4" selection-end-line="117" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="1309">
+              <caret line="55" column="117" selection-start-line="55" selection-start-column="32" selection-end-line="55" selection-end-column="117" />
               <folding />
             </state>
           </provider>
@@ -65,69 +66,17 @@
       <file leaf-file-name="VideoController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/VideoController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.923077" vertical-offset="3403" max-vertical-offset="6103">
-              <caret line="223" column="37" selection-start-line="223" selection-start-column="37" selection-end-line="223" selection-end-column="37" />
+            <state vertical-scroll-proportion="-1.1538461" vertical-offset="1772" max-vertical-offset="6494">
+              <caret line="106" column="37" selection-start-line="106" selection-start-column="37" selection-end-line="106" selection-end-column="37" />
               <folding>
                 <element signature="e#39#61#0#PHP" expanded="true" />
-                <marker date="1450354478765" expanded="true" signature="1622:1771" placeholder="select video..user_item_similarity..." />
-                <marker date="1450354478765" expanded="true" signature="1966:2059" placeholder="select neigh..user_neighbor_similarity..." />
-                <marker date="1450354478765" expanded="true" signature="2420:3140" placeholder="SELECT a.use..user..." />
-                <marker date="1450354478765" expanded="true" signature="2572:2973" placeholder="SELECT user_..user_neighbor_similarity..." />
-                <marker date="1450354478765" expanded="true" signature="4816:4964" placeholder="SELECT SUM(t..t1..." />
-                <marker date="1450354478765" expanded="true" signature="4858:4957" placeholder="SELECT DISTI..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mypopover.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/js/mypopover.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1681" max-vertical-offset="2431">
-              <caret line="125" column="29" selection-start-line="125" selection-start-column="29" selection-end-line="125" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="play.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/video/play.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-8.654762" vertical-offset="4" max-vertical-offset="1445">
-              <caret line="43" column="86" selection-start-line="43" selection-start-column="84" selection-end-line="43" selection-end-column="86" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SearchApiController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SearchApiController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-6.3461537" vertical-offset="838" max-vertical-offset="2635">
-              <caret line="67" column="82" selection-start-line="67" selection-start-column="82" selection-end-line="67" selection-end-column="82" />
-              <folding>
-                <marker date="1450347348893" expanded="true" signature="1285:1471" placeholder="select video..user_item_similarity..." />
-                <marker date="1450347348893" expanded="true" signature="1667:1758" placeholder="select neigh..user_neighbor_similarity..." />
-                <marker date="1450347348893" expanded="true" signature="2123:2808" placeholder="SELECT a.use..user..." />
-                <marker date="1450347348893" expanded="true" signature="2242:2643" placeholder="SELECT user_..user_neighbor_similarity..." />
-                <marker date="1450347348893" expanded="true" signature="3806:3940" placeholder="select video..user_item_similarity..." />
-                <marker date="1450347348893" expanded="true" signature="4131:4222" placeholder="select neigh..user_neighbor_similarity..." />
-                <marker date="1450347348893" expanded="true" signature="4565:5284" placeholder="SELECT a.use..user..." />
-                <marker date="1450347348893" expanded="true" signature="4718:5119" placeholder="SELECT user_..user_neighbor_similarity..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ImportController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ImportController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.961538" vertical-offset="714" max-vertical-offset="1989">
-              <caret line="71" column="28" selection-start-line="71" selection-start-column="28" selection-end-line="71" selection-end-column="28" />
-              <folding>
-                <element signature="e#39#61#0#PHP" expanded="true" />
-                <marker date="1449482791388" expanded="true" signature="740:882" placeholder="select MATCH..." />
-                <marker date="1449482791388" expanded="true" signature="1810:2036" placeholder="UPDATE video..." />
+                <marker date="1450789463073" expanded="true" signature="1478:1591" placeholder="select mecan..dcgs..." />
+                <marker date="1450789463073" expanded="true" signature="2002:2149" placeholder="select video..user_item_similarity..." />
+                <marker date="1450789463073" expanded="true" signature="2344:2437" placeholder="select neigh..user_neighbor_similarity..." />
+                <marker date="1450789463073" expanded="true" signature="2800:3583" placeholder="SELECT a.use..user..." />
+                <marker date="1450789463073" expanded="true" signature="2970:3410" placeholder="SELECT user_..user_neighbor_similarity..." />
+                <marker date="1450789463073" expanded="true" signature="5517:5665" placeholder="SELECT SUM(t..t1..." />
+                <marker date="1450789463073" expanded="true" signature="5559:5658" placeholder="SELECT DISTI..." />
               </folding>
             </state>
           </provider>
@@ -136,9 +85,38 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.307692" vertical-offset="102" max-vertical-offset="1853">
-              <caret line="43" column="17" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="670" max-vertical-offset="1853">
+              <caret line="65" column="47" selection-start-line="65" selection-start-column="47" selection-end-line="65" selection-end-column="47" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExperimentController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExperimentController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-12.807693" vertical-offset="653" max-vertical-offset="1377">
+              <caret line="66" column="90" selection-start-line="66" selection-start-column="90" selection-end-line="66" selection-end-column="90" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SearchApiController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SearchApiController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="2703">
+              <caret line="63" column="20" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
+              <folding>
+                <marker date="1450781917316" expanded="true" signature="1285:1471" placeholder="select video..user_item_similarity..." />
+                <marker date="1450781917316" expanded="true" signature="1667:1758" placeholder="select neigh..user_neighbor_similarity..." />
+                <marker date="1450781917316" expanded="true" signature="2123:2867" placeholder="SELECT a.use..user..." />
+                <marker date="1450781917316" expanded="true" signature="2259:2696" placeholder="SELECT user_..user_neighbor_similarity..." />
+                <marker date="1450781917316" expanded="true" signature="3865:3999" placeholder="select video..user_item_similarity..." />
+                <marker date="1450781917316" expanded="true" signature="4190:4281" placeholder="select neigh..user_neighbor_similarity..." />
+                <marker date="1450781917316" expanded="true" signature="4624:5343" placeholder="SELECT a.use..user..." />
+                <marker date="1450781917316" expanded="true" signature="4777:5178" placeholder="SELECT user_..user_neighbor_similarity..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -148,7 +126,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/config/javascript.php" />
         <option value="$PROJECT_DIR$/config/app.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ExplicitRFController.php" />
         <option value="$PROJECT_DIR$/public/css/app.css" />
@@ -162,7 +139,6 @@
         <option value="$PROJECT_DIR$/resources/views/auth/register.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/terms.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Requests/CreateProfileRequest.php" />
-        <option value="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
         <option value="$PROJECT_DIR$/app/Http/Requests/InterestRequest.php" />
         <option value="$PROJECT_DIR$/database/migrations/2015_12_04_124310_delete_users_preferences_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2015_07_14_133804_create_user_actions_table.php" />
@@ -182,23 +158,25 @@
         <option value="$PROJECT_DIR$/database/migrations/2015_12_14_233003_create_users_profiles_opinions.php" />
         <option value="$PROJECT_DIR$/database/migrations/2015_10_02_113307_create_users_terms_profilescores_table.php" />
         <option value="$PROJECT_DIR$/app/Opinion.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2015_12_14_233641_create_opinions_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2015_12_15_231036_create_dcg_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2015_12_15_233704_create_dcgs_table.php" />
         <option value="$PROJECT_DIR$/app/Dcg.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/ExperimentController.php" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/database/migrations/2015_05_12_125721_create_videos_table.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/ProfileController.php" />
         <option value="$PROJECT_DIR$/public/js/mypopover.js" />
-        <option value="$PROJECT_DIR$/app/Http/routes.php" />
         <option value="$PROJECT_DIR$/app/MecanexUser.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/FacebookLoginController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/InterestController.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/database/migrations/2015_12_17_230135_create_users_dcg_table.php" />
+        <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/resources/views/video/recommendation.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/SearchApiController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/VideoController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/SignalsApiController.php" />
-        <option value="$PROJECT_DIR$/resources/views/video/recommendation.blade.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2015_12_14_233641_create_opinions_table.php" />
+        <option value="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/ExperimentController.php" />
       </list>
     </option>
   </component>
@@ -240,7 +218,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -296,6 +273,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="video" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sptool" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sptool" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="user" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -369,6 +368,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="seeds" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sptool" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="sptool" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -415,6 +432,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -473,7 +491,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1456" height="886" extended-state="6" />
+    <frame x="-8" y="-8" width="1456" height="886" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -483,7 +501,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22430556" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21180555" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -523,39 +541,11 @@
           <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="15" />
+      <option name="time" value="16" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/TermsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="572">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/basic.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="952">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Foundation/Auth/AuthenticatesAndRegistersUsers.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="62.384617" vertical-offset="1690" max-vertical-offset="2414">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/auth/register.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="4284">
-          <caret line="0" column="13" selection-start-line="0" selection-start-column="10" selection-end-line="0" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/app.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.57383966" vertical-offset="510" max-vertical-offset="1343">
@@ -620,13 +610,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/user/edit.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.7927461" vertical-offset="459" max-vertical-offset="1309">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2015_12_04_124310_delete_users_preferences_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629">
@@ -645,13 +628,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-12.423077" vertical-offset="0" max-vertical-offset="493">
           <caret line="19" column="46" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/user/checkprofile.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.615385" vertical-offset="0" max-vertical-offset="816">
-          <caret line="30" column="64" selection-start-line="30" selection-start-column="64" selection-end-line="30" selection-end-column="64" />
         </state>
       </provider>
     </entry>
@@ -697,13 +673,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2015_02_16_100642_create_gender_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8040541" vertical-offset="0" max-vertical-offset="646">
-          <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2015_10_02_113307_create_users_terms_profilescores_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.4881757" vertical-offset="0" max-vertical-offset="697">
@@ -725,24 +694,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2015_12_14_233641_create_opinions_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35472974" vertical-offset="62" max-vertical-offset="697">
-          <caret line="17" column="37" selection-start-line="17" selection-start-column="37" selection-end-line="17" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Opinion.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-5.8846154" vertical-offset="0" max-vertical-offset="391">
           <caret line="9" column="1" selection-start-line="9" selection-start-column="1" selection-end-line="14" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2015_12_15_233704_create_dcgs_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.692307" vertical-offset="96" max-vertical-offset="714">
-          <caret line="23" column="20" selection-start-line="23" selection-start-column="20" selection-end-line="23" selection-end-column="20" />
         </state>
       </provider>
     </entry>
@@ -761,23 +716,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.07034483" vertical-offset="0" max-vertical-offset="725">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExperimentController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="1445">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding>
-            <element signature="e#39#61#0#PHP" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2015_06_05_113833_create_videos_terms_scores_table.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="750">
@@ -789,29 +727,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-13.807693" vertical-offset="117" max-vertical-offset="901">
           <caret line="29" column="54" selection-start-line="29" selection-start-column="46" selection-end-line="29" selection-end-column="54" />
-          <folding>
-            <marker date="1450263959811" expanded="true" signature="-1:-1" placeholder="ALTER TABLE videos..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.307692" vertical-offset="102" max-vertical-offset="1853">
-          <caret line="43" column="17" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ImportController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.961538" vertical-offset="714" max-vertical-offset="1989">
-          <caret line="71" column="28" selection-start-line="71" selection-start-column="28" selection-end-line="71" selection-end-column="28" />
-          <folding>
-            <element signature="e#39#61#0#PHP" expanded="true" />
-            <marker date="1449482791388" expanded="true" signature="740:882" placeholder="select MATCH..." />
-            <marker date="1449482791388" expanded="true" signature="1810:2036" placeholder="UPDATE video..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -827,7 +742,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="724">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -835,7 +749,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-17.0" vertical-offset="408" max-vertical-offset="2040">
           <caret line="50" column="32" selection-start-line="50" selection-start-column="32" selection-end-line="50" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -843,48 +756,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.65400845" vertical-offset="3377" max-vertical-offset="5083">
           <caret line="235" column="0" selection-start-line="235" selection-start-column="0" selection-end-line="235" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SearchApiController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-6.3461537" vertical-offset="838" max-vertical-offset="2635">
-          <caret line="67" column="82" selection-start-line="67" selection-start-column="82" selection-end-line="67" selection-end-column="82" />
-          <folding>
-            <marker date="1450347348893" expanded="true" signature="1285:1471" placeholder="select video..user_item_similarity..." />
-            <marker date="1450347348893" expanded="true" signature="1667:1758" placeholder="select neigh..user_neighbor_similarity..." />
-            <marker date="1450347348893" expanded="true" signature="2123:2808" placeholder="SELECT a.use..user..." />
-            <marker date="1450347348893" expanded="true" signature="2242:2643" placeholder="SELECT user_..user_neighbor_similarity..." />
-            <marker date="1450347348893" expanded="true" signature="3806:3940" placeholder="select video..user_item_similarity..." />
-            <marker date="1450347348893" expanded="true" signature="4131:4222" placeholder="select neigh..user_neighbor_similarity..." />
-            <marker date="1450347348893" expanded="true" signature="4565:5284" placeholder="SELECT a.use..user..." />
-            <marker date="1450347348893" expanded="true" signature="4718:5119" placeholder="SELECT user_..user_neighbor_similarity..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/mypopover.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1681" max-vertical-offset="2431">
-          <caret line="125" column="29" selection-start-line="125" selection-start-column="29" selection-end-line="125" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/VideoController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.923077" vertical-offset="3403" max-vertical-offset="6103">
-          <caret line="223" column="37" selection-start-line="223" selection-start-column="37" selection-end-line="223" selection-end-column="37" />
-          <folding>
-            <element signature="e#39#61#0#PHP" expanded="true" />
-            <marker date="1450354478765" expanded="true" signature="1622:1771" placeholder="select video..user_item_similarity..." />
-            <marker date="1450354478765" expanded="true" signature="1966:2059" placeholder="select neigh..user_neighbor_similarity..." />
-            <marker date="1450354478765" expanded="true" signature="2420:3140" placeholder="SELECT a.use..user..." />
-            <marker date="1450354478765" expanded="true" signature="2572:2973" placeholder="SELECT user_..user_neighbor_similarity..." />
-            <marker date="1450354478765" expanded="true" signature="4816:4964" placeholder="SELECT SUM(t..t1..." />
-            <marker date="1450354478765" expanded="true" signature="4858:4957" placeholder="SELECT DISTI..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -892,43 +763,176 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.8121547" vertical-offset="2387" max-vertical-offset="3196">
           <caret line="175" column="0" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
-          <folding>
-            <element signature="e#39#61#0#PHP" expanded="false" />
-          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11467116" vertical-offset="0" max-vertical-offset="593">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/mypopover.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7184466" vertical-offset="1681" max-vertical-offset="2431">
+          <caret line="125" column="29" selection-start-line="125" selection-start-column="29" selection-end-line="125" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/video/play.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.654762" vertical-offset="4" max-vertical-offset="1445">
+        <state vertical-scroll-proportion="1.2556131" vertical-offset="4" max-vertical-offset="1445">
           <caret line="43" column="86" selection-start-line="43" selection-start-column="84" selection-end-line="43" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ImportController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.851468" vertical-offset="714" max-vertical-offset="1989">
+          <caret line="71" column="28" selection-start-line="71" selection-start-column="28" selection-end-line="71" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ProfileController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8221071" vertical-offset="1071" max-vertical-offset="3162">
+          <caret line="111" column="49" selection-start-line="105" selection-start-column="4" selection-end-line="117" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2015_06_02_162407_create_users_terms_scores_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.8327703" vertical-offset="102" max-vertical-offset="765">
+          <caret line="36" column="43" selection-start-line="36" selection-start-column="8" selection-end-line="36" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2015_12_17_230135_create_users_dcg_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-19.615385" vertical-offset="0" max-vertical-offset="680">
+          <caret line="31" column="31" selection-start-line="31" selection-start-column="31" selection-end-line="31" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2015_12_15_233704_create_dcgs_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7044199" vertical-offset="0" max-vertical-offset="724">
+          <caret line="31" column="26" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2015_02_16_100642_create_gender_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.65745854" vertical-offset="0" max-vertical-offset="724">
+          <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/user/profile.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.9861878" vertical-offset="714" max-vertical-offset="1598">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/user/edit.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="459" max-vertical-offset="1309">
+          <caret line="55" column="117" selection-start-line="55" selection-start-column="32" selection-end-line="55" selection-end-column="117" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/video/recommendation.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/user/checkprofile.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.653846" vertical-offset="28" max-vertical-offset="765">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.6061885" vertical-offset="79" max-vertical-offset="816">
+          <caret line="30" column="64" selection-start-line="30" selection-start-column="64" selection-end-line="30" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="670" max-vertical-offset="1853">
+          <caret line="65" column="47" selection-start-line="65" selection-start-column="47" selection-end-line="65" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SearchApiController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="532" max-vertical-offset="2703">
+          <caret line="63" column="20" selection-start-line="63" selection-start-column="20" selection-end-line="63" selection-end-column="20" />
+          <folding>
+            <marker date="1450781917316" expanded="true" signature="1285:1471" placeholder="select video..user_item_similarity..." />
+            <marker date="1450781917316" expanded="true" signature="1667:1758" placeholder="select neigh..user_neighbor_similarity..." />
+            <marker date="1450781917316" expanded="true" signature="2123:2867" placeholder="SELECT a.use..user..." />
+            <marker date="1450781917316" expanded="true" signature="2259:2696" placeholder="SELECT user_..user_neighbor_similarity..." />
+            <marker date="1450781917316" expanded="true" signature="3865:3999" placeholder="select video..user_item_similarity..." />
+            <marker date="1450781917316" expanded="true" signature="4190:4281" placeholder="select neigh..user_neighbor_similarity..." />
+            <marker date="1450781917316" expanded="true" signature="4624:5343" placeholder="SELECT a.use..user..." />
+            <marker date="1450781917316" expanded="true" signature="4777:5178" placeholder="SELECT user_..user_neighbor_similarity..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2015_12_14_233641_create_opinions_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5870166" vertical-offset="0" max-vertical-offset="724">
+          <caret line="26" column="7" selection-start-line="26" selection-start-column="7" selection-end-line="26" selection-end-column="7" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/SignalsApiController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.0" vertical-offset="1427" max-vertical-offset="7174">
-          <caret line="124" column="0" selection-start-line="124" selection-start-column="0" selection-end-line="124" selection-end-column="0" />
+        <state vertical-scroll-proportion="-12.961538" vertical-offset="3692" max-vertical-offset="7463">
+          <caret line="237" column="0" selection-start-line="237" selection-start-column="0" selection-end-line="237" selection-end-column="0" />
           <folding>
-            <marker date="1450358955118" expanded="true" signature="6251:6399" placeholder="SELECT SUM(t..t1..." />
-            <marker date="1450358955118" expanded="true" signature="6293:6392" placeholder="SELECT DISTI..." />
+            <element signature="e#39#61#0#PHP" expanded="true" />
+            <marker date="1450790713058" expanded="true" signature="6610:6758" placeholder="SELECT SUM(t..t1..." />
+            <marker date="1450790713058" expanded="true" signature="6652:6751" placeholder="SELECT DISTI..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ProfileController.php">
+    <entry file="file://$PROJECT_DIR$/database/seeds/DatabaseSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6694796" vertical-offset="1071" max-vertical-offset="3162">
-          <caret line="111" column="49" selection-start-line="105" selection-start-column="4" selection-end-line="117" selection-end-column="13" />
+        <state vertical-scroll-proportion="-16.038462" vertical-offset="144" max-vertical-offset="9299">
+          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/VideoController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-1.1538461" vertical-offset="1772" max-vertical-offset="6494">
+          <caret line="106" column="37" selection-start-line="106" selection-start-column="37" selection-end-line="106" selection-end-column="37" />
+          <folding>
+            <element signature="e#39#61#0#PHP" expanded="true" />
+            <marker date="1450789463073" expanded="true" signature="1478:1591" placeholder="select mecan..dcgs..." />
+            <marker date="1450789463073" expanded="true" signature="2002:2149" placeholder="select video..user_item_similarity..." />
+            <marker date="1450789463073" expanded="true" signature="2344:2437" placeholder="select neigh..user_neighbor_similarity..." />
+            <marker date="1450789463073" expanded="true" signature="2800:3583" placeholder="SELECT a.use..user..." />
+            <marker date="1450789463073" expanded="true" signature="2970:3410" placeholder="SELECT user_..user_neighbor_similarity..." />
+            <marker date="1450789463073" expanded="true" signature="5517:5665" placeholder="SELECT SUM(t..t1..." />
+            <marker date="1450789463073" expanded="true" signature="5559:5658" placeholder="SELECT DISTI..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/ExperimentController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-12.807693" vertical-offset="653" max-vertical-offset="1377">
+          <caret line="66" column="90" selection-start-line="66" selection-start-column="90" selection-end-line="66" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/video/recommendation.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.45007032" vertical-offset="20" max-vertical-offset="731">
+          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
           <folding />
         </state>
       </provider>

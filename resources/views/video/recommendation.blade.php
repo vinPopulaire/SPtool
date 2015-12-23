@@ -24,10 +24,8 @@
                               </td>
                              <td >{!!$result->title!!}</td>
                           </tr>
-                        @endforeach
-
-
-
+                            @endforeach
+                        <tr><td colspan="3" align="right"> {!!link_to_route('profile.check', 'My profile',array(),array('class'=>'btn btn-warning')) !!}</tr>
 
     </table>
 

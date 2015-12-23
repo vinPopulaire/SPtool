@@ -61,8 +61,6 @@ class VideoController extends Controller {
 	public function search()
 	{
 
-		//only for online experiments
-		DB::table('dcgs')->delete();
 
 		//video recommendation
 //maybe is better to have a middleware applied only to search
@@ -73,13 +71,29 @@ class VideoController extends Controller {
 
 		} else {
 			$user_id = $user->id;
-			//parameter for the experiment
-			$neighs = '2';
+
+			//only for online experiments
+			//calculation of DCG
+
+			$dcg = DB::select(DB::raw('select mecanex_user_id ,SUM((POWER(2,explicit_rf)-1)/log2(rank+1)) as dcg_score from dcgs where mecanex_user_id=?'), [$user_id]);
+
+			if(count($dcg[0]->dcg_score)>0) {
+
+						DB::table('users_dcg')->insert(
+				['mecanex_user_id' => $user_id, 'dcg' => $dcg[0]->dcg_score]
+			);
+				}
+
+			DB::table('dcgs')->where('mecanex_user_id', $user_id)->delete();
+
+
+		//parameter for the experiment
+			$neighs = '3';
 			$list_neighs = [];
 
 
 			//content_based recommendation -- using the view
-			$results_content = DB::select(DB::raw('select  video_id, title, similarity, euscreen_id FROM user_item_similarity where user=(?)  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
+			$results_content = DB::select(DB::raw('select  video_id, title, similarity, euscreen_id FROM user_item_similarity where user=?  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
 
 			//collaborative recommendation
 //			//multiplies vector of user i with every one of its neighbors and sorts them in descending order
@@ -90,7 +104,7 @@ class VideoController extends Controller {
 				array_push($list_neighs, $neigh->neighbor);
 			}
 
-			if (empty($list_neighs)) {
+			if (count($list_neighs)<3) {
 				//content recommendation if no neighbors
 				$results_recommendation = $results_content;
 
@@ -98,7 +112,11 @@ class VideoController extends Controller {
 
 				$string_neighs = implode(',', $list_neighs);
 
-				$results_recommendation = DB::select(DB::raw(' SELECT a.user,a.video_id,user_item_similarity.title,user_item_similarity.euscreen_id, (0.8*user_item_similarity.similarity+0.2*a.score) as result from (SELECT  user_neighbor_similarity.user,user_item_similarity.video_id, SUM(user_neighbor_similarity.similarity+user_item_similarity.similarity) as score FROM user_neighbor_similarity INNER JOIN user_item_similarity on user_neighbor_similarity.neighbor=user_item_similarity.user and user_item_similarity.user IN(' . $string_neighs . ') GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id) as a INNER JOIN user_item_similarity on a.video_id = user_item_similarity.video_id and a.user=user_item_similarity.user where a.user=(?) ORDER BY score DESC LIMIT 10'), [$user_id]);
+				$results_recommendation = DB::select(DB::raw(' SELECT a.user,a.video_id,user_item_similarity.title,user_item_similarity.euscreen_id, (0.5*user_item_similarity.similarity+0.5*a.score) as total_score
+  											from (SELECT  user_neighbor_similarity.user,user_item_similarity.video_id,
+  											SUM(user_neighbor_similarity.similarity+user_item_similarity.similarity) as score
+  											FROM user_neighbor_similarity INNER JOIN user_item_similarity on user_neighbor_similarity.neighbor=user_item_similarity.user and user_item_similarity.user IN(' . $string_neighs . ')
+  											GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id) as a INNER JOIN user_item_similarity on a.video_id = user_item_similarity.video_id and a.user=user_item_similarity.user where a.user=(?) ORDER BY total_score DESC LIMIT 10'), [$user_id]);
 
 			}
 		}
@@ -107,15 +125,14 @@ class VideoController extends Controller {
 
 
 		$index=0;
-		$mecanex_user = Auth::user()->mecanex_user;
 
 		foreach ($results_recommendation as $result)
 		{
 			$index++;
-		//	$video_id=$result->euscreen_id;
-			$video_id=$result->video_id;
+			$video_id=$result->euscreen_id;
+//			$video_id=$result->video_id;
 
-			$dcg=Dcg::firstOrNew(['mecanex_user_id'=>$mecanex_user->id,'video_id'=>$video_id]);
+			$dcg=Dcg::firstOrNew(['mecanex_user_id'=>$user_id,'video_id'=>$video_id]);
 			$dcg->rank=$index;
 			$dcg->save();
 
@@ -146,9 +163,15 @@ class VideoController extends Controller {
 			$get_importance = Action::where('id', $action_type)->first();
 			$importance = $get_importance->importance;
 			$user_action->update(array('weight' => 1, 'importance' => $importance));
+			return $record_exists;
 		} else {
 			$record_exists->update(array('explicit_rf' => $explicit_rf));
 		}
+
+		//store in the dcgs table - only used for the online experiments
+		$mecanex_user=MecanexUser::where('username', $username)->first();
+		$dcg_record=Dcg::where('mecanex_user_id',$mecanex_user->id)->where('video_id',$video_id);
+		$dcg_record->update(array('explicit_rf'=>$explicit_rf));
 
 //////////////calculate ku///////////////////////
 
@@ -343,8 +366,8 @@ class VideoController extends Controller {
 			$user->profilescore()->sync([$j => ['profile_score' => $profile_score]], false);
 		}
 
-		$user_action=UserAction::where('username',$username)->where('video_id', $video_id);
-		//$user_action->delete();
+	//	DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->delete();
+
 		return Redirect::route('home')->with('message', 'Thank you for watching the video');
 	}
 
