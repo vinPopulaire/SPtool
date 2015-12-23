@@ -65,7 +65,11 @@ class SearchApiController extends Controller {
 
 				$string_neighs = implode(',', $list_neighs);
 
-				$results_recommendation = DB::select(DB::raw(' SELECT a.user,a.video_id,user_item_similarity.title, (0.8*user_item_similarity.similarity+0.2*a.score) as result from (SELECT  user_neighbor_similarity.user,user_item_similarity.video_id, SUM(user_neighbor_similarity.similarity+user_item_similarity.similarity) as score FROM user_neighbor_similarity INNER JOIN user_item_similarity on user_neighbor_similarity.neighbor=user_item_similarity.user and user_item_similarity.user IN(' . $string_neighs . ') GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id) as a INNER JOIN user_item_similarity on a.video_id = user_item_similarity.video_id and a.user=user_item_similarity.user where a.user=? ORDER BY score DESC LIMIT 10'), [$user_id]);
+				$results_recommendation = DB::select(DB::raw(' SELECT a.user,a.video_id,user_item_similarity.title, (0.8*user_item_similarity.similarity+0.2*a.score) as total_score
+ 											from (SELECT  user_neighbor_similarity.user,user_item_similarity.video_id,
+ 											SUM(user_neighbor_similarity.similarity+user_item_similarity.similarity) as score
+ 											FROM user_neighbor_similarity INNER JOIN user_item_similarity on user_neighbor_similarity.neighbor=user_item_similarity.user and user_item_similarity.user IN(' . $string_neighs . ')
+ 											GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id) as a INNER JOIN user_item_similarity on a.video_id = user_item_similarity.video_id and a.user=user_item_similarity.user where a.user=? ORDER BY total_score DESC LIMIT 10'), [$user_id]);
 			}
 
 

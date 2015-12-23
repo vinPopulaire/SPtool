@@ -63,7 +63,7 @@ Route::get('import', 'ImportController@import');
 Route::get('scores', 'ImportController@scores');
 
 /*Controller created for experiment */
-Route::get('checkprofile','ExperimentController@checkprofile');
+Route::get('checkprofile',['as'=>'profile.check','uses'=>'ExperimentController@checkprofile']);
 Route::post('checkprofile/agree',['as'=>'profile.agree','uses'=>'ExperimentController@agree']);
 Route::post('checkprofile/disagree',['as'=>'profile.disagree','uses'=>'ExperimentController@disagree']);
 

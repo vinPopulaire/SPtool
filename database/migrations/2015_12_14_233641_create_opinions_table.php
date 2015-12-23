@@ -19,6 +19,7 @@ class CreateOpinionsTable extends Migration {
 			$table->integer('mecanex_user_id')->unsigned()->index();
 			$table->foreign('mecanex_user_id')->references('id')->on('mecanex_users')->onDelete('cascade');
 			$table->integer('opinion');
+			$table->integer('iterations');
 			$table->timestamps();
 		});
 	}

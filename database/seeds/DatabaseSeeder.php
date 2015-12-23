@@ -279,12 +279,12 @@ class ActionsSeeder extends Seeder {
 	{
 		DB::table('actions')->delete();
 
-		Action::create(['id'=>'1','action' => 'play video', 'importance'=>'0.6']);
-		Action::create(['id'=>'2','action' => 'stop video','importance'=>'0.6']);
-		Action::create(['id'=>'3','action' => 'click enrichment','importance'=>'0.2']);
-		Action::create(['id'=>'4','action' => 'click ad','importance'=>'0.2']);
-		Action::create(['id'=>'5','action' => 'share','importance'=>'0.2']);
-		Action::create(['id'=>'6','action' => 'explicit_rf','importance'=>'1']);
+		Action::create(['id'=>'1','action' => 'play video', 'importance'=>'10']);
+		Action::create(['id'=>'2','action' => 'stop video','importance'=>'10']);
+		Action::create(['id'=>'3','action' => 'click enrichment','importance'=>'10']);
+		Action::create(['id'=>'4','action' => 'click ad','importance'=>'10']);
+		Action::create(['id'=>'5','action' => 'share','importance'=>'10']);
+		Action::create(['id'=>'6','action' => 'explicit_rf','importance'=>'20']);
 	}
 
 }

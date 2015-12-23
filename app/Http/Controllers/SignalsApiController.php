@@ -12,6 +12,7 @@ use App\Action;
 use Illuminate\Support\Facades\DB;
 use App\MecanexUser;
 use App\MecanexUserTermHomeTermNeighbour;
+use App\Dcg;
 class SignalsApiController extends Controller
 {
 
@@ -207,13 +208,17 @@ class SignalsApiController extends Controller
 		} else {
 			$record_exists->update(array('explicit_rf' => $explicit_rf));
 		}
-///should call redirect another controller to do the rest?????
+ //store in the dcgs table - only used for the online experiments
+		$mecanex_user=MecanexUser::where('username', $username)->first();
+		$dcg_record=Dcg::where('mecanex_user_id',$mecanex_user->id)->where('video_id',$video_id);
+		$dcg_record->update(array('explicit_rf'=>$explicit_rf));
 
 //////////////calculate ku///////////////////////
 
 		$k_nominator = UserAction::where('username', $username)->where('video_id', $video_id)->groupBy('username')
 			->get(['username', DB::raw('SUM(importance*weight) as total_score')])->first();
 		//prepei edw na to diairw k me to plithos twn sunolikwn enrichments k ads
+
 
 		$query = "SELECT SUM(t1.importance ) AS total FROM (SELECT DISTINCT action, importance FROM user_actions WHERE username=:username AND video_id=:videoid) AS t1 ";
 		$k_denominator = DB::select(DB::raw($query), array('username' => $username, 'videoid' => $video_id));  //returns array
@@ -293,7 +298,7 @@ class SignalsApiController extends Controller
 			$video_term_score = $temp_video->pivot->video_score;  //get score of video
 
 			//update score
-			$new_score = $user_term_score + $k * (0.8 * $video_term_score);  //ok
+			$new_score = $user_term_score + ($k  * $video_term_score);  //ok
 			array_push($term_scores, $new_score);
 
 //				//store score
@@ -315,7 +320,7 @@ class SignalsApiController extends Controller
 				$video_term_score1 = $temp_video->pivot->video_score;
 				$temp_video = $video->term->find($video_term_list[$j]);
 				$video_term_score2 = $temp_video->pivot->video_score;
-				$new_score = $temp_user_matrix->link_score + $k * (0.8 * ($video_term_score1 * $video_term_score2));
+				$new_score = $temp_user_matrix->link_score + $k * ($video_term_score1 * $video_term_score2);
 				array_push($link_term_scores, $new_score);
 				$temp_user_matrix->link_score = $new_score;
 				$temp_user_matrix->save();
@@ -397,7 +402,7 @@ class SignalsApiController extends Controller
 			 $user->profilescore()->sync([$j => ['profile_score' => $profile_score]], false);
 		  }
 
-
+		//DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->delete();
 
 
 		$response='RF Saved';
