@@ -19,7 +19,6 @@ class CreateVideosTermsScoresTable extends Migration {
 			$table->integer('term_id')->unsigned()->index();
 			$table->foreign('term_id')->references('id')->on('terms')->onDelete('cascade');
 			$table->decimal('video_score',6,3);
-			$table->timestamps();
 		});
 	}
 
