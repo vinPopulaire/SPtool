@@ -74,6 +74,13 @@ class MecanexUser extends Model {
 
     }
 
+    public function videos()
+    {
+
+        return $this->belongsToMany('App\Video','user_video')->withPivot('seen');
+
+    }
+
     public function action()
     {
 

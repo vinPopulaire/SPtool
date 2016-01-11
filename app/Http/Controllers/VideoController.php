@@ -116,7 +116,9 @@ class VideoController extends Controller {
   											from (SELECT  user_neighbor_similarity.user,user_item_similarity.video_id,
   											SUM(user_neighbor_similarity.similarity+user_item_similarity.similarity) as score
   											FROM user_neighbor_similarity INNER JOIN user_item_similarity on user_neighbor_similarity.neighbor=user_item_similarity.user and user_item_similarity.user IN(' . $string_neighs . ')
-  											GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id) as a INNER JOIN user_item_similarity on a.video_id = user_item_similarity.video_id and a.user=user_item_similarity.user where a.user=(?) ORDER BY total_score DESC LIMIT 10'), [$user_id]);
+  											GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id) as a INNER JOIN user_item_similarity on a.video_id = user_item_similarity.video_id and a.user=user_item_similarity.user
+  											where a.user=(?) AND a.video_id NOT IN (SELECT video_id from user_video where seen = 1 and mecanex_user_id = (?))
+  											ORDER BY total_score DESC LIMIT 10'), [$user_id,$user_id]);
 
 			}
 		}
@@ -184,11 +186,26 @@ class VideoController extends Controller {
 
 /////////////////////////////update weights and update profile//////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		/////////////Retrieve Terms/////////////////////////////
+
+		/////////////Mark video as seen/////////////////////////
+        $video = Video::where('video_id', $video_id)->first();
+
+        if (count($mecanex_user->videos()->where('videos.video_id',$video_id)->get()) == 0){
+
+            $mecanex_user->videos()->attach($video, ['seen' => 1]);
+
+        }
+
+//        $user_seen_video = $mecanex_user->videos()->select('videos.video_id')->lists('video_id');
+//        $user_seen_video = $mecanex_user->videos()->where('videos.video_id',$video_id)->first()->pivot->seen;
+//
+//        return $user_seen_video;
+
+        /////////////Retrieve Terms/////////////////////////////
 
 //////////////retrieve terms for given video//////////////
 
-		$video = Video::where('video_id', $video_id)->first();
+//		$video = Video::where('video_id', $video_id)->first();
 		$threshold = 0.1;    //need to appropriate set
 		$results = $video->term()->where('video_score', '>', $threshold)->distinct()->get(array('term_id'));
 		//$results = $results->unique();
