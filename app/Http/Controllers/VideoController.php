@@ -156,13 +156,12 @@ class VideoController extends Controller {
 		$record_exists = UserAction::where('username', $username)->where('video_id', $video_id)->where('action', $action_type)->first();
 
 		if (empty($record_exists)) {
-
 			$user_action = new UserAction(['username'=>$username,'device_id'=>'1','video_id'=>$video_id,'explicit_rf'=>$explicit_rf,'action'=>$action_type]);
 			$user_action->save();
 			$get_importance = Action::where('id', $action_type)->first();
 			$importance = $get_importance->importance;
 			$user_action->update(array('weight' => 1, 'importance' => $importance));
-			return $record_exists;
+//			return $record_exists;
 		} else {
 			$record_exists->update(array('explicit_rf' => $explicit_rf));
 		}
