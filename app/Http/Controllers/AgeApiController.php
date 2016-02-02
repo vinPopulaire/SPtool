@@ -13,7 +13,7 @@ class AgeApiController extends Controller {
 	{
 		// reqires Authentificataion before access
 		//Config::set('session.driver', 'array');
-		$this->middleware('auth');
+		$this->middleware('once');
 		//$this->middleware('auth.basic');
 
 	}
