@@ -4,18 +4,12 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\MecanexUser;
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use App\Interest;
 use Illuminate\Support\Facades\Response;
 use App\Http\Requests\InterestRequest;
-class VciApiController extends Controller {
-
-	public function __construct()
-	{
-		// reqires Authentificataion before access
-		$this->middleware('once');
-
-	}
+class VciApiController extends ApiGuardController {
 
 	public function show($username)
 	{

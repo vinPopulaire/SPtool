@@ -13,7 +13,8 @@
 		"facebook/php-sdk-v4": "~5.0@dev",
 	  "sammyk/facebook-query-builder": "~2.0",
 	  "laracasts/utilities": "~2.0",
-		"guzzlehttp/guzzle": "~5.0"
+		"guzzlehttp/guzzle": "~5.0",
+		"chrisbjr/api-guard": "2.*"
 
 
 	},

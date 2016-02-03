@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\MecanexUser;
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use App\Interest;
 use Illuminate\Support\Facades\Response;
@@ -11,7 +12,7 @@ use App\Term;
 use App\Http\Requests\InterestRequest;
 use App\MecanexUserTermHomeTermNeighbour;
 
-class InterestApiController extends Controller {
+class InterestApiController extends ApiGuardController {
 
 	/**
 	 * Display a listing of the resource.

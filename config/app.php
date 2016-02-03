@@ -140,6 +140,7 @@ return [
 		'Laravel\Socialite\SocialiteServiceProvider',
 		'SammyK\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider',
 		'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
+		'Chrisbjr\ApiGuard\Providers\ApiGuardServiceProvider',
 
 
 

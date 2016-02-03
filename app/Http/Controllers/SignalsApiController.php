@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use App\UserAction;
 use App\Http\Requests\SignalsRequest;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\MecanexUser;
 use App\MecanexUserTermHomeTermNeighbour;
 use App\Dcg;
-class SignalsApiController extends Controller
+class SignalsApiController extends ApiGuardController
 {
 
 	/**

@@ -4,18 +4,11 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\Occupation;
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
-class OccupationsApiController extends Controller {
-	public function __construct()
-	{
-		// reqires Authentificataion before access
-		//Config::set('session.driver', 'array');
-		$this->middleware('once');
-		//$this->middleware('auth.basic');
-
-	}
+class OccupationsApiController extends ApiGuardController {
 
 	public function index()
 	{

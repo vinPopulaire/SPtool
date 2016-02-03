@@ -3,11 +3,12 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use App\Action;
 
-class ActionsApiController extends Controller {
+class ActionsApiController extends ApiGuardController {
 
 	/**
 	 * Display a listing of the resource.

@@ -4,19 +4,12 @@ use App\Age;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
-class AgeApiController extends Controller {
+class AgeApiController extends ApiGuardController {
 
-	public function __construct()
-	{
-		// reqires Authentificataion before access
-		//Config::set('session.driver', 'array');
-		$this->middleware('once');
-		//$this->middleware('auth.basic');
-
-	}
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -50,7 +43,6 @@ class AgeApiController extends Controller {
 
 
 	}
-
 
 	/**
 	 * Display the specified resource.

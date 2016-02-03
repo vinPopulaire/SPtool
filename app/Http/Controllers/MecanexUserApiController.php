@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
 use App\MecanexUser;
@@ -17,17 +18,8 @@ use App\Http\Requests\MecanexUserRequest;
 //use Illuminate\Config;
 use Illuminate\Support\Facades\Config;
 
-class MecanexUserApiController extends Controller
+class MecanexUserApiController extends ApiGuardController
 {
-
-	public function __construct()
-	{
-		// reqires Authentificataion before access
-		//Config::set('session.driver', 'array');
-		$this->middleware('once');
-		//$this->middleware('auth.basic');
-
-	}
 
 	/**
 	 * Display a listing of the resource.

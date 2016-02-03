@@ -2,20 +2,13 @@
 
 use App\Country;
 use App\Http\Requests;
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Support\Facades\Response;
 
 
 
-class CountriesApiController extends Controller {
+class CountriesApiController extends ApiGuardController {
 
-	public function __construct()
-	{
-		// reqires Authentificataion before access
-		//Config::set('session.driver', 'array');
-		$this->middleware('once');
-		//$this->middleware('auth.basic');
-
-	}
 	/**
 	 * Display a listing of the resource.
 	 *

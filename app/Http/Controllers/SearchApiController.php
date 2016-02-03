@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 use App\MecanexUser;
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use App\Http\Requests\SearchRequest;
 use App\Video;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Response;
 
 
 
-class SearchApiController extends Controller {
+class SearchApiController extends ApiGuardController {
 //this controller implements recommendation of videos.
 //a similar approach has to be included for the enrichments
 

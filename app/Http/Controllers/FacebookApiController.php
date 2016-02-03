@@ -3,6 +3,7 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use SammyK;
 use App\MecanexUser;
@@ -10,7 +11,7 @@ use App\Term;
 use Illuminate\Support\Facades\Auth;
 use App\User;
 
-class FacebookApiController extends Controller
+class FacebookApiController extends ApiGuardController
 {
 
 	/**
