@@ -403,7 +403,7 @@ class SignalsApiController extends ApiGuardController
 			 $user->profilescore()->sync([$j => ['profile_score' => $profile_score]], false);
 		  }
 
-		//DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->delete();
+		DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->delete();
 
 
 		$response='RF Saved';
