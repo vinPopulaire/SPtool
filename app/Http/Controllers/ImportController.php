@@ -3,11 +3,12 @@
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use App\Video;
 use Illuminate\Support\Facades\DB;
 use App\Term;
-class ImportController extends Controller
+class ImportController extends ApiGuardController
 {
 
 	/**
