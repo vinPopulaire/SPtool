@@ -77,7 +77,9 @@ class SignalsApiController extends ApiGuardController
 				//case start
 				case '1': {
 					UserAction::create($request->all());
-					return 'Video is playing';
+					return [
+                        "message"=>'Video is playing'
+					];
 				}
 //case stop
 				case '2' : {
@@ -114,13 +116,13 @@ class SignalsApiController extends ApiGuardController
 						$video_stop->update(array('weight' => $weight, 'importance' => $importance));
 
 						$statusCode = 200;
-						$response = [$username, 'watched', $weight, 'of this video with importance', $importance];
+						$response = [ "message"=>"$username watched $weight of this video with importance $importance"];
 					}
 					return response($response, $statusCode)->header('Content-Type', 'application/json');
 
 				}
 				default:
-					$response = ['Action field is required'];
+					$response = ["error"=>'Action field is required'];
 					return response($response, 400)->header('Content-Type', 'application/json');
 
 			}
@@ -145,7 +147,7 @@ class SignalsApiController extends ApiGuardController
 				$get_importance=Action::where('id',$request->action)->first();
 				$importance=$get_importance->importance;
 				$user_action->update(array('weight' => 1,'importance' =>$importance));
-				$response = 'Enrichment Saved';
+				$response = ["message"=>'Enrichment Saved'];
 
 				$statusCode = 200;
 				return response($response, $statusCode)->header('Content-Type', 'application/json');
@@ -157,14 +159,14 @@ class SignalsApiController extends ApiGuardController
 				$get_importance=Action::where('id',$request->action)->first();
 				$importance=$get_importance->importance;
 				$user_action->update(array('weight' => 1,'importance' =>$importance));
-				$response = 'Enrichment shared';
+				$response = ["message"=>'Enrichment shared'];
 
 				$statusCode = 200;
 				return response($response, $statusCode)->header('Content-Type', 'application/json');
 			}
 
 			default:
-				$response = ['Action field is required'];
+				$response = ["message"=>'Action field is required'];
 				return response($response, 400)->header('Content-Type', 'application/json');
 
 		}
@@ -177,7 +179,7 @@ class SignalsApiController extends ApiGuardController
 		$importance=$get_importance->importance;
 		$user_action->update(array('weight'=>1,'importance' =>$importance));
 
-		$response='Ad Saved';
+		$response=["message"=>'Ad Saved'];
 		$statusCode=200;
 		return response($response, $statusCode)->header('Content-Type', 'application/json');
 	}
@@ -406,7 +408,7 @@ class SignalsApiController extends ApiGuardController
 		DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->delete();
 
 
-		$response='RF Saved';
+		$response=["message"=>'RF Saved'];
 		$statusCode=200;
 
 
