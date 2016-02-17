@@ -102,7 +102,9 @@ class FacebookApiController extends ApiGuardController
 		}
 
 
-		$response = 'User was saved';
+		$response = [
+				'message' => 'User was saved'
+		];
 		$statusCode = 201;
 
 		return response($response, $statusCode)->header('Content-Type', 'application/json');
