@@ -160,7 +160,7 @@ class VideoController extends Controller {
 			$get_importance = Action::where('id', $action_type)->first();
 			$importance = $get_importance->importance;
 			$user_action->update(array('weight' => 1, 'importance' => $importance));
-			return $record_exists;
+//			return $record_exists;
 		} else {
 			$record_exists->update(array('explicit_rf' => $explicit_rf));
 		}

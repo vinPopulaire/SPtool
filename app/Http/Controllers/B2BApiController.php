@@ -1,0 +1,96 @@
+<?php namespace App\Http\Controllers;
+
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use App\MecanexUser;
+
+use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use KMeans\Space;
+
+class B2BApiController extends Controller {
+
+	/**
+	 * Return clusterheads and corresponding videos for filtered users.
+	 *
+	 * @return Clusterheads and videos
+	 */
+	public function professional()
+	{
+
+        try {
+
+            $mecanexusers = MecanexUser::all();
+
+            $array_of_users=array();
+
+            foreach ($mecanexusers as $mecanexuser) {
+
+                $array=array();
+
+                $terms = $mecanexuser->profilescore;
+
+                foreach ($terms as $term)
+                {
+                    $temp=(float) $term['pivot']['profile_score'];
+                    array_push($array,$temp);
+                }
+
+                array_push($array_of_users, $array);
+
+            };
+
+            /** return the array of users so that we can see whether the profiles have normalized
+             * values so that they can be clustered properly
+             */
+//            return $array_of_users;
+
+            $space = new Space(14);
+
+            foreach ($array_of_users as $point){
+                $space->addPoint($point);
+            }
+
+            $clusters = $space->solve(5);
+
+
+            $statusCode = 200;
+
+            $response = [
+                'Clustered Users' => []
+            ];
+
+
+//            foreach ($clusters as $i => $cluster)
+//                printf("Cluster %d [%d,%d]: %d points\n", $i, $cluster[0], $cluster[1], count($cluster));
+
+            foreach ($clusters as $i => $cluster) {
+
+                $terms = [];
+                for ($j=0;$j<14;$j++){
+                    array_push($terms, $cluster[$j]);
+                }
+
+                $response['Clustered Users'][] = [
+					'cluster_id' => $i,
+                    'cluster_terms' => $terms,
+					'num_of_users' => count($cluster),
+                ];
+
+            }
+
+            return Response::json($response, $statusCode);
+
+        } catch (Exception $e) {
+            $statusCode = 400;
+        } // finally {
+//            return Response::json($response, $statusCode);
+//        }
+	}
+
+    private function recommend_video($terms) {
+
+    }
+
+}
