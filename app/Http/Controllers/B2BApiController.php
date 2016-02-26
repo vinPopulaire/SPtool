@@ -57,9 +57,7 @@ class B2BApiController extends Controller {
 
             $statusCode = 200;
 
-            $response = [
-                'Clustered Users' => []
-            ];
+            $all_users = [];
 
 
 //            foreach ($clusters as $i => $cluster)
@@ -72,7 +70,7 @@ class B2BApiController extends Controller {
                     array_push($terms, $cluster[$j]);
                 }
 
-                $response['Clustered Users'][] = [
+                $all_users[] = [
 					'cluster_id' => $i,
                     'cluster_terms' => $terms,
 					'num_of_users' => count($cluster),
@@ -80,7 +78,15 @@ class B2BApiController extends Controller {
 
             }
 
-            return Response::json($response, $statusCode);
+            $video_lists = [];
+            foreach ($all_users as $user){
+                $video_lists[] = [
+                    'cluster_id' => $user['cluster_id'],
+                    'video_ids' => $this->recommend_video($user['cluster_terms']),
+                ];
+            };
+
+            return $video_lists;
 
         } catch (Exception $e) {
             $statusCode = 400;
@@ -89,8 +95,11 @@ class B2BApiController extends Controller {
 //        }
 	}
 
-    private function recommend_video($terms) {
+    private function recommend_video($profile) {
 
+        $top_videos = DB::select(DB::raw());
+
+        return $top_videos;
     }
 
 }
