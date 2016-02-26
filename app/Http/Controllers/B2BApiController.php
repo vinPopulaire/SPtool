@@ -7,6 +7,7 @@ use App\MecanexUser;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\DB;
 use KMeans\Space;
 
 class B2BApiController extends Controller {
@@ -83,6 +84,7 @@ class B2BApiController extends Controller {
                 $video_lists[] = [
                     'cluster_id' => $user['cluster_id'],
                     'video_ids' => $this->recommend_video($user['cluster_terms']),
+                    'cluster_terms' => $user['cluster_terms']
                 ];
             };
 
@@ -97,7 +99,33 @@ class B2BApiController extends Controller {
 
     private function recommend_video($profile) {
 
-        $top_videos = DB::select(DB::raw());
+        $done = DB::table('temp_profilescores')->get();
+
+        if (empty($done)) {
+            $id = 1;
+        }
+        else {
+            $last = end($done);
+            $id = $last->id+1;
+        }
+
+        for ($i=0;$i<count($profile);$i++) {
+
+            DB::table('temp_profilescores')->insert(
+                ['id' => $id,'term_id' => $i+1,'profile_score'=>$profile[$i]]
+            );
+
+        }
+
+//        $done = DB::table('temp_profilescores')->get();
+//        $last = end($done);
+
+        $top_videos = DB::select(DB::raw('SELECT videos.video_id, SUM(videos_terms_scores.video_score*temp_profilescores.profile_score) AS similarity
+                                          FROM videos_terms_scores JOIN temp_profilescores on videos_terms_scores.term_id=temp_profilescores.term_id JOIN videos on videos.id=videos_terms_scores.video_id
+                                          GROUP BY videos_terms_scores.video_id
+                                          ORDER BY similarity DESC LIMIT 10'));
+
+        DB::table('temp_profilescores')->where('id', '=', $id)->delete();
 
         return $top_videos;
     }
