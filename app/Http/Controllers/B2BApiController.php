@@ -17,12 +17,34 @@ class B2BApiController extends Controller {
 	 *
 	 * @return Clusterheads and videos
 	 */
-	public function professional()
+	public function professional(Request $request)
 	{
 
         try {
 
             $mecanexusers = MecanexUser::all();
+
+            // filter by demographics
+
+            if ($request->gender_id != 0) {
+                $mecanexusers = $mecanexusers->where("gender_id",(int) $request->gender_id);
+            }
+
+            if ($request->age_id != 0) {
+                $mecanexusers = $mecanexusers->where("age_id",(int) $request->age_id);
+            }
+
+            if ($request->education_id != 0) {
+                $mecanexusers = $mecanexusers->where("education_id",(int) $request->education_id);
+            }
+
+            if ($request->occupation_id != 0) {
+                $mecanexusers = $mecanexusers->where("occupation_id",(int) $request->occupation_id);
+            }
+
+            if ($request->country_id != 0) {
+                $mecanexusers = $mecanexusers->where("country_id",(int) $request->country_id);
+            }
 
             $array_of_users=array();
 
@@ -84,17 +106,18 @@ class B2BApiController extends Controller {
                 $video_lists[] = [
                     'cluster_id' => $user['cluster_id'],
                     'video_ids' => $this->recommend_video($user['cluster_terms']),
-                    'cluster_terms' => $user['cluster_terms']
+                    'cluster_terms' => $user['cluster_terms'],
+                    'num_of_users' => $user['num_of_users']
                 ];
             };
 
-            return $video_lists;
+            $response = $video_lists;
 
         } catch (Exception $e) {
             $statusCode = 400;
-        } // finally {
-//            return Response::json($response, $statusCode);
-//        }
+        }  finally {
+            return Response::json($response, $statusCode);
+        }
 	}
 
     private function recommend_video($profile) {

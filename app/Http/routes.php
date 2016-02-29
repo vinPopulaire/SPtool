@@ -107,7 +107,7 @@ Route::post('videosignals', 'SignalsApiController@signals');
 Route::get('userprofile/{username}','VciApiController@show');
 
 //B2B scenario
-Route::get('professional','B2BApiController@professional');
+Route::post('professional','B2BApiController@professional');
 
 });
 
