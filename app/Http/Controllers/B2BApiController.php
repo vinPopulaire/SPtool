@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\DB;
 use KMeans\Space;
 
-class B2BApiController extends Controller {
+class B2BApiController extends ApiGuardController {
 
 	/**
 	 * Return clusterheads and corresponding videos for filtered users.
