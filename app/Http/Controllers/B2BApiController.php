@@ -105,7 +105,7 @@ class B2BApiController extends ApiGuardController {
             foreach ($all_users as $user){
                 $video_lists[] = [
                     'cluster_id' => $user['cluster_id'],
-                    'video_ids' => $this->recommend_video($user['cluster_terms']),
+                    'video_ids' => $this->recommend_video($user['cluster_terms'],$request),
                     'cluster_terms' => $user['cluster_terms'],
                     'num_of_users' => $user['num_of_users']
                 ];
@@ -120,7 +120,7 @@ class B2BApiController extends ApiGuardController {
         }
 	}
 
-    private function recommend_video($profile) {
+    private function recommend_video($profile,$request) {
 
         $done = DB::table('temp_profilescores')->get();
 
@@ -140,13 +140,26 @@ class B2BApiController extends ApiGuardController {
 
         }
 
+        if ($request->videos==null){
 //        $done = DB::table('temp_profilescores')->get();
 //        $last = end($done);
 
-        $top_videos = DB::select(DB::raw('SELECT videos.video_id, SUM(videos_terms_scores.video_score*temp_profilescores.profile_score) AS similarity
+            $top_videos = DB::select(DB::raw('SELECT videos.video_id, SUM(videos_terms_scores.video_score*temp_profilescores.profile_score) AS similarity
                                           FROM videos_terms_scores JOIN temp_profilescores on videos_terms_scores.term_id=temp_profilescores.term_id JOIN videos on videos.id=videos_terms_scores.video_id
                                           GROUP BY videos_terms_scores.video_id
                                           ORDER BY similarity DESC LIMIT 10'));
+        }
+        else {
+            //this assumes that the input is of type videos=EUS_025A722EA4B240D8B6F6330A8783143C,EUS_00A5E7F2D522422BB3BF3BF611CAB22F
+            $videos = $request->videos;
+            $videos = "'" . str_replace(",", "','", $videos) . "'";
+
+            $top_videos = DB::select(DB::raw('SELECT videos.video_id, SUM(videos_terms_scores.video_score*temp_profilescores.profile_score) AS similarity
+                                          FROM videos_terms_scores JOIN temp_profilescores on videos_terms_scores.term_id=temp_profilescores.term_id JOIN videos on videos.id=videos_terms_scores.video_id
+                                          WHERE videos.video_id  IN (' . $videos . ')
+                                          GROUP BY videos_terms_scores.video_id
+                                          ORDER BY similarity DESC LIMIT 10'));
+        }
 
         DB::table('temp_profilescores')->where('id', '=', $id)->delete();
 
