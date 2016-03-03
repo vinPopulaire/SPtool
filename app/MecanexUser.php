@@ -10,7 +10,7 @@ class MecanexUser extends Model {
 	//
    protected  $hidden = array('id','user_id','remember_token','created_at','updated_at');
    protected $table = 'mecanex_users';
-   protected $fillable = ['username','name','surname','gender_id','age_id','occupation_id','country_id','education_id','facebook_account','twitter_account'];
+   protected $fillable = ['username','name','surname','gender_id','age_id','occupation_id','country_id','education_id','facebook_account','twitter_account','email'];
 
    protected static $graph_node_field_aliases = [
         'id' => 'facebook_user_id',

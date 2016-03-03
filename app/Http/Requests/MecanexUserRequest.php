@@ -35,6 +35,7 @@ class MecanexUserRequest extends Request {
 				'occupation_id'=>'required|integer|min:1|max:18',
 				'country_id'=>'required|integer|min:1|max:250',
 				'education_id'=>'required|integer|min:1|max:5',
+				'email'=>'required|email|unique:mecanex_users'
 			];
 		}
 		if (Request::isMethod('put'))
@@ -47,6 +48,7 @@ class MecanexUserRequest extends Request {
 				'occupation_id'=>'integer|min:1|max:18',
 				'country_id'=>'integer|min:1|max:250',
 				'education_id'=>'integer|min:1|max:5',
+				'email'=>'email|unique:mecanex_users'
 
 
 			];
