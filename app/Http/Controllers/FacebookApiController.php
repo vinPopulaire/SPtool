@@ -72,15 +72,16 @@ class FacebookApiController extends ApiGuardController
 
         if ($existing_user==null){
             $facebook_user["username"]="fb_".$facebook_user["id"];
+            $user = User::createOrUpdateGraphNode($facebook_user);
         }
         else {
             $facebook_user["username"]=$existing_user->username;
+            $user = $existing_user;
+            $user->facebook_user_id=$facebook_user["id"];
+            $user->save();
         }
 
-		$user = User::createOrUpdateGraphNode($facebook_user);
-
 //store profile data in mecanex_users table
-
 
 		$id = $user->id;
 		$facebook_id = $user->facebook_user_id;
@@ -102,7 +103,7 @@ class FacebookApiController extends ApiGuardController
 			$gender_id = 1;
 		}
 
-		$fbuser = MecanexUser::firstOrNew(array('facebook_user_id' => $facebook_id));
+		$fbuser = MecanexUser::firstOrNew(array('email' => $email));
         $fbuser->username=$username;
 		$fbuser->user_id = $id;
 		$fbuser->facebook_user_id = $facebook_id;
