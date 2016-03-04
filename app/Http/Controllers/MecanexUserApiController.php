@@ -73,58 +73,87 @@ class MecanexUserApiController extends ApiGuardController
 	 */
 	public function store(MecanexUserRequest $request)
 	{
+		$email=$request->email;
+
+        $existing_user=MecanexUser::where('email',$email)->get()->first();
+
+        if ($existing_user==null)
+        {
 
 //		$thematic_area=$request->interest;
 //		dd($thematic_area);
-		$mecanexuser = MecanexUser::create($request->all());
-		$username=$request->username;
-		$user = User::where('username', $username)->get()->first();
+            $mecanexuser = MecanexUser::create($request->all());
+            $username = $request->username;
+            $user = User::where('username', $username)->get()->first();
 
 
-		// create records in table users_terms-scores once a mecanex user has been created
-		$terms=Term::all();
-		$total_terms=$terms->count();
+            // create records in table users_terms-scores once a mecanex user has been created
+            $terms = Term::all();
+            $total_terms = $terms->count();
 
-		foreach ($terms as $term)
-		{
+            foreach ($terms as $term)
+            {
 
-			$mecanexuser->term()->sync([$term->id=>['user_score'=>0]],false);
-			$mecanexuser->profilescore()->sync([$term->id=>['profile_score'=>0]],false);
+                $mecanexuser->term()->sync([$term->id => ['user_score' => 0]], false);
+                $mecanexuser->profilescore()->sync([$term->id => ['profile_score' => 0]], false);
 
-		}
-
-
-		//create record in table mecanex_user_term_home_term_neighbor once a mecanex user has been created
-
-		for ($i=1;$i<=$total_terms; $i++)
-		{
-			for ($j=$i+1;$j<=$total_terms; $j++)
-			{
-				$mec_matrix=new MecanexUserTermHomeTermNeighbour();
-				$mec_matrix->mecanex_user_id=$mecanexuser->id;
-				$mec_matrix->term_home_id=$i;
-				$mec_matrix->term_neighbor_id=$j;
-				$mec_matrix->link_score=0.1;
-				$mec_matrix->save();
-			}
-
-		}
-
-		//the following is only needed for linking an existing authorized user (users_table) with a new mecanex user provided they have the same username
-		if (empty($user)) {
-			$response = array(
-				'message' => 'Store successful');
-		}
-		else{
-			$mecanexuser->user_id=$user->id;
-			$mecanexuser->save();
-			$response = array(
-				'message' => 'Store successful');
-
-		}
+            }
 
 
-		return response($response, 201)->header('Content-Type', 'application/json');
+            //create record in table mecanex_user_term_home_term_neighbor once a mecanex user has been created
+
+            for ($i = 1; $i <= $total_terms; $i ++)
+            {
+                for ($j = $i + 1; $j <= $total_terms; $j ++)
+                {
+                    $mec_matrix = new MecanexUserTermHomeTermNeighbour();
+                    $mec_matrix->mecanex_user_id = $mecanexuser->id;
+                    $mec_matrix->term_home_id = $i;
+                    $mec_matrix->term_neighbor_id = $j;
+                    $mec_matrix->link_score = 0.1;
+                    $mec_matrix->save();
+                }
+
+            }
+
+            //the following is only needed for linking an existing authorized user (users_table) with a new mecanex user provided they have the same username
+            if (empty($user))
+            {
+                $response = array(
+                    'message' => 'Store successful');
+                $statusCode=201;
+            } else
+            {
+                $mecanexuser->user_id = $user->id;
+                $mecanexuser->save();
+                $response = array(
+                    'message' => 'Store successful');
+                $statusCode=201;
+
+            }
+        }
+
+        elseif (preg_match("/^fb_/",$existing_user->username)) {
+            $username = $request->username;
+            $existing_user->username = $username;
+            $existing_user->save();
+
+            $response = array(
+                'message' => 'Merge with fb account successful'
+            );
+            $statusCode=201;
+        }
+        else {
+            $response = array(
+                'error' => 'Validation Failed',
+                'errors' => array(
+                    'email' => 'The email has already been taken.'
+                )
+            );
+            $statusCode=400;
+        }
+
+        return response($response, $statusCode)->header('Content-Type', 'application/json');
 
 	}
 

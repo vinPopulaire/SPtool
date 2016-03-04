@@ -73,6 +73,7 @@ class ProfileController extends Controller {
 		$request->all();
 
 		$username=Auth::user()->username;
+        $email=Auth::user()->email;
 		$name=Input::get('name');
 		$surname=Input::get('surname');
 		$gender_id=Input::get('gender_id');
@@ -82,7 +83,7 @@ class ProfileController extends Controller {
 		$education_id=Input::get('education_id');
 		//$facebook=Input::get('facebook');
 		//$twitter=Input::get('twitter');
-		$mecanex_user=new MecanexUser(['username'=>$username,'name'=>$name, 'surname'=>$surname,'gender_id'=> $gender_id,'age_id'=> $age_id, 'education_id'=> $education_id, 'occupation_id'=> $occupation_id,'country_id'=> $country_id]);
+		$mecanex_user=new MecanexUser(['username'=>$username,'name'=>$name, 'surname'=>$surname,'gender_id'=> $gender_id,'age_id'=> $age_id, 'education_id'=> $education_id, 'occupation_id'=> $occupation_id,'country_id'=> $country_id,'email'=>$email]);
 
 		$user=User::find(Auth::user()->id);
 		$mecanex_user=$user->profile()->save($mecanex_user);
