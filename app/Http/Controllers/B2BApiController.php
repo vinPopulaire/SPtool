@@ -122,6 +122,13 @@ class B2BApiController extends ApiGuardController {
 
     private function recommend_video($profile,$request) {
 
+        if ($request->num != 0) {
+            $num = $request->num;
+        }
+        else {
+            $num = 50;
+        }
+
         $done = DB::table('temp_profilescores')->get();
 
         if (empty($done)) {
@@ -147,7 +154,7 @@ class B2BApiController extends ApiGuardController {
             $top_videos = DB::select(DB::raw('SELECT videos.video_id, SUM(videos_terms_scores.video_score*temp_profilescores.profile_score) AS similarity
                                           FROM videos_terms_scores JOIN temp_profilescores on videos_terms_scores.term_id=temp_profilescores.term_id JOIN videos on videos.id=videos_terms_scores.video_id
                                           GROUP BY videos_terms_scores.video_id
-                                          ORDER BY similarity DESC LIMIT 10'));
+                                          ORDER BY similarity DESC LIMIT ' . $num . ''));
         }
         else {
             //this assumes that the input is of type videos=EUS_025A722EA4B240D8B6F6330A8783143C,EUS_00A5E7F2D522422BB3BF3BF611CAB22F
@@ -158,7 +165,7 @@ class B2BApiController extends ApiGuardController {
                                           FROM videos_terms_scores JOIN temp_profilescores on videos_terms_scores.term_id=temp_profilescores.term_id JOIN videos on videos.id=videos_terms_scores.video_id
                                           WHERE videos.video_id  IN (' . $videos . ')
                                           GROUP BY videos_terms_scores.video_id
-                                          ORDER BY similarity DESC LIMIT 10'));
+                                          ORDER BY similarity DESC LIMIT ' . $num . ''));
         }
 
         DB::table('temp_profilescores')->where('id', '=', $id)->delete();
