@@ -208,6 +208,23 @@ class MecanexUserApiController extends ApiGuardController
 			];
 			$statusCode = 404;
 		} else {
+
+            $email = $request->email;
+            if ($email!=null) {
+                $existing_user=MecanexUser::where('email',$email)->get()->first();
+                if ($existing_user!=null) {
+                    $response = array(
+                        'error' => 'Validation Failed',
+                        'errors' => array(
+                            'email' => 'The email has already been taken.'
+                        )
+                    );
+                    $statusCode=400;
+
+                    return response($response, $statusCode)->header('Content-Type', 'application/json');
+                }
+            }
+
 			//
 			$mecanexuser = $mecanexuser->first();
 			$mecanexuser->update($request->all());
