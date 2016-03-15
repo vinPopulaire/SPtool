@@ -4,9 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a1d21f927abef8dce4dcc7f6e1ed6e50",
-    "content-hash": "ead9c452eeb0724401c2b4c7a2d46dca",
+    "hash": "3020cdc298f144e4e05f1b96df67ee06",
+    "content-hash": "c3eea889957e65486fd427b87ddfc45b",
     "packages": [
+        {
+            "name": "bdelespierre/php-kmeans",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bdelespierre/php-kmeans.git",
+                "reference": "2c637d4e8845b03f0187cbb5d69ef66c1506a4a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bdelespierre/php-kmeans/zipball/2c637d4e8845b03f0187cbb5d69ef66c1506a4a3",
+                "reference": "2c637d4e8845b03f0187cbb5d69ef66c1506a4a3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "KMeans": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Delespierre",
+                    "email": "benjamin.delespierre@gmail.com"
+                }
+            ],
+            "description": "K-Means algorithm for PHP",
+            "keywords": [
+                "kmeans",
+                "kmeans plus plus",
+                "php",
+                "utility"
+            ],
+            "time": "2015-12-03 09:55:15"
+        },
         {
             "name": "chrisbjr/api-guard",
             "version": "v2.3.0",
@@ -724,6 +766,47 @@
                 "password"
             ],
             "time": "2014-11-20 16:49:30"
+        },
+        {
+            "name": "jacobemerick/kmeans",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jacobemerick/kmeans.git",
+                "reference": "74808b7b65546e96449b0c8cca66b42236c4a6d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jacobemerick/kmeans/zipball/74808b7b65546e96449b0c8cca66b42236c4a6d8",
+                "reference": "74808b7b65546e96449b0c8cca66b42236c4a6d8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jacobemerick\\KMeans\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jacob Emerick"
+                }
+            ],
+            "description": "k-means clustering implemented in PHP",
+            "keywords": [
+                "clustering",
+                "data analysis",
+                "k-means",
+                "statistics"
+            ],
+            "time": "2014-07-31 00:59:28"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -4246,7 +4329,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "sammyk/laravel-facebook-sdk": 20,
-        "facebook/php-sdk-v4": 20
+        "facebook/php-sdk-v4": 20,
+        "bdelespierre/php-kmeans": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

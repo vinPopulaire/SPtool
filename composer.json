@@ -14,7 +14,9 @@
 	  "sammyk/facebook-query-builder": "~2.0",
 	  "laracasts/utilities": "~2.0",
 		"guzzlehttp/guzzle": "~5.0",
-		"chrisbjr/api-guard": "2.*"
+		"chrisbjr/api-guard": "2.*",
+		"jacobemerick/kmeans": "~1.0",
+		"bdelespierre/php-kmeans": "dev-master"
 
 
 	},

@@ -106,6 +106,9 @@ Route::post('videosignals', 'SignalsApiController@signals');
 //VCI send user profile vector
 Route::get('userprofile/{username}','VciApiController@show');
 
+//B2B scenario
+Route::post('professional','B2BApiController@professional');
+
 });
 
 
