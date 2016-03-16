@@ -109,6 +109,9 @@ Route::get('userprofile/{username}','VciApiController@show');
 //B2B scenario
 Route::post('professional','B2BApiController@professional');
 
+//Import new videos
+Route::post('import','ImportApiController@import');
+
 });
 
 
