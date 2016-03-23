@@ -59,8 +59,8 @@ Route::get('video/{id}',['as'=>'video.show','uses'=> 'VideoController@show']);
 Route::post('video/explicitrf',['as'=>'video.rf','uses'=>'VideoController@rf']);
 
 /*Import Controller */
-Route::get('import', 'ImportController@import');
-Route::get('scores', 'ImportController@scores');
+//Route::get('import', 'ImportController@import');
+//Route::get('scores', 'ImportController@scores');
 
 /*Controller created for experiment */
 Route::get('checkprofile',['as'=>'profile.check','uses'=>'ExperimentController@checkprofile']);
@@ -108,6 +108,9 @@ Route::get('userprofile/{username}','VciApiController@show');
 
 //B2B scenario
 Route::post('professional','B2BApiController@professional');
+
+//Import new videos
+Route::post('import','ImportApiController@import');
 
 });
 
