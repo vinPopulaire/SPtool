@@ -46,6 +46,13 @@ class B2BApiController extends ApiGuardController {
                 $mecanexusers = $mecanexusers->where("country_id",(int) $request->country_id);
             }
 
+            if ($request->num != 0) {
+                $num = $request->num;
+            }
+            else {
+                $num = 50;
+            }
+
             $array_of_users=array();
 
             foreach ($mecanexusers as $mecanexuser) {
@@ -70,19 +77,19 @@ class B2BApiController extends ApiGuardController {
 //            return $array_of_users;
 
             $space = new Space(14);
+            $num_of_clusters = 5;
 
             foreach ($array_of_users as $point){
                 $space->addPoint($point);
             }
 
-            $clusters = $space->solve(5);
+            $clusters = $space->solve($num_of_clusters);
 
 
             $statusCode = 200;
 
             $all_users = [];
-
-
+            
 //            foreach ($clusters as $i => $cluster)
 //                printf("Cluster %d [%d,%d]: %d points\n", $i, $cluster[0], $cluster[1], count($cluster));
 
@@ -101,9 +108,9 @@ class B2BApiController extends ApiGuardController {
 
             }
 
-            $video_lists = [];
+            $cluster_list = [];
             foreach ($all_users as $user){
-                $video_lists[] = [
+                $cluster_list[] = [
                     'cluster_id' => $user['cluster_id'],
                     'video_ids' => $this->recommend_video($user['cluster_terms'],$request),
                     'cluster_terms' => $user['cluster_terms'],
@@ -111,7 +118,30 @@ class B2BApiController extends ApiGuardController {
                 ];
             };
 
-            $response = $video_lists;
+//            $response = $cluster_list[0]['video_ids'][0]->id;
+
+            $video_list=[];
+            $response = [];
+            $num_of_videos = 0;
+
+            for ($i=0;$i<$num;$i++){
+                for ($j=0;$j<$num_of_clusters;$j++){
+                    $video = $cluster_list[$j]['video_ids'][$i];
+                    if (! in_array($video->id,$video_list,true)){
+                        $video_list[] = $video->id;
+                        $response['videos'][] = $video->video_id;
+                        $num_of_videos += 1;
+                    }
+                    if ($num_of_videos==$num){
+                        break;
+                    }
+                }
+                if ($num_of_videos==$num){
+                    break;
+                }
+            }
+
+            return $response;
 
         } catch (Exception $e) {
             $statusCode = 400;
@@ -151,7 +181,7 @@ class B2BApiController extends ApiGuardController {
 //        $done = DB::table('temp_profilescores')->get();
 //        $last = end($done);
 
-            $top_videos = DB::select(DB::raw('SELECT videos.video_id, SUM(videos_terms_scores.video_score*temp_profilescores.profile_score) AS similarity
+            $top_videos = DB::select(DB::raw('SELECT videos.video_id, videos.id, SUM(videos_terms_scores.video_score*temp_profilescores.profile_score) AS similarity
                                           FROM videos_terms_scores JOIN temp_profilescores on videos_terms_scores.term_id=temp_profilescores.term_id JOIN videos on videos.id=videos_terms_scores.video_id
                                           GROUP BY videos_terms_scores.video_id
                                           ORDER BY similarity DESC LIMIT ' . $num . ''));
@@ -161,7 +191,7 @@ class B2BApiController extends ApiGuardController {
             $videos = $request->videos;
             $videos = "'" . str_replace(",", "','", $videos) . "'";
 
-            $top_videos = DB::select(DB::raw('SELECT videos.video_id, SUM(videos_terms_scores.video_score*temp_profilescores.profile_score) AS similarity
+            $top_videos = DB::select(DB::raw('SELECT videos.video_id, videos.id, SUM(videos_terms_scores.video_score*temp_profilescores.profile_score) AS similarity
                                           FROM videos_terms_scores JOIN temp_profilescores on videos_terms_scores.term_id=temp_profilescores.term_id JOIN videos on videos.id=videos_terms_scores.video_id
                                           WHERE videos.video_id  IN (' . $videos . ')
                                           GROUP BY videos_terms_scores.video_id
