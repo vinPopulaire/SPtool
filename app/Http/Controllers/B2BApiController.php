@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\MecanexUser;
 
+use App\Video;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
@@ -55,6 +56,20 @@ class B2BApiController extends ApiGuardController {
 
             $array_of_users=array();
 
+            // If no mecanexusers exist from the filters selected, we return a random list of videos
+
+            if ($mecanexusers->isEmpty()){
+                $videos = Video::orderByRaw('RAND()')->take($num)->get();
+
+                $response=[];
+                foreach ($videos as $video) {
+                    $response['videos'][] = $video['video_id'];
+                }
+
+                $statusCode = 200;
+                return $response;
+            }
+
             foreach ($mecanexusers as $mecanexuser) {
 
                 $array=array();
@@ -84,7 +99,6 @@ class B2BApiController extends ApiGuardController {
             }
 
             $clusters = $space->solve($num_of_clusters);
-
 
             $statusCode = 200;
 
