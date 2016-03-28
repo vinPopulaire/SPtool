@@ -127,9 +127,9 @@ class B2BApiController extends ApiGuardController {
             for ($i=0;$i<$num;$i++){
                 for ($j=0;$j<$num_of_clusters;$j++){
                     $video = $cluster_list[$j]['video_ids'][$i];
-                    if (! in_array($video->id,$video_list,true)){
-                        $video_list[] = $video->id;
-                        $response['videos'][] = $video->video_id;
+                    if (! in_array($video->video_id,$video_list,true)){
+                        $video_list[] = $video->video_id;
+                        $response['videos'][] = $video->euscreen_id;
                         $num_of_videos += 1;
                     }
                     if ($num_of_videos==$num){
@@ -177,25 +177,58 @@ class B2BApiController extends ApiGuardController {
 
         }
 
+        $neighs = '2';
+        $list_neighs = [];
+
+        $results_neighs = DB::select(DB::raw('select neighbor FROM temp_user_neighbor_similarity where user=? ORDER BY similarity DESC LIMIT ?'), [$id, $neighs]);
+
+        foreach ($results_neighs as $neigh) {
+            array_push($list_neighs, $neigh->neighbor);
+        }
+
         if ($request->videos==null){
 //        $done = DB::table('temp_profilescores')->get();
 //        $last = end($done);
 
-            $top_videos = DB::select(DB::raw('SELECT videos.video_id, videos.id, SUM(videos_terms_scores.video_score*temp_profilescores.profile_score) AS similarity
-                                          FROM videos_terms_scores JOIN temp_profilescores on videos_terms_scores.term_id=temp_profilescores.term_id JOIN videos on videos.id=videos_terms_scores.video_id
-                                          GROUP BY videos_terms_scores.video_id
-                                          ORDER BY similarity DESC LIMIT ' . $num . ''));
+            if (empty($list_neighs)) {
+                //content recommendation if no neighbors
+                $top_videos = DB::select(DB::raw('select  video_id, title, similarity FROM temp_user_item_similarity where user=?  GROUP BY video_id, title ORDER BY similarity DESC LIMIT ' . $num . ''), [$id]);
+
+
+            } else {
+
+                $string_neighs = implode(',', $list_neighs);
+
+                $top_videos = DB::select(DB::raw(' SELECT a.video_id,temp_user_item_similarity.title, temp_user_item_similarity.euscreen_id, (0.8*temp_user_item_similarity.similarity+0.2*a.score) as total_score
+ 											from (SELECT  temp_user_neighbor_similarity.user,temp_user_item_similarity.video_id,
+ 											SUM(temp_user_neighbor_similarity.similarity+temp_user_item_similarity.similarity) as score
+ 											FROM temp_user_neighbor_similarity INNER JOIN temp_user_item_similarity on temp_user_neighbor_similarity.user=temp_user_item_similarity.user and temp_user_neighbor_similarity.neighbor IN(' . $string_neighs . ')
+ 											GROUP BY temp_user_neighbor_similarity.user,temp_user_item_similarity.video_id)
+ 											as a INNER JOIN temp_user_item_similarity on a.video_id = temp_user_item_similarity.video_id and a.user=temp_user_item_similarity.user where a.user=? ORDER BY total_score DESC LIMIT ' . $num . ''), [$id]);
+            }
         }
         else {
             //this assumes that the input is of type videos=EUS_025A722EA4B240D8B6F6330A8783143C,EUS_00A5E7F2D522422BB3BF3BF611CAB22F
             $videos = $request->videos;
             $videos = "'" . str_replace(",", "','", $videos) . "'";
 
-            $top_videos = DB::select(DB::raw('SELECT videos.video_id, videos.id, SUM(videos_terms_scores.video_score*temp_profilescores.profile_score) AS similarity
-                                          FROM videos_terms_scores JOIN temp_profilescores on videos_terms_scores.term_id=temp_profilescores.term_id JOIN videos on videos.id=videos_terms_scores.video_id
-                                          WHERE videos.video_id  IN (' . $videos . ')
-                                          GROUP BY videos_terms_scores.video_id
-                                          ORDER BY similarity DESC LIMIT ' . $num . ''));
+            if (empty($list_neighs)) {
+                //content recommendation if no neighbors
+                $top_videos = DB::select(DB::raw('select  video_id, title, similarity, euscreen_id FROM temp_user_item_similarity where user=? and  euscreen_id  IN (' . $videos . ')  GROUP BY video_id, title ORDER BY similarity DESC LIMIT ' . $num . ''), [$id]);
+
+
+            } else {
+
+                $string_neighs = implode(',', $list_neighs);
+
+                $top_videos = DB::select(DB::raw(' SELECT a.video_id,temp_user_item_similarity.title, temp_user_item_similarity.euscreen_id, (0.8*temp_user_item_similarity.similarity+0.2*a.score) as result 
+                                            from (SELECT  temp_user_neighbor_similarity.user,temp_user_item_similarity.video_id, 
+                                            SUM(temp_user_neighbor_similarity.similarity+temp_user_item_similarity.similarity) as score 
+                                            FROM temp_user_neighbor_similarity INNER JOIN temp_user_item_similarity on temp_user_neighbor_similarity.user=temp_user_item_similarity.user and temp_user_neighbor_similarity.neighbor IN(' . $string_neighs . ') 
+                                            GROUP BY temp_user_neighbor_similarity.user,temp_user_item_similarity.video_id) 
+                                            as a INNER JOIN temp_user_item_similarity on a.video_id = temp_user_item_similarity.video_id and a.user=temp_user_item_similarity.user 
+                                            where a.user=? and temp_user_item_similarity.euscreen_id IN (' . $videos . ') ORDER BY score DESC LIMIT ' . $num . ''), [$id]);
+            }
         }
 
         DB::table('temp_profilescores')->where('id', '=', $id)->delete();
