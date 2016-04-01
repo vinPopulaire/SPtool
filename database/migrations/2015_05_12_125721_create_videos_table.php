@@ -38,10 +38,6 @@ class CreateVideosTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('videos', function($table) {
-			$table->dropIndex('search');
-        });
-
 		Schema::drop('videos');
 	}
 
