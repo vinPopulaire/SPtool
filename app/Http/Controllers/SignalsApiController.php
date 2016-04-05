@@ -207,10 +207,11 @@ class SignalsApiController extends ApiGuardController
 			$user_action->save();
 			$get_importance = Action::where('id', $request->action)->first();
 			$importance = $get_importance->importance;
-			$user_action->update(array('weight' => 1, 'importance' => $importance));
+			$user_action->update(array('weight' => $explicit_rf, 'importance' => $importance));
 		} else {
-			$record_exists->update(array('explicit_rf' => $explicit_rf));
+			$record_exists->update(array('explicit_rf' => $explicit_rf, 'weight' => $explicit_rf));
 		}
+
  //store in the dcgs table - only used for the online experiments
 		$mecanex_user=MecanexUser::where('username', $username)->first();
 		$dcg_record=Dcg::where('mecanex_user_id',$mecanex_user->id)->where('video_id',$video_id);
@@ -220,7 +221,7 @@ class SignalsApiController extends ApiGuardController
 
 		$k_nominator = UserAction::where('username', $username)->where('video_id', $video_id)->groupBy('username')
 			->get(['username', DB::raw('SUM(importance*weight) as total_score')])->first();
-		//prepei edw na to diairw k me to plithos twn sunolikwn enrichments k ads
+		//TODO prepei edw na to diairw k me to plithos twn sunolikwn enrichments k ads
 
 
 		$query = "SELECT SUM(t1.importance ) AS total FROM (SELECT DISTINCT action, importance FROM user_actions WHERE username=:username AND video_id=:videoid) AS t1 ";
@@ -302,6 +303,7 @@ class SignalsApiController extends ApiGuardController
 
 			//update score
 			$new_score = $user_term_score + ($k  * $video_term_score);  //ok
+            $new_score = max($new_score,0); // don't let negative values
 			array_push($term_scores, $new_score);
 
 //				//store score
@@ -324,6 +326,7 @@ class SignalsApiController extends ApiGuardController
 				$temp_video = $video->term->find($video_term_list[$j]);
 				$video_term_score2 = $temp_video->pivot->video_score;
 				$new_score = $temp_user_matrix->link_score + $k * ($video_term_score1 * $video_term_score2);
+                $new_score = max($new_score,0); // don't let negative values
 				array_push($link_term_scores, $new_score);
 				$temp_user_matrix->link_score = $new_score;
 				$temp_user_matrix->save();
@@ -335,8 +338,11 @@ class SignalsApiController extends ApiGuardController
 
 
 		//find max value and divide term values
-		$max_term_value = max($term_scores);
-		$max_link_term_value = max($link_term_scores);
+		$max_term_value = max(max($term_scores),1);
+        if ($link_term_scores!=[])
+        {
+            $max_link_term_value = max(max($link_term_scores), 1);
+        }
 
 		foreach ($video_term_list as $video_term_id) {
 
@@ -349,7 +355,7 @@ class SignalsApiController extends ApiGuardController
 			//update score
 			$new_score = $user_term_score / $max_term_value;  //ok
 
-//				//store score
+			//store score
 			$user->term()->sync([$video_term_id => ['user_score' => $new_score]], false);
 		}
 
