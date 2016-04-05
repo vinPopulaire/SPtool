@@ -159,10 +159,10 @@ class VideoController extends Controller {
 			$user_action->save();
 			$get_importance = Action::where('id', $action_type)->first();
 			$importance = $get_importance->importance;
-			$user_action->update(array('weight' => 1, 'importance' => $importance));
+			$user_action->update(array('weight' => $explicit_rf, 'importance' => $importance));
 //			return $record_exists;
 		} else {
-			$record_exists->update(array('explicit_rf' => $explicit_rf));
+			$record_exists->update(array('explicit_rf' => $explicit_rf, 'weight' => $explicit_rf));
 		}
 
 		//store in the dcgs table - only used for the online experiments
@@ -258,6 +258,7 @@ class VideoController extends Controller {
 
 			//update score
 			$new_score = $user_term_score + $k * (0.8 * $video_term_score);  //ok
+            $new_score = max($new_score,0); // don't let negative values
 			array_push($term_scores, $new_score);
 
 //				//store score
@@ -282,6 +283,7 @@ class VideoController extends Controller {
 				//return $temp_user_matrix;
 
 				$new_score = $temp_user_matrix->link_score + $k * (0.8 * ($video_term_score1 * $video_term_score2));
+                $new_score = max($new_score,0); // don't let negative values
 				array_push($link_term_scores, $new_score);
 				$temp_user_matrix->link_score = $new_score;
 				$temp_user_matrix->save();
@@ -293,8 +295,11 @@ class VideoController extends Controller {
 
 
 		//find max value and divide term values
-		$max_term_value = max($term_scores);
-		$max_link_term_value = max($link_term_scores);
+		$max_term_value = max(max($term_scores),1);
+        if ($link_term_scores!=[])
+        {
+            $max_link_term_value = max(max($link_term_scores),1);
+        }
 
 		foreach ($video_term_list as $video_term_id) {
 
@@ -363,7 +368,7 @@ class VideoController extends Controller {
 			$user->profilescore()->sync([$j => ['profile_score' => $profile_score]], false);
 		}
 
-	//	DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->delete();
+		DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->delete();
 
 		return Redirect::route('home')->with('message', 'Thank you for watching the video');
 	}
