@@ -66,7 +66,7 @@ class B2BApiController extends ApiGuardController {
                     $reqvideos = "'" . str_replace(",", "','", $request->videos) . "'";
 //                    $videos = Video::where('video_id','in',['EUS_025A722EA4B240D8B6F6330A8783143C'])->orderByRaw('RAND()')->take($num)->get();
                     $videos = DB::select(DB::raw(' SELECT *
-                                            FROM videos 
+                                            FROM videos
                                             WHERE video_id IN (' . $reqvideos . ') ORDER BY RAND()  LIMIT ' . $num . ''));
                 }
 
@@ -112,7 +112,7 @@ class B2BApiController extends ApiGuardController {
             $statusCode = 200;
 
             $all_users = [];
-            
+
 //            foreach ($clusters as $i => $cluster)
 //                printf("Cluster %d [%d,%d]: %d points\n", $i, $cluster[0], $cluster[1], count($cluster));
 
@@ -146,8 +146,11 @@ class B2BApiController extends ApiGuardController {
             $video_list=[];
             $response = [];
             $num_of_videos = 0;
+            $total_num_of_videos = count($cluster_list[0]['video_ids']);
 
-            for ($i=0;$i<$num;$i++){
+
+
+            for ($i=0;$i<$total_num_of_videos;$i++){
                 for ($j=0;$j<$num_of_clusters;$j++){
                     $video = $cluster_list[$j]['video_ids'][$i];
                     if (! in_array($video->video_id,$video_list,true)){
@@ -155,11 +158,11 @@ class B2BApiController extends ApiGuardController {
                         $response['videos'][] = $video->euscreen_id;
                         $num_of_videos += 1;
                     }
-                    if ($num_of_videos==$num){
+                    if ($num_of_videos==$total_num_of_videos){
                         break;
                     }
                 }
-                if ($num_of_videos==$num){
+                if ($num_of_videos==$total_num_of_videos){
                     break;
                 }
             }
@@ -244,12 +247,12 @@ class B2BApiController extends ApiGuardController {
 
                 $string_neighs = implode(',', $list_neighs);
 
-                $top_videos = DB::select(DB::raw(' SELECT a.video_id,temp_user_item_similarity.title, temp_user_item_similarity.euscreen_id, (0.8*temp_user_item_similarity.similarity+0.2*a.score) as result 
-                                            from (SELECT  temp_user_neighbor_similarity.user,temp_user_item_similarity.video_id, 
-                                            SUM(temp_user_neighbor_similarity.similarity+temp_user_item_similarity.similarity) as score 
-                                            FROM temp_user_neighbor_similarity INNER JOIN temp_user_item_similarity on temp_user_neighbor_similarity.user=temp_user_item_similarity.user and temp_user_neighbor_similarity.neighbor IN(' . $string_neighs . ') 
-                                            GROUP BY temp_user_neighbor_similarity.user,temp_user_item_similarity.video_id) 
-                                            as a INNER JOIN temp_user_item_similarity on a.video_id = temp_user_item_similarity.video_id and a.user=temp_user_item_similarity.user 
+                $top_videos = DB::select(DB::raw(' SELECT a.video_id,temp_user_item_similarity.title, temp_user_item_similarity.euscreen_id, (0.8*temp_user_item_similarity.similarity+0.2*a.score) as result
+                                            from (SELECT  temp_user_neighbor_similarity.user,temp_user_item_similarity.video_id,
+                                            SUM(temp_user_neighbor_similarity.similarity+temp_user_item_similarity.similarity) as score
+                                            FROM temp_user_neighbor_similarity INNER JOIN temp_user_item_similarity on temp_user_neighbor_similarity.user=temp_user_item_similarity.user and temp_user_neighbor_similarity.neighbor IN(' . $string_neighs . ')
+                                            GROUP BY temp_user_neighbor_similarity.user,temp_user_item_similarity.video_id)
+                                            as a INNER JOIN temp_user_item_similarity on a.video_id = temp_user_item_similarity.video_id and a.user=temp_user_item_similarity.user
                                             where a.user=? and temp_user_item_similarity.euscreen_id IN (' . $videos . ') ORDER BY score DESC LIMIT ' . $num . ''), [$id]);
             }
         }
