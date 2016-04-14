@@ -59,11 +59,20 @@ class B2BApiController extends ApiGuardController {
             // If no mecanexusers exist from the filters selected, we return a random list of videos
 
             if ($mecanexusers->isEmpty()){
-                $videos = Video::orderByRaw('RAND()')->take($num)->get();
+                if ($request->videos==null) {
+                    $videos = Video::orderByRaw('RAND()')->take($num)->get();
+                }
+                else {
+                    $reqvideos = "'" . str_replace(",", "','", $request->videos) . "'";
+//                    $videos = Video::where('video_id','in',['EUS_025A722EA4B240D8B6F6330A8783143C'])->orderByRaw('RAND()')->take($num)->get();
+                    $videos = DB::select(DB::raw(' SELECT *
+                                            FROM videos 
+                                            WHERE video_id IN (' . $reqvideos . ') ORDER BY RAND()  LIMIT ' . $num . ''));
+                }
 
                 $response=[];
                 foreach ($videos as $video) {
-                    $response['videos'][] = $video['video_id'];
+                    $response['videos'][] = $video->video_id;
                 }
 
                 $statusCode = 200;
