@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\MecanexUser;
 
+use App\Term;
 use App\Video;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
@@ -52,6 +53,33 @@ class B2BApiController extends ApiGuardController {
             }
             else {
                 $num = 50;
+            }
+
+            // filter by preference on terms
+            // keep mecanex users whose term profile score is more than 0.7 when normalized by the max term value of the user
+
+            if ($request->terms != []) {
+
+                $all_terms = Term::all();
+
+                foreach ($all_terms as $term) {
+                    if ((strpos($request->terms,$term->term) !== false)) {
+                        $mecanexusers = $mecanexusers->filter(function($user) use ($term)
+                        {
+                            $myquery = DB::select(DB::raw(' SELECT MAX(profile_score) as mymax
+                                                           FROM users_terms_profilescores
+                                                           WHERE mecanex_user_id='. $user->id .''));
+                            if ($myquery[0]->mymax==0) { // don't take into account users that have not provided any information
+                                return false;
+                            }
+                            return $user->profilescore[$term->id-1]['pivot']['profile_score']/$myquery[0]->mymax>0.7; // minus one because terms start from 0 where id starts from 1
+                        });
+//                        $response[] = $mecanexusers[1]->profilescore[$term->id-1]['pivot']['profile_score'];
+//                        $myquery = DB::select(DB::raw(' SELECT MAX(profile_score) as mymax
+//                                                           FROM users_terms_profilescores
+//                                                           WHERE mecanex_user_id='. $mecanexusers[2]->id .''));
+                    }
+                }
             }
 
             $array_of_users=array();
