@@ -388,7 +388,7 @@ class SignalsApiController extends ApiGuardController
 
 				 if ($i==$j)
 				 {
-					 $link_score=0;
+					 $link_score=1;
 
 				 }
 				elseif ($i>$j)
