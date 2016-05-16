@@ -108,7 +108,7 @@ class InterestApiController extends ApiGuardController {
 
 					if ($i==$j)
 					{
-						$link_score=1;
+						$link_score=0;
 
 					}
 					elseif ($i>$j)
@@ -300,7 +300,7 @@ class InterestApiController extends ApiGuardController {
 						$user_term_score = $temp_user->pivot->user_score;  //get score of user
 
 						if ($i == $j) {
-							$link_score = 1;
+							$link_score = 0;
 
 						} elseif ($i > $j) {
 							$temp_user_matrix = MecanexUserTermHomeTermNeighbour::where('mecanex_user_id', $user->id)->where('term_home_id', $j)

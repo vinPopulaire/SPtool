@@ -113,7 +113,7 @@ class InterestController extends Controller {
 
 				if ($i==$j)
 				{
-					$link_score=1;
+					$link_score=0;
 
 				}
 				elseif ($i>$j)
@@ -259,7 +259,7 @@ class InterestController extends Controller {
 
 				if ($i==$j)
 				{
-					$link_score=1;
+					$link_score=0;
 
 				}
 				elseif ($i>$j)
