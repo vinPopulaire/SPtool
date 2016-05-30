@@ -39,7 +39,7 @@ class SearchApiController extends ApiGuardController {
 
 			$user_id = $user->id;
 			//parameter for the experiment
-			$neighs = '2';
+			$neighs = '0';
 			$list_neighs = [];
 
 
@@ -113,7 +113,7 @@ public function recommend($username)
 
 	$user_id = $user->id;
 	//parameter for the experiment
-	$neighs = '2';
+	$neighs = '0';
 	$list_neighs = [];
 
 

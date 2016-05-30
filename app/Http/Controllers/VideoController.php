@@ -88,7 +88,7 @@ class VideoController extends Controller {
 
 
 		//parameter for the experiment
-			$neighs = '3';
+			$neighs = '0';
 			$list_neighs = [];
 
 
