@@ -24,6 +24,13 @@ class Term extends Model
 
     }
 
+    public function enrichments()
+    {
+
+        return $this->belongsToMany('App\Enrichment', 'enrichments_terms_scores')->withPivot('enrichment_score');
+
+    }
+
 
     public function profilescores()
     {
