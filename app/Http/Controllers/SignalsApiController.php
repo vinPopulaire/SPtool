@@ -223,20 +223,37 @@ class SignalsApiController extends ApiGuardController
 
 		$get_action_id = Action::where('action','click enrichment')->first();
 		$action_id = $get_action_id->id;
-		$enrichment_ids = UserAction::where('username', $username)->where('video_id', $video_id)->where('action', $action_id)->get(array('content_id'));
-		$num_clicked_enrichments = count($enrichment_ids);
+		$enrichment_click_ids = UserAction::where('username', $username)->where('video_id', $video_id)->where('action', $action_id)->get(array('content_id'));
+		$num_clicked_enrichments = count($enrichment_click_ids);
+
+		// create list with shared enrichments
+
+		$get_action_id = Action::where('action','share')->first();
+		$action_id = $get_action_id->id;
+		$enrichment_share_ids = UserAction::where('username', $username)->where('video_id', $video_id)->where('action', $action_id)->get(array('content_id'));
+		$num_shared_enrichments = count($enrichment_share_ids);
+
+		// number of all enrichments
 
 		$video = Video::where('video_id', $video_id)->first();
 		$num_all_enrichments = DB::select(DB::raw('SELECT COUNT(*) FROM enrichments_videos_time WHERE video_id=?'), [$video->id]);
 
 		// replace all database entries with one with the appropriate weight (so that the calculation can be easily done).
-		// The information for what enrichments where clicked is now in the $enrichment_ids variable
+		// The information for what enrichments where clicked is now in the $enrichment_click_ids variable
 		if ($num_clicked_enrichments != 0){
 			DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->where('action', $action_id)->delete();
 			$user_action = new UserAction(['username'=>$username,'device_id'=>$device,'video_id'=>$video_id,'action'=>$action_id]);
 			$get_importance = Action::where('id', $action_id)->first();
 			$importance = $get_importance->importance;
 			$user_action->update(array('weight' => $num_clicked_enrichments/$num_all_enrichments, 'importance' => $importance));
+		}
+
+		if ($num_shared_enrichments != 0){
+			DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->where('action', $action_id)->delete();
+			$user_action = new UserAction(['username'=>$username,'device_id'=>$device,'video_id'=>$video_id,'action'=>$action_id]);
+			$get_importance = Action::where('id', $action_id)->first();
+			$importance = $get_importance->importance;
+			$user_action->update(array('weight' => $num_shared_enrichments/$num_all_enrichments, 'importance' => $importance));
 		}
 
 		$k_nominator = UserAction::where('username', $username)->where('video_id', $video_id)->groupBy('username')
