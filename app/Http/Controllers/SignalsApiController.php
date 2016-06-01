@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Enrichment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -235,7 +236,7 @@ class SignalsApiController extends ApiGuardController
 		// The information for what enrichments where clicked is now in the $enrichment_click_ids variable
 		if ($num_clicked_enrichments != 0){
 			DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->where('action', $action_id)->delete();
-			$user_action = new UserAction(['username'=>$username,'device_id'=>$device,'video_id'=>$video_id,'action'=>$action_id]);
+			$user_action = new UserAction(['username'=>$username,'device_id'=>$device,'video_id'=>$video_id,'action'=>$action_id,'content_id'=>'1']);
 			$user_action->save();
 			$get_importance = Action::where('id', $action_id)->first();
 			$importance = $get_importance->importance;
@@ -254,7 +255,7 @@ class SignalsApiController extends ApiGuardController
 
 		if ($num_shared_enrichments != 0){
 			DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->where('action', $action_id)->delete();
-			$user_action = new UserAction(['username'=>$username,'device_id'=>$device,'video_id'=>$video_id,'action'=>$action_id]);
+			$user_action = new UserAction(['username'=>$username,'device_id'=>$device,'video_id'=>$video_id,'action'=>$action_id,'content_id'=>'1']);
 			$user_action->save();
 			$get_importance = Action::where('id', $action_id)->first();
 			$importance = $get_importance->importance;
@@ -276,7 +277,7 @@ class SignalsApiController extends ApiGuardController
 //////////////retrieve terms for given video//////////////
 
 		$video = Video::where('video_id', $request->video_id)->first();
-		$threshold = 0.2;    //need to appropriate set
+		$threshold = 0;    //need to appropriate set
 		$results = $video->term()->where('video_score', '>', $threshold)->get(array('term_id'));
 		$video_term_list = [];
 
@@ -331,6 +332,7 @@ class SignalsApiController extends ApiGuardController
 
 		//update based on video_terms
 //return $video_term_list;
+
 		foreach ($video_term_list as $video_term_id) {
 
 			$temp_user = $user->term->find($video_term_id);
@@ -339,8 +341,31 @@ class SignalsApiController extends ApiGuardController
 			$temp_video = $video->term->find($video_term_id);
 			$video_term_score = $temp_video->pivot->video_score;  //get score of video
 
+			$final_score = $k * (0.8 * $video_term_score);
+
+			foreach ($enrichment_click_ids as $enrichment_click_id) {
+				$id = $enrichment_click_id->content_id;
+
+				$enrichment = Enrichment::where('enrichment_id', $id)->get()->first();
+
+				$temp_enrichment = $enrichment->term->find($video_term_id);
+				$enrichment_term_score = $temp_enrichment->pivot->enrichment_score;
+
+				$final_score = $final_score + $k * ((0.1/$num_clicked_enrichments) * $enrichment_term_score);
+			}
+
+			foreach ($enrichment_share_ids as $enrichment_share_id) {
+				$id = $enrichment_share_id->content_id;
+
+				$enrichment = Enrichment::where('enrichment_id', $id)->get()->first();
+				$temp_enrichment = $enrichment->term->find($video_term_id);
+				$enrichment_term_score = $temp_enrichment->pivot->enrichment_score;
+
+				$final_score = $final_score + $k * ((0.1/$num_shared_enrichments) * $enrichment_term_score);
+			}
+
 			//update score
-			$new_score = $user_term_score + ($k  * $video_term_score);  //ok
+			$new_score = $user_term_score + $final_score;  //ok
             $new_score = max($new_score,0); // don't let negative values
 			array_push($term_scores, $new_score);
 
@@ -363,7 +388,36 @@ class SignalsApiController extends ApiGuardController
 				$video_term_score1 = $temp_video->pivot->video_score;
 				$temp_video = $video->term->find($video_term_list[$j]);
 				$video_term_score2 = $temp_video->pivot->video_score;
-				$new_score = $temp_user_matrix->link_score + $k * ($video_term_score1 * $video_term_score2);
+
+				$final_score = $k * (0.8 * $video_term_score1 * $video_term_score2);
+
+				foreach ($enrichment_click_ids as $enrichment_click_id) {
+					$id = $enrichment_click_id->content_id;
+
+					$enrichment = Enrichment::where('enrichment_id', $id)->get()->first();
+
+					$temp_enrichment = $enrichment->term->find($video_term_list[$i]);
+					$enrichment_term_score1 = $temp_enrichment->pivot->enrichment_score;
+					$temp_enrichment = $enrichment->term->find($video_term_list[$j]);
+					$enrichment_term_score2 = $temp_enrichment->pivot->enrichment_score;
+
+					$final_score = $final_score + $k * ((0.1/$num_clicked_enrichments) * $enrichment_term_score1 * $enrichment_term_score2);
+				}
+
+				foreach ($enrichment_share_ids as $enrichment_share_id) {
+					$id = $enrichment_share_id->content_id;
+
+					$enrichment = Enrichment::where('enrichment_id', $id)->get()->first();
+
+					$temp_enrichment = $enrichment->term->find($video_term_list[$i]);
+					$enrichment_term_score1 = $temp_enrichment->pivot->enrichment_score;
+					$temp_enrichment = $enrichment->term->find($video_term_list[$j]);
+					$enrichment_term_score2 = $temp_enrichment->pivot->enrichment_score;
+
+					$final_score = $final_score + $k * ((0.1/$num_shared_enrichments) * $enrichment_term_score1 * $enrichment_term_score2);
+				}
+
+				$new_score = $temp_user_matrix->link_score + $final_score;
                 $new_score = max($new_score,0); // don't let negative values
 				array_push($link_term_scores, $new_score);
 				$temp_user_matrix->link_score = $new_score;
@@ -404,8 +458,8 @@ class SignalsApiController extends ApiGuardController
 			{
 				$temp_user_matrix = MecanexUserTermHomeTermNeighbour::where('mecanex_user_id', $user->id)->where('term_home_id', $video_term_list[$i])
 				->where('term_neighbor_id', $video_term_list[$j])->get()->first();
-			$old_score = $temp_user_matrix->link_score;
-			$new_score = $old_score / $max_link_term_value;
+				$old_score = $temp_user_matrix->link_score;
+				$new_score = $old_score / $max_link_term_value;
 				$temp_user_matrix->link_score = $new_score;
 				$temp_user_matrix->save();
 
