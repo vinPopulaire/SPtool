@@ -196,7 +196,6 @@ class SignalsApiController extends ApiGuardController
 		$action_type = $request->action;
 		$explicit_rf = $request->value;
 
-
 		//check if $request->score==-1 or 0 or 1
 
 		$record_exists = UserAction::where('username', $username)->where('video_id', $video_id)->where('action', $action_type)->first();
@@ -219,12 +218,29 @@ class SignalsApiController extends ApiGuardController
 
 //////////////calculate ku///////////////////////
 
+		// number of all enrichments
+
+		$video = Video::where('video_id', $video_id)->first();
+		$num_all_enrichments = DB::select(DB::raw('SELECT COUNT(*) as num FROM enrichments_videos_time WHERE video_id=?'), [$video->id]);
+		$num_all_enrichments = $num_all_enrichments[0]->num;
+
 		// create list with clicked enrichments
 
 		$get_action_id = Action::where('action','click enrichment')->first();
 		$action_id = $get_action_id->id;
 		$enrichment_click_ids = UserAction::where('username', $username)->where('video_id', $video_id)->where('action', $action_id)->get(array('content_id'));
 		$num_clicked_enrichments = count($enrichment_click_ids);
+
+		// replace all database entries with one with the appropriate weight (so that the calculation can be easily done).
+		// The information for what enrichments where clicked is now in the $enrichment_click_ids variable
+		if ($num_clicked_enrichments != 0){
+			DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->where('action', $action_id)->delete();
+			$user_action = new UserAction(['username'=>$username,'device_id'=>$device,'video_id'=>$video_id,'action'=>$action_id]);
+			$user_action->save();
+			$get_importance = Action::where('id', $action_id)->first();
+			$importance = $get_importance->importance;
+			$user_action->update(array('weight' => $num_clicked_enrichments/$num_all_enrichments, 'importance' => $importance));
+		}
 
 		// create list with shared enrichments
 
@@ -233,24 +249,13 @@ class SignalsApiController extends ApiGuardController
 		$enrichment_share_ids = UserAction::where('username', $username)->where('video_id', $video_id)->where('action', $action_id)->get(array('content_id'));
 		$num_shared_enrichments = count($enrichment_share_ids);
 
-		// number of all enrichments
-
-		$video = Video::where('video_id', $video_id)->first();
-		$num_all_enrichments = DB::select(DB::raw('SELECT COUNT(*) FROM enrichments_videos_time WHERE video_id=?'), [$video->id]);
-
 		// replace all database entries with one with the appropriate weight (so that the calculation can be easily done).
-		// The information for what enrichments where clicked is now in the $enrichment_click_ids variable
-		if ($num_clicked_enrichments != 0){
-			DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->where('action', $action_id)->delete();
-			$user_action = new UserAction(['username'=>$username,'device_id'=>$device,'video_id'=>$video_id,'action'=>$action_id]);
-			$get_importance = Action::where('id', $action_id)->first();
-			$importance = $get_importance->importance;
-			$user_action->update(array('weight' => $num_clicked_enrichments/$num_all_enrichments, 'importance' => $importance));
-		}
+		// The information for what enrichments where clicked is now in the $enrichment_shared_ids variable
 
 		if ($num_shared_enrichments != 0){
 			DB::table('user_actions')->where('username',$username)->where('video_id', $video_id)->where('action', $action_id)->delete();
 			$user_action = new UserAction(['username'=>$username,'device_id'=>$device,'video_id'=>$video_id,'action'=>$action_id]);
+			$user_action->save();
 			$get_importance = Action::where('id', $action_id)->first();
 			$importance = $get_importance->importance;
 			$user_action->update(array('weight' => $num_shared_enrichments/$num_all_enrichments, 'importance' => $importance));
@@ -263,7 +268,6 @@ class SignalsApiController extends ApiGuardController
 		$k_denominator = DB::select(DB::raw($query), array('username' => $username, 'videoid' => $video_id));  //returns array
 
 		$k = ($k_nominator->total_score) / ($k_denominator[0]->total);  //to [0] gia na prospelasei to 1o stoixeio tou array pou einai to object
-
 
 /////////////////////////////update weights and update profile//////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -280,7 +284,6 @@ class SignalsApiController extends ApiGuardController
 			array_push($video_term_list, $result->term_id);
 		}
 		sort($video_term_list);
-
 
 ///////////retrieve terms for the clicked enrichments//////////////
 //		$get_actionid = Action::where('action', 'click enrichment')->first();
