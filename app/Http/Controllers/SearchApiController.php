@@ -8,6 +8,7 @@ use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
 use App\Http\Requests\SearchRequest;
 use App\Video;
+use App\Term;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
@@ -27,6 +28,7 @@ class SearchApiController extends ApiGuardController {
 		$videos = $request->videos;
 		$videos = "'" . str_replace(",", "','", $videos) . "'";
 
+        $limit = 10;
 
 		//check if user exists
 		if (empty($user)) {
@@ -44,8 +46,7 @@ class SearchApiController extends ApiGuardController {
 
 
 			//content_based recommendation -- using the view
-			$results_content = DB::select(DB::raw('select  video_id, title, similarity, euscreen_id FROM user_item_similarity where user=? and  euscreen_id  IN (' . $videos . ')  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
-
+            $results_content = $this->content_similarity($user_id, $videos, $limit);
 
 			//collaborative recommendation
 //			//multiplies vector of user i with every one of its neighbors and sorts them in descending order
@@ -58,7 +59,7 @@ class SearchApiController extends ApiGuardController {
 //
 
 
-			if (empty($list_neighs)) {
+            if (count($list_neighs)<3) {
 				//content recommendation if no neighbors
 				$results_recommendation = $results_content;
 
@@ -77,7 +78,7 @@ class SearchApiController extends ApiGuardController {
 			$final_results=[];
 			foreach ($results_recommendation as $result)
 			{
-				array_push($final_results, $result->euscreen_id);
+				array_push($final_results, $result['video_id']);
 			}
 
 
@@ -98,7 +99,7 @@ public function recommend($username)
 	//this assumes that the input is of type videos=EUS_025A722EA4B240D8B6F6330A8783143C,EUS_00A5E7F2D522422BB3BF3BF611CAB22F
 	//however according to the input decided proper adjustments have to be made bearing in mind that where in expects string, e.g. 'a',b'
 
-
+    $limit = 10;
 	$user=MecanexUser::where('username', $username)->get()->first();
 
 
@@ -111,52 +112,109 @@ public function recommend($username)
 	}
 	else {
 
-	$user_id = $user->id;
-	//parameter for the experiment
-	$neighs = '0';
-	$list_neighs = [];
+        $user_id = $user->id;
+        //parameter for the experiment
+        $neighs = '0';
+        $list_neighs = [];
+
+        $video_ids = [];
+
+        //content_based recommendation -- using the view
+        $results_content = $this->content_similarity($user_id,$video_ids,$limit);
+
+        //collaborative recommendation
+    //			//multiplies vector of user i with every one of its neighbors and sorts them in descending order
+        $results_neighs = DB::select(DB::raw('select neighbor FROM user_neighbor_similarity where user=? ORDER BY similarity DESC LIMIT ?'), [$user_id, $neighs]);
+
+        foreach ($results_neighs as $neigh) {
+            array_push($list_neighs, $neigh->neighbor);
+        }
+
+        if (count($list_neighs)<3) {
+            //content recommendation if no neighbors
+            $results_recommendation = $results_content;
+
+        } else {
+            $string_neighs = implode(',', $list_neighs);
+
+            $results_recommendation = DB::select(DB::raw(' SELECT a.user,a.video_id,user_item_similarity.title, user_item_similarity.euscreen_id, (0.8*user_item_similarity.similarity+0.2*a.score) as result from (SELECT  user_neighbor_similarity.user,user_item_similarity.video_id, SUM(user_neighbor_similarity.similarity+user_item_similarity.similarity) as score FROM user_neighbor_similarity INNER JOIN user_item_similarity on user_neighbor_similarity.neighbor=user_item_similarity.user and user_item_similarity.user IN(' . $string_neighs . ') GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id) as a INNER JOIN user_item_similarity on a.video_id = user_item_similarity.video_id and a.user=user_item_similarity.user where a.user=? ORDER BY score DESC LIMIT 10'), [$user_id]);
+
+        }
+            $final_results=[];
+            foreach ($results_recommendation as $result)
+            {
+                array_push($final_results, $result['video_id']);
+            }
 
 
-	//content_based recommendation -- using the view
-	$results_content = DB::select(DB::raw('select  video_id, title, similarity FROM user_item_similarity where user=?  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
-
-	//collaborative recommendation
-//			//multiplies vector of user i with every one of its neighbors and sorts them in descending order
-	$results_neighs = DB::select(DB::raw('select neighbor FROM user_neighbor_similarity where user=? ORDER BY similarity DESC LIMIT ?'), [$user_id, $neighs]);
-
-
-	foreach ($results_neighs as $neigh) {
-		array_push($list_neighs, $neigh->neighbor);
-	}
-
-	if (empty($list_neighs)) {
-		//content recommendation if no neighbors
-		$results_recommendation = $results_content;
-
-	} else {
-
-		$string_neighs = implode(',', $list_neighs);
-
-		$results_recommendation = DB::select(DB::raw(' SELECT a.user,a.video_id,user_item_similarity.title, user_item_similarity.euscreen_id, (0.8*user_item_similarity.similarity+0.2*a.score) as result from (SELECT  user_neighbor_similarity.user,user_item_similarity.video_id, SUM(user_neighbor_similarity.similarity+user_item_similarity.similarity) as score FROM user_neighbor_similarity INNER JOIN user_item_similarity on user_neighbor_similarity.neighbor=user_item_similarity.user and user_item_similarity.user IN(' . $string_neighs . ') GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id) as a INNER JOIN user_item_similarity on a.video_id = user_item_similarity.video_id and a.user=user_item_similarity.user where a.user=? ORDER BY score DESC LIMIT 10'), [$user_id]);
-
-		}
-		$final_results=[];
-		foreach ($results_recommendation as $result)
-		{
-			array_push($final_results, $result->euscreen_id);
-		}
-
-
-		$response = [
-			"Video Ids" => $final_results
-		];
-		$statusCode = 200;
+            $response = [
+                "Video Ids" => $final_results
+            ];
+            $statusCode = 200;
 	}
 
 
 	return response($response, $statusCode)->header('Content-Type', 'application/json');
 }
 
+	private function content_similarity ($user_id,$video_ids,$limit) {
+		$result = [];
+
+        // if there is no video list, search all videos, else only those on the list
+        if (count($video_ids)==0)
+        {
+            $videos = Video::all();
+        }
+        else {
+            $videos = Video::whereRaw('video_id  IN (' . $video_ids . ')')->get();
+        }
+
+        //keep all terms of the user in a list
+		$terms = Term::all();
+		$user = MecanexUser::where('id', $user_id)->get()->first();
+		$user_terms_scores = $user->profilescore;
+
+		foreach ($user_terms_scores as $user_term_score){
+			$temp_profile_scores[] = $user_term_score->pivot->profile_score;
+		}
+
+		foreach ($videos as $video) {
+			$arithmitis = 0;
+			$sumA = 0;
+			$sumB = 0;
+			$temp_video_scores=[];
+
+            //keep all termos of video in a list
+			$video_terms_scores = DB::select(DB::raw('SELECT * FROM videos_terms_scores WHERE video_id=? ORDER BY term_id'), [$video->id]);
+
+			foreach ($video_terms_scores as $video_term_score){
+				$temp_video_scores[] = $video_term_score->video_score;
+			}
+
+            // calculate the similarity
+			for ($i=0;$i<count($terms);$i++)
+			{
+				$arithmitis = $arithmitis + $temp_video_scores[$i]*$temp_profile_scores[$i];
+				$sumA = $sumA + pow($temp_video_scores[$i],2);
+				$sumB = $sumB + pow($temp_profile_scores[$i],2);
+			}
+
+			$videoScores[$video->id] = $arithmitis/(sqrt($sumA) + sqrt($sumB));
+		}
+
+		arsort($videoScores);
+        $videoScores = array_slice($videoScores, 0, $limit, true);
+		foreach ($videoScores as $key=>$score){
+            $video = $videos->find($key);
+			$result[] = array(
+				'video_id' => $video->video_id,
+                'id'       => $video->id,
+				'similarity' =>$score
+			);
+		}
+
+		return $result;
+	}
 
 
 }
