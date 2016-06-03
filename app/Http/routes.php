@@ -112,6 +112,9 @@ Route::post('professional','B2BApiController@professional');
 //Import new videos
 Route::post('import','ImportApiController@import');
 
+//Recommend Enrichments for a video
+Route::post('recommendEnrichments','RecommendEnrichmentsApiController@recommendEnrichment');
+
 });
 
 
