@@ -93,7 +93,8 @@ class VideoController extends Controller {
 
 
 			//content_based recommendation -- using the view
-			$results_content = DB::select(DB::raw('select  video_id, title, similarity, euscreen_id FROM user_item_similarity where user=?  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
+//			$results_content = DB::select(DB::raw('select  video_id, title, similarity, euscreen_id FROM user_item_similarity where user=?  GROUP BY video_id, title ORDER BY similarity DESC LIMIT 10'), [$user_id]);
+            $results_content = $this->content_similarity($user_id,10);
 
 			//collaborative recommendation
 //			//multiplies vector of user i with every one of its neighbors and sorts them in descending order
@@ -121,21 +122,20 @@ class VideoController extends Controller {
 			}
 		}
 
-		//used for online experiments - creation of dcg table
-		$index=0;
-
-		foreach ($results_recommendation as $result)
-		{
-			$index++;
-			$video_id=$result->euscreen_id;
-//			$video_id=$result->video_id;
-
-			$dcg=Dcg::firstOrNew(['mecanex_user_id'=>$user_id,'video_id'=>$video_id]);
-			$dcg->rank=$index;
-			$dcg->save();
-
-		}
-
+//		//used for online experiments - creation of dcg table
+//		$index=0;
+//
+//		foreach ($results_recommendation as $result)
+//		{
+//			$index++;
+////			$video_id=$result->euscreen_id;
+//            $video_id=$result['video_id'];
+//
+//			$dcg=Dcg::firstOrNew(['mecanex_user_id'=>$user_id,'video_id'=>$video_id]);
+//			$dcg->rank=$index;
+//			$dcg->save();
+//
+//		}
 			return view('video.recommendation', compact('results_recommendation'));
 	}
 
@@ -373,6 +373,57 @@ class VideoController extends Controller {
 		return Redirect::route('home')->with('message', 'Thank you for watching the video');
 	}
 
+	private function content_similarity ($user_id,$limit)
+	{
+		$result = [];
+		$videos = Video::all();
+		$terms = Term::all();
+		$user = MecanexUser::where('id', $user_id)->get()->first();
+		$user_terms_scores = $user->profilescore;
 
+		foreach ($user_terms_scores as $user_term_score)
+		{
+			$temp_profile_scores[] = $user_term_score->pivot->profile_score;
+		}
+
+		foreach ($videos as $video)
+		{
+			$arithmitis = 0;
+			$sumA = 0;
+			$sumB = 0;
+			$temp_video_scores = [];
+
+			$video_terms_scores = DB::select(DB::raw('SELECT * FROM videos_terms_scores WHERE video_id=? ORDER BY term_id'), [$video->id]);
+
+			foreach ($video_terms_scores as $video_term_score)
+			{
+				$temp_video_scores[] = $video_term_score->video_score;
+			}
+
+			for ($i = 0; $i < count($terms); $i ++)
+			{
+				$arithmitis = $arithmitis + $temp_video_scores[$i] * $temp_profile_scores[$i];
+				$sumA = $sumA + pow($temp_video_scores[$i], 2);
+				$sumB = $sumB + pow($temp_profile_scores[$i], 2);
+			}
+
+			$videoScores[$video->id] = $arithmitis / (sqrt($sumA) + sqrt($sumB));
+		}
+
+		arsort($videoScores);
+		$videoScores = array_slice($videoScores, 0, $limit, true);
+		foreach ($videoScores as $key => $score)
+		{
+			$video = $videos->find($key);
+			$result[] = array(
+				'video_id'   => $video->id,
+                'title'      => $video->title,
+				'similarity' => $score,
+                'euscreen_id'=> $video->video_id
+			);
+		}
+
+		return $result;
+	}
 
 }
