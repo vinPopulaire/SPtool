@@ -24,15 +24,21 @@ class RecommendEnrichmentsApiController extends ApiGuardController {
 		usort($listEnrichments, $this->make_comparer('time'));
 
 		while ($listEnrichments!=[]){
+			// get first element of the list
 			reset($listEnrichments);
 			$i = key($listEnrichments);
+
+			// create a simultaneous list with all enrichments simultaneous with the first one
 			$simultaneous_enrichments = [$listEnrichments[$i]];
 
+			// get next enrichment on list (they are ranked chronologically)
 			next($listEnrichments);
 			$next = key($listEnrichments);
 
-			while (array_key_exists($next, $listEnrichments) and $listEnrichments[$next]["time"] == $listEnrichments[$i]["time"]){
+			// if it exists and it is simultaneous, add it to the simultaneous list
+			while ((array_key_exists($next, $listEnrichments)) and ($listEnrichments[$next]["time"] == $listEnrichments[$i]["time"])){
 				$simultaneous_enrichments[] = $listEnrichments[$next];
+				prev($listEnrichments); // so that unset does not break the next
 				unset($listEnrichments[$next]);
 				next($listEnrichments);
 				$next = key($listEnrichments);
@@ -50,6 +56,7 @@ class RecommendEnrichmentsApiController extends ApiGuardController {
 						unset($simultaneous_enrichments[$id]);
 					}
 				}
+
 
 				$recommendedEnrichments[] = array(
 					'enrichment_id' => $this->recommend_enr($tmp_enrichments, $user_id),
