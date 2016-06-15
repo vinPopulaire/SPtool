@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Term;
 use App\Interest;
 use App\Action;
+use App\Enrichment;
 
 
 class DatabaseSeeder extends Seeder {
@@ -27,23 +28,119 @@ class DatabaseSeeder extends Seeder {
 		Model::unguard();
 
 
-
-	//	$this->call('MecanexUsersTableSeeder');
-		$this->call('UserTableSeeder');
-		$this->call('GenderTableSeeder');
-		$this->call('AgeTableSeeder');
-		$this->call('TermSeeder');
-		$this->call('OccupationTableSeeder');
-		$this->call('CountriesTableSeeder');
-		$this->call('EducationTableSeeder');
-		//$this->call('UsersTermsScoresSeeder');
-		$this->call('InterestsSeeder');
-		$this->call('ActionsSeeder');
+		$this->call('EnrichmentsTableSeeder');
+		$this->call('EnrichmentTermScoresSeeder');
+		$this->call('EnrichmentVideoTimeSeeder');
+//		//	$this->call('MecanexUsersTableSeeder');
+//			$this->call('UserTableSeeder');
+//			$this->call('GenderTableSeeder');
+//			$this->call('AgeTableSeeder');
+//			$this->call('TermSeeder');
+//			$this->call('OccupationTableSeeder');
+//			$this->call('CountriesTableSeeder');
+//			$this->call('EducationTableSeeder');
+//			//$this->call('UsersTermsScoresSeeder');
+//			$this->call('InterestsSeeder');
+//			$this->call('ActionsSeeder');
 		$this->command->info('Tables seeded!');
 	}
 
 }
 
+class EnrichmentsTableSeeder extends Seeder {
+
+	public function run()
+	{
+		DB::table('enrichments')->delete();
+
+		Enrichment::create(['id'=>'1','enrichment_id'=>'1','class'=>'1','longName'=>'Whatever','dbpediaURL'=>'kati.dbpedia','wikipediaURL'=>'whatever.wikipedia','description'=>'this is a short description','thumbnail'=>'kati.thumbnail']);
+		Enrichment::create(['id'=>'2','enrichment_id'=>'2','class'=>'2','longName'=>'Whatever2','dbpediaURL'=>'kati2.dbpedia','wikipediaURL'=>'whatever2.wikipedia','description'=>'this is a short description2','thumbnail'=>'kati2.thumbnail']);
+		Enrichment::create(['id'=>'3','enrichment_id'=>'3','class'=>'7','longName'=>'Whatever3','dbpediaURL'=>'kati3.dbpedia','wikipediaURL'=>'whatever3.wikipedia','description'=>'this is a short description3','thumbnail'=>'kati3.thumbnail']);
+		Enrichment::create(['id'=>'4','enrichment_id'=>'4','class'=>'4','longName'=>'Whatever4','dbpediaURL'=>'kati4.dbpedia','wikipediaURL'=>'whatever4.wikipedia','description'=>'this is a short description4','thumbnail'=>'kati4.thumbnail']);
+	}
+}
+
+class EnrichmentTermScoresSeeder extends Seeder {
+
+	public function run()
+	{
+		DB::table('enrichments_terms_scores')->delete();
+
+		DB::table('enrichments_terms_scores')->insert(array(
+			array('enrichment_id'=>'1','term_id'=>'1','enrichment_score'=>0.9),
+			array('enrichment_id'=>'1','term_id'=>'2','enrichment_score'=>0.1),
+			array('enrichment_id'=>'1','term_id'=>'3','enrichment_score'=>0.1),
+			array('enrichment_id'=>'1','term_id'=>'4','enrichment_score'=>0.1),
+			array('enrichment_id'=>'1','term_id'=>'5','enrichment_score'=>0.1),
+			array('enrichment_id'=>'1','term_id'=>'6','enrichment_score'=>0.1),
+			array('enrichment_id'=>'1','term_id'=>'7','enrichment_score'=>0.1),
+			array('enrichment_id'=>'1','term_id'=>'8','enrichment_score'=>0.1),
+			array('enrichment_id'=>'1','term_id'=>'9','enrichment_score'=>0.1),
+			array('enrichment_id'=>'1','term_id'=>'10','enrichment_score'=>0.1),
+			array('enrichment_id'=>'1','term_id'=>'11','enrichment_score'=>0.1),
+			array('enrichment_id'=>'1','term_id'=>'12','enrichment_score'=>0.1),
+			array('enrichment_id'=>'1','term_id'=>'13','enrichment_score'=>0.1),
+			array('enrichment_id'=>'1','term_id'=>'14','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'1','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'2','enrichment_score'=>0.9),
+			array('enrichment_id'=>'2','term_id'=>'3','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'4','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'5','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'6','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'7','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'8','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'9','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'10','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'11','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'12','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'13','enrichment_score'=>0.1),
+			array('enrichment_id'=>'2','term_id'=>'14','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'1','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'2','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'3','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'4','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'5','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'6','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'7','enrichment_score'=>0.9),
+			array('enrichment_id'=>'3','term_id'=>'8','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'9','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'10','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'11','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'12','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'13','enrichment_score'=>0.1),
+			array('enrichment_id'=>'3','term_id'=>'14','enrichment_score'=>0.1),
+			array('enrichment_id'=>'4','term_id'=>'1','enrichment_score'=>0.1),
+			array('enrichment_id'=>'4','term_id'=>'2','enrichment_score'=>0.1),
+			array('enrichment_id'=>'4','term_id'=>'3','enrichment_score'=>0.1),
+			array('enrichment_id'=>'4','term_id'=>'4','enrichment_score'=>0.9),
+			array('enrichment_id'=>'4','term_id'=>'5','enrichment_score'=>0.1),
+			array('enrichment_id'=>'4','term_id'=>'6','enrichment_score'=>0.1),
+			array('enrichment_id'=>'4','term_id'=>'7','enrichment_score'=>0.4),
+			array('enrichment_id'=>'4','term_id'=>'8','enrichment_score'=>0.1),
+			array('enrichment_id'=>'4','term_id'=>'9','enrichment_score'=>0.1),
+			array('enrichment_id'=>'4','term_id'=>'10','enrichment_score'=>0.1),
+			array('enrichment_id'=>'4','term_id'=>'11','enrichment_score'=>0.1),
+			array('enrichment_id'=>'4','term_id'=>'12','enrichment_score'=>0.1),
+			array('enrichment_id'=>'4','term_id'=>'13','enrichment_score'=>0.1),
+			array('enrichment_id'=>'4','term_id'=>'14','enrichment_score'=>0.1),
+		));
+	}
+}
+
+class EnrichmentVideoTimeSeeder extends Seeder {
+
+	public function run()
+	{
+		DB::table('enrichments_videos_time')->delete();
+
+		DB::table('enrichments_videos_time')->insert(array(
+			array('enrichment_id'=>1,'video_id'=>'1','time'=>'1','height'=>'0','width'=>'0','x_min'=>'0','y_min'=>'0'),
+			array('enrichment_id'=>2,'video_id'=>'1','time'=>'2','height'=>'0','width'=>'0','x_min'=>'0','y_min'=>'0'),
+			array('enrichment_id'=>3,'video_id'=>'1','time'=>'2','height'=>'0','width'=>'0','x_min'=>'0','y_min'=>'0'),
+			array('enrichment_id'=>4,'video_id'=>'1','time'=>'2','height'=>'1','width'=>'1','x_min'=>'1','y_min'=>'1')
+		));
+	}
+}
 
 class GenderTableSeeder extends Seeder {
 

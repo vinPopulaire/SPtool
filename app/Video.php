@@ -22,4 +22,11 @@ class Video extends Model {
 
 
     }
+
+    public function enrichment()
+    {
+
+        return $this->belongsToMany('App\Enrichment', 'enrichments_videos_time')->withPivot('time');
+
+    }
 }
