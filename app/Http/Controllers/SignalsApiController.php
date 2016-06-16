@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\AdvertisementClick;
 use App\Enrichment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -175,13 +176,25 @@ class SignalsApiController extends ApiGuardController
 
 	public function ad_function(SignalsRequest $request){
 
-		$user_action=UserAction::create($request->all());
-		$get_importance=Action::where('id',$request->action)->first();
-		$importance=$get_importance->importance;
-		$user_action->update(array('weight'=>1,'importance' =>$importance));
+		$mecanex_user = MecanexUser::where('username',$request->username)->first();
 
-		$response=["message"=>'Ad Saved'];
-		$statusCode=200;
+		$ad_clicks = AdvertisementClick::where('mecanex_user_id',$mecanex_user->id)->where('content_id',$request->content_id)->first();
+
+		if ($ad_clicks == []){
+			$ad_click_action=AdvertisementClick::create(array(
+				"mecanex_user_id" => $mecanex_user->id,
+				"content_id" => $request->content_id,
+				"clicks" => 1
+			));
+		}
+		else {
+			$num_clicks = $ad_clicks->clicks;
+			$ad_clicks->update(array('clicks' => $num_clicks+1));
+		}
+
+		$response = ["message"=>'Advertisement Click Saved'];
+
+		$statusCode = 200;
 		return response($response, $statusCode)->header('Content-Type', 'application/json');
 	}
 
