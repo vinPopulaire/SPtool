@@ -103,10 +103,6 @@ public function recommend($username)
     $videos = Video::all();
     $num_of_videos = count($videos);
 
-    $results_content = [];
-    $results_collaborative = [];
-
-
 	if (empty($user)) {
 
 		$response = [
@@ -118,7 +114,7 @@ public function recommend($username)
 
         $user_id = $user->id;
         //parameter for the experiment
-        $neighs = '4';
+        $neighs = '0';
         $list_neighs = [];
 
         $video_ids = [];
@@ -128,7 +124,6 @@ public function recommend($username)
 
         //collaborative recommendation
     //			//multiplies vector of user i with every one of its neighbors and sorts them in descending order
-//        $results_neighs = DB::select(DB::raw('select neighbor FROM user_neighbor_similarity where user=? ORDER BY similarity DESC LIMIT ?'), [$user_id, $neighs]);
 
         $results_neighs = $this->similar_neighbors($user_id,$neighs);
 
@@ -166,29 +161,10 @@ public function recommend($username)
             array_push($final_results, $video["video_id"]);
         }
 
-//        return $results_recommendation;
-//
-//        if (count($list_neighs)<3) {
-//            //content recommendation if no neighbors
-//            $results_recommendation = $results_content;
-//
-//        } else {
-//            $string_neighs = implode(',', $list_neighs);
-//
-//            $results_recommendation = DB::select(DB::raw(' SELECT a.user,a.video_id,user_item_similarity.title, user_item_similarity.euscreen_id, (0.8*user_item_similarity.similarity+0.2*a.score) as result from (SELECT  user_neighbor_similarity.user,user_item_similarity.video_id, SUM(user_neighbor_similarity.similarity+user_item_similarity.similarity) as score FROM user_neighbor_similarity INNER JOIN user_item_similarity on user_neighbor_similarity.neighbor=user_item_similarity.user and user_item_similarity.user IN(' . $string_neighs . ') GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id) as a INNER JOIN user_item_similarity on a.video_id = user_item_similarity.video_id and a.user=user_item_similarity.user where a.user=? ORDER BY score DESC LIMIT 10'), [$user_id]);
-//
-//        }
-//            $final_results=[];
-//            foreach ($results_recommendation as $result)
-//            {
-//                array_push($final_results, $result['video_id']);
-//            }
-
-
-            $response = [
-                "Video Ids" => $final_results
-            ];
-            $statusCode = 200;
+        $response = [
+            "Video Ids" => $final_results
+        ];
+        $statusCode = 200;
 	}
 
 
@@ -249,7 +225,6 @@ public function recommend($username)
     }
 
 	private function content_similarity ($user_id,$video_ids) {
-		$result = [];
         $temp_profile_scores = [];
 
         // if there is no video list, search all videos, else only those on the list
@@ -295,19 +270,6 @@ public function recommend($username)
 		}
 
         return $videoScores;
-
-//		arsort($videoScores);
-//        $videoScores = array_slice($videoScores, 0, $limit, true);
-//		foreach ($videoScores as $key=>$score){
-//            $video = $videos->find($key);
-//			$result[] = array(
-//				'video_id' => $video->video_id,
-//                'id'       => $video->id,
-//				'similarity' =>$score
-//			);
-//		}
-//
-//		return $result;
 	}
 
 
