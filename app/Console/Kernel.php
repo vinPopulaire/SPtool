@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel {
 	{
 		$schedule->call(function () {
 			DB::table('user_actions')->delete();
-		})->dailyAt('5:00');
+		})->weeklyOn(3, '5:00');
 	}
 
 }
