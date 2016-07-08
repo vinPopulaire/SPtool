@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Enrichment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -80,5 +81,51 @@ class ImportApiController extends ApiGuardController {
 
         return Response::json($response, $statusCode);
 	}
+
+    public function importEnrichments(Request $request) {
+        set_time_limit(0);
+
+        DB::table('enrichments')->delete();
+
+        $uri = $request->uri;
+
+        $content = utf8_encode(file_get_contents($uri));
+
+        $json = json_decode($content);
+
+//        return $content;
+
+        foreach ($json as $key=>$enrichment) {
+
+            $enrichment_item = new Enrichment();
+
+            $enrichment_item->enrichment_id=$key;
+            $enrichment_item->class="unknown";
+            $enrichment_item->longName=$enrichment->longName;
+            if (isset($enrichment->dbpediaUrl)){
+                $enrichment_item->dbpediaURL=$enrichment->dbpediaUrl;
+            }
+            else {
+                $enrichment_item->dbpediaURL="";
+            }
+            if (isset($enrichment->wikipediaUrl)){
+                $enrichment_item->wikipediaURL=$enrichment->wikipediaUrl;
+            }
+            else {
+                $enrichment_item->wikipediaURL="";
+            }
+            $enrichment_item->description=$enrichment->description;
+            $enrichment_item->thumbnail=$enrichment->thumbnail;
+            $enrichment_item->save();
+        }
+
+
+        $response = [
+            'message' => 'Successful import of enrichments'
+        ];
+        $statusCode = 200;
+
+        return Response::json($response, $statusCode);
+    }
 
 }

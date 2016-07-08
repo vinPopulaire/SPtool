@@ -113,7 +113,10 @@ Route::post('professional','B2BApiController@professional');
 Route::post('import','ImportApiController@import');
 
 //Recommend Enrichments for a video
-Route::post('recommendEnrichments','RecommendEnrichmentsApiController@recommendEnrichment');
+Route::post('recommendenrichments','RecommendEnrichmentsApiController@recommendEnrichment');
+
+//Import new enrichments
+Route::post('importenrichments','ImportApiController@importEnrichments');
 
 });
 

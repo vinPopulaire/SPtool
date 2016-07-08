@@ -16,7 +16,8 @@
 		"guzzlehttp/guzzle": "~5.0",
 		"chrisbjr/api-guard": "2.*",
 		"jacobemerick/kmeans": "~1.0",
-		"bdelespierre/php-kmeans": "dev-master"
+		"bdelespierre/php-kmeans": "dev-master",
+		"doctrine/dbal": "v2.5.4"
 
 
 	},
