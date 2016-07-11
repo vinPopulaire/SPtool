@@ -118,6 +118,9 @@ Route::post('recommendenrichments','RecommendEnrichmentsApiController@recommendE
 //Import new enrichments
 Route::post('importenrichments','ImportApiController@importEnrichments');
 
+	//Score enrichments
+Route::post('scoreenrichments','ImportApiController@scoreEnrichments');
+
 });
 
 
