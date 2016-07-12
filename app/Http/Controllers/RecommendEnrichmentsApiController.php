@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Enrichment;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -14,8 +15,14 @@ class RecommendEnrichmentsApiController extends ApiGuardController {
 
 	public function recommendEnrichment(Request $request)
 	{
-		$video_id = $request->video_id;
-		$user_id = $request->user_id;
+		$users = MecanexUser::all();
+		$videos = Video::all();
+
+		$euscreen_id = $request->video;
+		$video_id = $videos->where('video_id',$euscreen_id)->first()->id;
+		$username = $request->user;
+		$user_id = $users->where('username',$username)->first()->id;
+		
 		$recommendedEnrichments = [];
 
 		$listEnrichments = DB::select(DB::raw('SELECT * FROM enrichments_videos_time WHERE video_id=?'), [$video_id]);
@@ -60,8 +67,8 @@ class RecommendEnrichmentsApiController extends ApiGuardController {
 
 				$recommendedEnrichments[] = array(
 					'enrichment_id' => $this->recommend_enr($tmp_enrichments, $user_id),
-					'video_id' => $video_id,
-					'time' => $listEnrichments[$i]["time"],
+//					'video_id' => $video_id,
+					'frame' => $listEnrichments[$i]["time"],
 					'height' => $first_enrichment["height"],
 					'width' => $first_enrichment["width"],
 					'x_min' => $first_enrichment["x_min"],
@@ -118,7 +125,7 @@ class RecommendEnrichmentsApiController extends ApiGuardController {
 		// first key of enrichmentScores list - the most recommended enrichment
 		$recommended_enrichment = key($enrichmentScores);
 
-		return $recommended_enrichment;
+		return Enrichment::find($recommended_enrichment)->enrichment_id;
 
 	}
 
