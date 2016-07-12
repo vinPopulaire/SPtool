@@ -2,6 +2,8 @@
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use App\Term;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
 use App\MecanexUser;
@@ -45,6 +47,8 @@ class TargetApiController extends Controller {
 
 			// filter by preference on terms
 			// keep mecanex users whose term profile score is more than 0.7 when normalized by the max term value of the user
+
+			$statusCode = 200;
 
 			if ($request->terms != []) {
 
@@ -97,8 +101,12 @@ class TargetApiController extends Controller {
 
 				// normalize with maximum because that way the clustering seems more accurate
 				$maximum = max($array);
-				for ($i=0; $i<count($array) ;$i++){
-					$array[$i]=$array[$i]/$maximum;
+				if ($maximum!=0)
+				{
+					for ($i = 0; $i < count($array); $i ++)
+					{
+						$array[$i] = $array[$i] / $maximum;
+					}
 				}
 
 				array_push($array_of_users, $array);
