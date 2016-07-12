@@ -82,18 +82,16 @@ class ImportApiController extends ApiGuardController {
         return Response::json($response, $statusCode);
 	}
 
-    public function importEnrichments(Request $request) {
+    public function importEnrichments() {
         set_time_limit(0);
 
         DB::table('enrichments')->delete();
 
-        $uri = $request->uri;
+        $uri = "http://mecanex.noterik.com/tools/unique_enrichments.php";
 
         $content = utf8_encode(file_get_contents($uri));
 
         $json = json_decode($content);
-
-//        return $content;
 
         foreach ($json as $key=>$enrichment) {
 
@@ -120,6 +118,55 @@ class ImportApiController extends ApiGuardController {
 
         $response = [
             'message' => 'Successful import of enrichments'
+        ];
+        $statusCode = 200;
+
+        return Response::json($response, $statusCode);
+    }
+
+    public function importVideoEnrichments() {
+        set_time_limit(0);
+
+        DB::table('enrichments_videos_time')->delete();
+
+        $uri = "http://mecanex.noterik.com/tools/video_enrichments.php";
+
+        $content = utf8_encode(file_get_contents($uri));
+
+        $json = json_decode($content);
+
+        $videos = Video::all();
+        $all_enrichments=Enrichment::all();
+
+        foreach ($json as $item) {
+            $euscreen_id = $item->id;
+            $video_id = $videos->where('video_id',$euscreen_id)->first()->id;
+
+            foreach ($item->enrichment as $key=>$enrichment) {
+
+                $new_key = str_replace("\r",'',$key);
+
+                $enrichment_id = $all_enrichments->where('enrichment_id',$new_key)->first()->id;
+
+                foreach ($enrichment->localization as $localization) {
+                    foreach ($localization as $time=>$inside) {
+                        $time = intval(substr($time,1));
+
+                        $height = $inside->height;
+                        $width = $inside->width;
+                        $x_min = $inside->x_min;
+                        $y_min = $inside->y_min;
+
+                        DB::table('enrichments_videos_time')->insert(
+                            ["enrichment_id"=>$enrichment_id,"video_id"=>$video_id,"time"=>$time,"height"=>$height,"width"=>$width,"x_min"=>$x_min,"y_min"=>$y_min]
+                        );
+                    }
+                }
+            }
+        }
+
+        $response = [
+            'message' => 'Successful match of enrichments to videos'
         ];
         $statusCode = 200;
 

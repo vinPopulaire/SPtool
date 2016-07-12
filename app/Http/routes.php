@@ -116,10 +116,13 @@ Route::post('import','ImportApiController@import');
 Route::post('recommendenrichments','RecommendEnrichmentsApiController@recommendEnrichment');
 
 //Import new enrichments
-Route::post('importenrichments','ImportApiController@importEnrichments');
+Route::get('importenrichments','ImportApiController@importEnrichments');
+
+//Import new video specific enrichments
+Route::get('importvideoenrichments','ImportApiController@importVideoEnrichments');
 
 	//Score enrichments
-Route::post('scoreenrichments','ImportApiController@scoreEnrichments');
+Route::get('scoreenrichments','ImportApiController@scoreEnrichments');
 
 });
 
