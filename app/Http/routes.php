@@ -116,7 +116,13 @@ Route::post('import','ImportApiController@import');
 Route::post('recommendenrichments','RecommendEnrichmentsApiController@recommendEnrichment');
 
 //Import new enrichments
-Route::post('importenrichments','ImportApiController@importEnrichments');
+Route::get('importenrichments','ImportApiController@importEnrichments');
+
+//Import new video specific enrichments
+Route::get('importvideoenrichments','ImportApiController@importVideoEnrichments');
+
+	//Score enrichments
+Route::get('scoreenrichments','ImportApiController@scoreEnrichments');
 
 //Target group user profile
 Route::post('target','TargetApiController@target');

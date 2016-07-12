@@ -27,10 +27,10 @@ class DatabaseSeeder extends Seeder {
 	{
 		Model::unguard();
 
-
-		$this->call('EnrichmentsTableSeeder');
-		$this->call('EnrichmentTermScoresSeeder');
-		$this->call('EnrichmentVideoTimeSeeder');
+		$this->call('EnrichmentsClassSeeder');
+//		$this->call('EnrichmentsTableSeeder');
+//		$this->call('EnrichmentTermScoresSeeder');
+//		$this->call('EnrichmentVideoTimeSeeder');
 //		//	$this->call('MecanexUsersTableSeeder');
 //			$this->call('UserTableSeeder');
 //			$this->call('GenderTableSeeder');
@@ -45,6 +45,34 @@ class DatabaseSeeder extends Seeder {
 		$this->command->info('Tables seeded!');
 	}
 
+}
+
+class EnrichmentsClassSeeder extends Seeder {
+
+	public function run()
+	{
+		DB::table('enrichments')->where('enrichment_id', 'POPE_PIO')->update(['class' => 'religion']);
+		DB::table('enrichments')->where('enrichment_id', 'bridge')->update(['class' => 'transporation']);
+		DB::table('enrichments')->where('enrichment_id', 'dress')->update(['class' => 'lifestyle']);
+		DB::table('enrichments')->where('enrichment_id', 'bra')->update(['class' => 'lifestyle']);
+		DB::table('enrichments')->where('enrichment_id', 'gown')->update(['class' => 'lifestyle']);
+		DB::table('enrichments')->where('enrichment_id', 'gymnastics')->update(['class' => 'health']);
+		DB::table('enrichments')->where('enrichment_id', 'TAVIANI')->update(['class' => 'arts']);
+		DB::table('enrichments')->where('enrichment_id', 'sleigh')->update(['class' => 'transportation']);
+		DB::table('enrichments')->where('enrichment_id', 'traffic light')->update(['class' => 'transportation']);
+		DB::table('enrichments')->where('enrichment_id', 'toilet seat')->update(['class' => 'health']);
+		DB::table('enrichments')->where('enrichment_id', 'tissue')->update(['class' => 'health']);
+		DB::table('enrichments')->where('enrichment_id', 'disk')->update(['class' => 'media']);
+		DB::table('enrichments')->where('enrichment_id', 'cells')->update(['class' => 'health']);
+		DB::table('enrichments')->where('enrichment_id', 'whale')->update(['class' => 'environment']);
+		DB::table('enrichments')->where('enrichment_id', 'duck')->update(['class' => 'environment']);
+		DB::table('enrichments')->where('enrichment_id', 'beaver')->update(['class' => 'environment']);
+		DB::table('enrichments')->where('enrichment_id', 'spider')->update(['class' => 'environment']);
+		DB::table('enrichments')->where('enrichment_id', 'theater')->update(['class' => 'arts']);
+		DB::table('enrichments')->where('enrichment_id', 'truck')->update(['class' => 'transportation']);
+		DB::table('enrichments')->where('enrichment_id', 'ship')->update(['class' => 'transportation']);
+		DB::table('enrichments')->where('enrichment_id', 'bike')->update(['class' => 'transportation']);
+	}
 }
 
 class EnrichmentsTableSeeder extends Seeder {
