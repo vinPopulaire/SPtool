@@ -118,6 +118,8 @@ Route::post('recommendenrichments','RecommendEnrichmentsApiController@recommendE
 //Import new enrichments
 Route::post('importenrichments','ImportApiController@importEnrichments');
 
+//Target group user profile
+Route::post('target','TargetApiController@target');
 });
 
 
