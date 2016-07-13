@@ -115,6 +115,9 @@ Route::post('import','ImportApiController@import');
 //Recommend Enrichments for a video
 Route::post('recommendenrichments','RecommendEnrichmentsApiController@recommendEnrichment');
 
+//Top Enrichments for a video
+Route::post('topenrichments','RecommendEnrichmentsApiController@topEnrichment');
+
 //Import new enrichments
 Route::get('importenrichments','ImportApiController@importEnrichments');
 

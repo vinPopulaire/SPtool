@@ -10,11 +10,13 @@ use App\MecanexUser;
 use Illuminate\Support\Facades\DB;
 use Chrisbjr\ApiGuard\Http\Controllers\ApiGuardController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 class RecommendEnrichmentsApiController extends ApiGuardController {
 
 	public function recommendEnrichment(Request $request)
 	{
+		try {
 		$users = MecanexUser::all();
 		$videos = Video::all();
 
@@ -64,9 +66,14 @@ class RecommendEnrichmentsApiController extends ApiGuardController {
 					}
 				}
 
+				$enrichmentScores = $this->recommend_enr($tmp_enrichments, $user_id);
+
+				// first key of enrichmentScores list - the most recommended enrichment
+				$recommended_enrichment = key($enrichmentScores);
 
 				$recommendedEnrichments[] = array(
-					'enrichment_id' => $this->recommend_enr($tmp_enrichments, $user_id),
+					'enrichment_id' => Enrichment::find($recommended_enrichment)->enrichment_id,
+					'score' => current($enrichmentScores),
 //					'video_id' => $video_id,
 					'frame' => $listEnrichments[$i]["time"],
 					'height' => $first_enrichment["height"],
@@ -81,8 +88,69 @@ class RecommendEnrichmentsApiController extends ApiGuardController {
 		}
 
 //		$recommendedEnrichments[] = $this->recommend_enr($listEnrichments, $user_id);
+			$statusCode=200;
+			$response = $recommendedEnrichments;
 
-		return $recommendedEnrichments;
+			return $response;
+
+		} catch (Exception $e) {
+			$statusCode = 400;
+		}  finally {
+			return Response::json($response, $statusCode);
+		}
+	}
+
+	public function topEnrichment(Request $request) {
+
+		try {
+			$users = MecanexUser::all();
+			$videos = Video::all();
+
+			$euscreen_id = $request->video;
+			$video_id = $videos->where('video_id',$euscreen_id)->first()->id;
+			$username = $request->user;
+			$user_id = $users->where('username',$username)->first()->id;
+
+			if ($request->num != 0) {
+				$num = $request->num;
+			}
+			else {
+				$num = 3;
+			}
+
+			$topEnrichments = [];
+
+			$listEnrichments = DB::select(DB::raw('SELECT * FROM enrichments_videos_time WHERE video_id=?'), [$video_id]);
+			$listEnrichments = json_decode(json_encode($listEnrichments), true);
+
+			$topEnrichments = $this->recommend_enr($listEnrichments, $user_id);
+
+			$topEnrichments = array_slice($topEnrichments, 0, $num, true);
+
+
+			foreach ($topEnrichments as $key=>$score)
+			{
+				$response[] = array(
+					'enrichment_id' => Enrichment::find($key)->enrichment_id,
+					'score'         => $score,
+//					'video_id' => $video_id,
+//				'frame' => $listEnrichments[$i]["time"],
+//				'height' => $first_enrichment["height"],
+//				'width' => $first_enrichment["width"],
+//				'x_min' => $first_enrichment["x_min"],
+//				'y_min' => $first_enrichment["y_min"],
+				);
+			}
+
+			$statusCode=200;
+
+			return $response;
+
+		} catch (Exception $e) {
+			$statusCode = 400;
+		}  finally {
+			return Response::json($response, $statusCode);
+		}
 	}
 
 	// Returns one enrichment from the list - the most recommended
@@ -122,10 +190,12 @@ class RecommendEnrichmentsApiController extends ApiGuardController {
 
 		arsort($enrichmentScores);
 
-		// first key of enrichmentScores list - the most recommended enrichment
-		$recommended_enrichment = key($enrichmentScores);
+		return $enrichmentScores;
 
-		return Enrichment::find($recommended_enrichment)->enrichment_id;
+//		// first key of enrichmentScores list - the most recommended enrichment
+//		$recommended_enrichment = key($enrichmentScores);
+//
+//		return Enrichment::find($recommended_enrichment)->enrichment_id;
 
 	}
 
