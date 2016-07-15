@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Video;
 use Illuminate\Support\Facades\DB;
 use App\Term;
-class ImportController extends ApiGuardController
+class ImportController extends Controller
 {
 
 	/**
