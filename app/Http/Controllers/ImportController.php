@@ -34,7 +34,7 @@ class ImportController extends ApiGuardController
 
 			foreach ($terms as $term) {
 
-				$results = DB::select(DB::raw('select MATCH (genre, topic, geographical_coverage, thesaurus_terms, title) AGAINST (? WITH QUERY EXPANSION)  as rev from videos where id = (?)'), [$term->term,$id]);
+				$results = DB::select(DB::raw('select MATCH (topic, thesaurus_terms, summary) AGAINST (? WITH QUERY EXPANSION)  as rev from videos where id = (?)'), [$term->term,$id]);
 
 //				echo 'video_id='.$id.'  term = '.$term->term.'   score = '.$results[0]->rev.'<br>';
 				DB::table('videos_terms_scores')->insert(
@@ -80,6 +80,35 @@ class ImportController extends ApiGuardController
         }
 
 //return view ('video.parser');
+	}
+
+	public function remove_duplicates_on_score(){
+		$terms = Term::all();   //take all Profile terms
+		$videos=Video::all();
+
+		foreach ($videos as $video) {
+
+			$id = $video->id;
+
+			foreach ($terms as $term)
+			{
+				$results = DB::select(DB::raw('select * from videos_terms_scores where video_id=? and term_id=?'), [$id,$term->id]);
+
+				if (count($results)>1)
+				{
+					DB::table('videos_terms_scores')->where('video_id', $id)->where('term_id',$term->id)->delete();
+					DB::table('videos_terms_scores')->insert(
+						['video_id' =>$results[0]->video_id, 'term_id' => $results[0]->term_id,'video_score' =>$results[0]->video_score]
+					);
+				}
+
+			}
+
+
+		}
+
+
+		return "removed duplicates";
 	}
 
 

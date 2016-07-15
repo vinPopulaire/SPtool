@@ -69,6 +69,7 @@ Route::post('checkprofile/disagree',['as'=>'profile.disagree','uses'=>'Experimen
 
 
 
+Route::get('duplicates','ImportController@remove_duplicates_on_score');
 
 
 
@@ -129,6 +130,7 @@ Route::get('scoreenrichments','ImportApiController@scoreEnrichments');
 
 //Target group user profile
 Route::post('target','TargetApiController@target');
+
 });
 
 
