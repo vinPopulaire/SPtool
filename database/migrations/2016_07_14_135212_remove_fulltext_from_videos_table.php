@@ -31,4 +31,4 @@ class RemoveFulltextFromVideosTable extends Migration {
 		});
 	}
 
-}c
+}
