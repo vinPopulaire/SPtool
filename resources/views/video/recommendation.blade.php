@@ -20,8 +20,8 @@
 
 {{--                             <td><a href="{!!$result->euscreen_id!!}"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a>--}}
                              {{--<td><a href="{!!$result['euscreen_id']!!}"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a>--}}
-                              {{--<td><a href="http://beta.qandr.eu/lou/domain/mecanex/user/admin/html5application/mecanexdemoplayer?username={{ Auth::user()->username }}&videoid={!!$result->euscreen_id!!}" target="_self"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a>--}}
-                              <td><a href="http://beta.qandr.eu/lou/domain/mecanex/user/admin/html5application/mecanexdemoplayer?username={{ Auth::user()->username }}&videoid={!!$result['euscreen_id']!!}" target="_self"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a>
+                              {{--<td><a href="http://beta2.qandr.eu/lou/domain/mecanex/user/admin/html5application/mecanexdemoplayer?username={{ Auth::user()->username }}&videoid={!!$result->euscreen_id!!}" target="_self"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a>--}}
+                              <td><a href="http://beta2.qandr.eu/lou/domain/mecanex/user/admin/html5application/mecanexdemoplayer?username={{ Auth::user()->username }}&videoid={!!$result['euscreen_id']!!}" target="_self"><span class="glyphicon glyphicon-play-circle" aria-hidden="true"></span></a>
 
 
                               </td>
