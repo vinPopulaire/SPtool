@@ -50,8 +50,8 @@ class SearchApiController extends ApiGuardController {
 
 			//collaborative recommendation
 //			//multiplies vector of user i with every one of its neighbors and sorts them in descending order
-			$results_neighs = DB::select(DB::raw('select neighbor FROM user_neighbor_similarity where user=? ORDER BY similarity DESC LIMIT ?'), [$user_id, $neighs]);
-
+//			$results_neighs = DB::select(DB::raw('select neighbor FROM user_neighbor_similarity where user=? ORDER BY similarity DESC LIMIT ?'), [$user_id, $neighs]);
+            $results_neighs = $this->similar_neighbors($user_id,$neighs);
 
 			foreach ($results_neighs as $neigh) {
 				array_push($list_neighs, $neigh->neighbor);
@@ -73,18 +73,19 @@ class SearchApiController extends ApiGuardController {
  											GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id) as a INNER JOIN user_item_similarity on a.video_id = user_item_similarity.video_id and a.user=user_item_similarity.user where a.user=? ORDER BY total_score DESC LIMIT 10'), [$user_id]);
 			}
 
+            arsort($results_recommendation);
+            $results_recommendation = array_slice($results_recommendation, 0, $limit, true);
 
-			$final_results=[];
-			foreach ($results_recommendation as $result)
-			{
-				array_push($final_results, $result['video_id']);
-			}
+            $final_results=[];
+            foreach ($results_recommendation as $id=>$result){
+                $video = Video::where('id',$id)->get()->first();
+                array_push($final_results, $video["video_id"]);
+            }
 
-
-			$response = [
-				"Video Ids" => $final_results
-			];
-			$statusCode = 200;
+            $response = [
+                "Video Ids" => $final_results
+            ];
+            $statusCode = 200;
 		}
 
 
@@ -233,7 +234,16 @@ public function recommend($username)
             $videos = Video::all();
         }
         else {
-            $videos = Video::whereRaw('video_id  IN (' . $video_ids . ')')->get();
+//            $videos = Video::whereRaw('video_id  IN (' . $video_ids . ')')->get();
+            $tmpArray = explode(',', $video_ids);
+
+            $func = function($string){
+                return substr($string, 1, -1);
+            };
+
+            $myArray = array_map($func, $tmpArray);
+
+            $videos = DB::table('videos')->whereIn('video_id', $myArray)->get();
         }
 
         //keep all terms of the user in a list
