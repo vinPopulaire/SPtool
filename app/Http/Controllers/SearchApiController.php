@@ -28,7 +28,12 @@ class SearchApiController extends ApiGuardController {
 		$videos = $request->videos;
 		$videos = "'" . str_replace(",", "','", $videos) . "'";
 
-        $limit = 10;
+        if ($request->num != 0) {
+            $limit = $request->num;
+        }
+        else {
+            $limit = 10;
+        }
 
 		//check if user exists
 		if (empty($user)) {
