@@ -51,7 +51,7 @@ class SearchApiController extends ApiGuardController {
 
 			$user_id = $user->id;
 			//parameter for the experiment
-			$neighs = '0';
+			$neighs = '5';
 			$list_neighs = [];
 
 
@@ -64,24 +64,38 @@ class SearchApiController extends ApiGuardController {
             $results_neighs = $this->similar_neighbors($user_id,$neighs);
 
 			foreach ($results_neighs as $neigh) {
-				array_push($list_neighs, $neigh->neighbor);
+				array_push($list_neighs, $neigh["neighbor"]);
 			}
-//
 
-            if (count($list_neighs)<3) {
-				//content recommendation if no neighbors
-				$results_recommendation = $results_content;
+            $num_of_videos = count($videos);
+            if ($num_of_videos==0){
+                $num_of_videos=count(Video::all());
+            }
+            $num_of_neighbors = count($list_neighs);
 
-			} else {
+            if ($num_of_neighbors<3)
+            {
+                //content recommendation if no neighbors
+                $results_recommendation = $results_content;
+            }
 
-				$string_neighs = implode(',', $list_neighs);
+            else {
+                $results_collaborative = array_fill(1, $num_of_videos, 0);
+                foreach ($list_neighs as $neigh)
+                {
+                    $neighbor_results_content = $this->content_similarity($neigh, $videos);
 
-				$results_recommendation = DB::select(DB::raw(' SELECT a.user,a.video_id,user_item_similarity.title, (0.8*user_item_similarity.similarity+0.2*a.score) as total_score
- 											from (SELECT  user_neighbor_similarity.user,user_item_similarity.video_id,
- 											SUM(user_neighbor_similarity.similarity+user_item_similarity.similarity) as score
- 											FROM user_neighbor_similarity INNER JOIN user_item_similarity on user_neighbor_similarity.neighbor=user_item_similarity.user and user_item_similarity.user IN(' . $string_neighs . ')
- 											GROUP BY user_neighbor_similarity.user,user_item_similarity.video_id) as a INNER JOIN user_item_similarity on a.video_id = user_item_similarity.video_id and a.user=user_item_similarity.user where a.user=? ORDER BY total_score DESC LIMIT 10'), [$user_id]);
-			}
+                    foreach ($neighbor_results_content as $id => $result)
+                    {
+                        $results_collaborative[$id] = $results_collaborative[$id] + $result / $num_of_neighbors;
+                    }
+                }
+
+                foreach ($results_content as $id => $result)
+                {
+                    $results_recommendation[$id] = 0.8 * $results_content[$id] + 0.2 * $results_collaborative[$id];
+                }
+            }
 
             arsort($results_recommendation);
             $results_recommendation = array_slice($results_recommendation, 0, $limit, true);
@@ -125,7 +139,7 @@ public function recommend($username)
 
         $user_id = $user->id;
         //parameter for the experiment
-        $neighs = '0';
+        $neighs = '5';
         $list_neighs = [];
 
         $video_ids = [];
