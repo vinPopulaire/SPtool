@@ -26,7 +26,12 @@ class SearchApiController extends ApiGuardController {
 		$username = $request->username;
 		$user = MecanexUser::where('username', $username)->get()->first();
 		$videos = $request->videos;
-		$videos = "'" . str_replace(",", "','", $videos) . "'";
+        if ($videos!=0) {
+            $videos = "'" . str_replace(",", "','", $videos) . "'";
+        }
+        else {
+            $videos = [];
+        }
 
         if ($request->num != 0) {
             $limit = $request->num;
